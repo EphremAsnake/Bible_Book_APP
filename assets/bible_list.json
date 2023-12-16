@@ -1,0 +1,212 @@
+{
+    "bibles": [
+      {
+        "language": "Amharic",
+        "versions": [
+          {
+            "name": "Amharic Version 1",
+            "folder_path": "amharic_version_1",
+            "books": [
+              {
+                "testament": "old",
+                "order": 1,
+                "name": "Genesis",
+                "chapters": 50,
+                "folder_path": "genesis"
+              },
+              {
+                "testament": "old",
+                "order": 2,
+                "name": "Exodus",
+                "chapters": 40,
+                "folder_path": "exodus"
+              },
+              {
+                "testament": "old",
+                "order": 3,
+                "name": "Leviticus",
+                "chapters": 27,
+                "folder_path": "leviticus"
+              },
+              {
+                "testament": "new",
+                "order": 1,
+                "name": "Matthew",
+                "chapters": 20,
+                "folder_path": "matthew"
+              },
+              {
+                "testament": "new",
+                "order": 2,
+                "name": "Mark",
+                "chapters": 30,
+                "folder_path": "mark"
+              },
+              {
+                "testament": "new",
+                "order": 3,
+                "name": "Luke",
+                "chapters": 27,
+                "folder_path": "Luke"
+              }
+            ],
+            "audio_support": true,
+            "audio_path": "amharic_version_1/audio/001.mp3"
+          },
+          {
+            "name": "Amharic Version 2",
+            "folder_path": "amharic_version_2",
+            "books": [
+              {
+                "testament": "old",
+                "order": 1,
+                "name": "Genesis",
+                "chapters": 40,
+                "folder_path": "genesis"
+              },
+              {
+                "testament": "old",
+                "order": 2,
+                "name": "Exodus",
+                "chapters": 45,
+                "folder_path": "exodus"
+              },
+              {
+                "testament": "old",
+                "order": 3,
+                "name": "Leviticus",
+                "chapters": 27,
+                "folder_path": "leviticus"
+              },
+              {
+                "testament": "new",
+                "order": 1,
+                "name": "Matthew",
+                "chapters": 20,
+                "folder_path": "matthew"
+              },
+              {
+                "testament": "new",
+                "order": 2,
+                "name": "Mark",
+                "chapters": 30,
+                "folder_path": "mark"
+              },
+              {
+                "testament": "new",
+                "order": 3,
+                "name": "Luke",
+                "chapters": 27,
+                "folder_path": "Luke"
+              }
+            ],
+            "audio_support": false
+          }
+        ]
+      },
+      {
+        "language": "English",
+        "versions": [
+          {
+            "name": "English Version 1",
+            "folder_path": "english_version_1",
+            "books": [
+              {
+                "testament": "old",
+                "order": 1,
+                "name": "Genesis",
+                "chapters": 10,
+                "folder_path": "genesis"
+              },
+              {
+                "testament": "old",
+                "order": 2,
+                "name": "Exodus",
+                "chapters": 20,
+                "folder_path": "exodus"
+              },
+              {
+                "testament": "old",
+                "order": 3,
+                "name": "Leviticus",
+                "chapters": 27,
+                "folder_path": "leviticus"
+              },
+              {
+                "testament": "new",
+                "order": 1,
+                "name": "Matthew",
+                "chapters": 20,
+                "folder_path": "matthew"
+              },
+              {
+                "testament": "new",
+                "order": 2,
+                "name": "Mark",
+                "chapters": 30,
+                "folder_path": "mark"
+              },
+              {
+                "testament": "new",
+                "order": 3,
+                "name": "Luke",
+                "chapters": 27,
+                "folder_path": "Luke"
+              }
+            ],
+            "audio_support": true,
+            "audio_path": "english_version_1/audio/001.mp3"
+          },
+          {
+            "name": "English Version 2",
+            "folder_path": "english_version_2",
+            "books": [
+              {
+                "testament": "old",
+                "order": 1,
+                "name": "Genesis",
+                "chapters": 30,
+                "folder_path": "genesis"
+              },
+              {
+                "testament": "old",
+                "order": 2,
+                "name": "Exodus",
+                "chapters": 41,
+                "folder_path": "exodus"
+              },
+              {
+                "testament": "old",
+                "order": 3,
+                "name": "Leviticus",
+                "chapters": 22,
+                "folder_path": "leviticus"
+              },
+              {
+                "testament": "new",
+                "order": 1,
+                "name": "Matthew",
+                "chapters": 23,
+                "folder_path": "matthew"
+              },
+              {
+                "testament": "new",
+                "order": 2,
+                "name": "Mark",
+                "chapters": 30,
+                "folder_path": "mark"
+              },
+              {
+                "testament": "new",
+                "order": 3,
+                "name": "Luke",
+                "chapters": 27,
+                "folder_path": "Luke"
+              }
+            ],
+            "audio_support": false
+          }
+        ]
+      }
+    ]
+  }
