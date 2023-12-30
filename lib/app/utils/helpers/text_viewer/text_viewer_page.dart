@@ -7,16 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class TextViewerPage extends StatefulWidget {
   ///Generic model of text viewer with field
   final TextViewer textViewer;
 
   ///Boolean flag to show search appbar or not
-  final bool showSearchAppBar;
+  bool showSearchAppBar;
 
   ///leading icon
   final Widget? leading;
-  const TextViewerPage({
+  TextViewerPage({
     Key? key,
     required this.textViewer,
     this.showSearchAppBar = false,
@@ -71,9 +72,51 @@ class _TextViewerPageState extends State<TextViewerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: themeData?.backgroundColor,
-      appBar: widget.showSearchAppBar ? _getSearchAppBar() : null,
+      appBar: widget.showSearchAppBar
+          ? _getSearchAppBar()
+          : AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              centerTitle: true,
+              title: Text(
+                "ኦሪት ዘፍጥረት",
+                style: TextStyle(
+                    color: themeData?.primaryColor,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold),
+              ),
+              automaticallyImplyLeading: false,
+              leading: IconButton(
+                  color: themeData?.primaryColor,
+                  icon: const Icon(
+                    Icons.chevron_left_outlined,
+                    size: 27,
+                  ),
+                  onPressed: () {}),
+              actions: [
+                // IconButton(
+                //   splashColor: Colors.transparent,
+                //   highlightColor: Colors.transparent,
+                //   icon: const Icon(Icons.play_circle_fill_outlined),
+                //   iconSize: 25.0,
+                //   onPressed: () => {},
+                //   color: themeData!.primaryColor,
+                // ),
+                IconButton(
+                    padding: const EdgeInsets.all(0),
+                    color: themeData?.primaryColor,
+                    icon: const Icon(
+                      Icons.search,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        widget.showSearchAppBar = true;
+                      });
+                    }),
+              ],
+            ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: SafeArea(
           child: FutureBuilder<String>(
             future: _getContentFromPath(),
@@ -126,7 +169,16 @@ class _TextViewerPageState extends State<TextViewerPage> {
   }
 
   _getSearchAppBar() => SearchAppBar(
-        leading: widget.leading,
+        leading: IconButton(
+            icon: const Icon(
+              Icons.chevron_left_outlined,
+              size: 27,
+            ),
+            onPressed: () {
+              setState(() {
+                widget.showSearchAppBar = false;
+              });
+            }),
         searchCallBack: (String value) {
           if (value.isNotEmpty) {
             setState(() {

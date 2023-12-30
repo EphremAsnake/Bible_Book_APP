@@ -1,6 +1,4 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class TextContent extends StatelessWidget {
   final String text;
@@ -64,8 +62,6 @@ class TextContent extends StatelessWidget {
     final spanKey = GlobalKey(debugLabel: indexOfHighlight.toString());
     keys.add(spanKey);
     return TextSpan(children: [
-
-
       WidgetSpan(
         child: SizedBox(
           key: spanKey,
