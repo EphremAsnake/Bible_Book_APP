@@ -35,7 +35,9 @@ class HomeView extends GetView<HomeController> {
                 builder: (_) {
                   if (controller.cacheStateHandler.apiState ==
                       ApiState.loading) {
-                    return Expanded(
+                    return SizedBox(
+                      height: 400,
+                      width: 500,
                       child: Shimmer.fromColors(
                         baseColor: Colors.grey[300]!,
                         highlightColor: Colors.grey[100]!,
@@ -127,9 +129,6 @@ class HomeView extends GetView<HomeController> {
                                                         .length,
                                                     itemBuilder:
                                                         (context, index) {
-                                                      final chapter = controller
-                                                              .oldTestamentBook[
-                                                          index];
                                                       return Container(
                                                         decoration:
                                                             BoxDecoration(
@@ -139,7 +138,7 @@ class HomeView extends GetView<HomeController> {
                                                               ? themeData
                                                                   ?.primaryColor
                                                                   .withOpacity(
-                                                                      0.9)
+                                                                      0.8)
                                                               : null,
                                                           borderRadius:
                                                               BorderRadius
@@ -151,8 +150,10 @@ class HomeView extends GetView<HomeController> {
                                                             vertical: -3,
                                                           ),
                                                           title: Text(
-                                                           controller
-                                                        .oldTestamentBook[index].,
+                                                            controller
+                                                                .oldTestamentBook[
+                                                                    index]
+                                                                .name,
                                                             style: TextStyle(
                                                               color: index ==
                                                                       controller
@@ -192,9 +193,6 @@ class HomeView extends GetView<HomeController> {
                                                         .length,
                                                     itemBuilder:
                                                         (context, index) {
-                                                      final chapter = controller
-                                                              .newTestamentBook[
-                                                          index];
                                                       return Container(
                                                         decoration:
                                                             BoxDecoration(
@@ -204,7 +202,7 @@ class HomeView extends GetView<HomeController> {
                                                               ? themeData
                                                                   ?.primaryColor
                                                                   .withOpacity(
-                                                                      0.9)
+                                                                      0.8)
                                                               : null,
                                                           borderRadius:
                                                               BorderRadius
@@ -215,7 +213,10 @@ class HomeView extends GetView<HomeController> {
                                                               const VisualDensity(
                                                                   vertical: -3),
                                                           title: Text(
-                                                            chapter,
+                                                            controller
+                                                                .newTestamentBook[
+                                                                    index]
+                                                                .name,
                                                             style: TextStyle(
                                                               color: index ==
                                                                       controller
@@ -282,22 +283,40 @@ class HomeView extends GetView<HomeController> {
                                 init: HomeController(),
                                 initState: (_) {},
                                 builder: (_) {
+                                  int bookChapters = 0;
+
+                                  if (controller
+                                          .selectedOldTestamentBookIndex !=
+                                      -1) {
+                                    bookChapters = controller
+                                        .oldTestamentBook[controller
+                                            .selectedOldTestamentBookIndex]
+                                        .chapters;
+                                  } else if (controller
+                                          .selectedNewTestamentBookIndex !=
+                                      -1) {
+                                    bookChapters = controller
+                                        .newTestamentBook[controller
+                                            .selectedNewTestamentBookIndex]
+                                        .chapters;
+                                  }
+
+                                  List<int> chapters = List.generate(
+                                      bookChapters, (index) => index + 1);
                                   return SizedBox(
                                     width: 60,
                                     height: MediaQuery.of(context).size.height *
                                         0.80,
                                     child: ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: controller.chapters.length,
+                                      itemCount: chapters.length,
                                       itemBuilder: (context, index) {
-                                        final chapter =
-                                            controller.chapters[index];
                                         return Container(
                                           decoration: BoxDecoration(
                                             color: index ==
                                                     controller.selectedIndex
                                                 ? themeData?.primaryColor
-                                                    .withOpacity(0.9)
+                                                    .withOpacity(0.8)
                                                 : null,
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -308,7 +327,7 @@ class HomeView extends GetView<HomeController> {
                                                 vertical: -4),
                                             title: Center(
                                               child: Text(
-                                                chapter,
+                                                chapters[index].toString(),
                                                 style: TextStyle(
                                                     color: index ==
                                                             controller
@@ -326,12 +345,12 @@ class HomeView extends GetView<HomeController> {
                                             onTap: () {
                                               controller
                                                   .updateSelectedIndex(index);
-                                              // Future.delayed(
-                                              //   const Duration(milliseconds: 100),
-                                              //   () {
-                                              //     Get.toNamed("/detail");
-                                              //   },
-                                              // );
+                                              Future.delayed(
+                                                const Duration(milliseconds: 100),
+                                                () {
+                                                  Get.toNamed("/detail");
+                                                },
+                                              );
                                             },
                                           ),
                                         );

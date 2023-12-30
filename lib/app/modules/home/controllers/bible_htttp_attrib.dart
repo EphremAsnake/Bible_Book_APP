@@ -5,7 +5,7 @@ class BibleHttpAttributes extends HttpClientAttributeOptions {
   BibleHttpAttributes()
       : super(
           baseUrl: Keys.baseurl,
-          url: "/bible/bible.json",
+          url: "/bibles/bible_list.json",
           connectionTimeout: 30,
           contentType: 'application/json',
           method: HttpMethod.GET,

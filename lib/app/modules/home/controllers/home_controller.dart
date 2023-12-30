@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/master_data_http_attribuites.dart';
@@ -11,7 +12,7 @@ class HomeController extends GetxController {
   int selectedIndex = -1;
   int selectedOldTestamentBookIndex = -1;
   int selectedNewTestamentBookIndex = -1;
-  final cacheStateHandler = ApiStateHandler<List<Bible>>();
+  final cacheStateHandler = ApiStateHandler<Bible>();
   var httpService = Get.find<HttpService>();
   List<Book> oldTestamentBook = [];
   List<Book> newTestamentBook = [];
@@ -21,8 +22,6 @@ class HomeController extends GetxController {
     readBibleData();
     super.onInit();
   }
-
-  get rootBundle => null;
 
   void updateSelectedIndex(int index) {
     selectedIndex = index;
@@ -61,7 +60,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> writeJsonToFile(String jsonString) async {
-    final file = await rootBundle.loadString('assets/bible_list.json');
+    final file = File('assets/bible_list.json');
     await file.writeAsString(jsonString);
   }
 
@@ -71,18 +70,16 @@ class HomeController extends GetxController {
       final String jsonString =
           await rootBundle.loadString('assets/bible_list.json');
       final Map<String, dynamic> jsonData = jsonDecode(jsonString);
-      final List<dynamic> bibleList = jsonData['bibles'];
-      // Map each JSON object to a Bible model
-      final List<Bible> bibles =
-          bibleList.map((json) => Bible.fromJson(json)).toList();
-      for(int i = 0; i < bibles.length; i++) {
-        if(bibles[i].bibles[0].versions[0].books[0].testament == Testament.OLD){
-          oldTestamentBook.add(bibles[i].bibles[0].versions[0].books[0]);
+      final Bible bibles = Bible.fromJson(jsonData);
+
+      //default iterating over the list of bible index 0 nd version index of 0
+      for (int k = 0; k < bibles.bibles[0].versions[0].books.length; k++) {
+        if (bibles.bibles[0].versions[0].books[k].testament == Testament.OLD) {
+          oldTestamentBook.add(bibles.bibles[0].versions[0].books[k]);
+        } else if (bibles.bibles[0].versions[0].books[k].testament ==
+            Testament.NEW) {
+          newTestamentBook.add(bibles.bibles[0].versions[0].books[k]);
         }
-        else if(bibles[i].bibles[0].versions[0].books[0].testament == Testament.NEW){
-          newTestamentBook.add(bibles[i].bibles[0].versions[0].books[0]);
-        }
-      
       }
       cacheStateHandler.setSuccess(bibles);
       update();
