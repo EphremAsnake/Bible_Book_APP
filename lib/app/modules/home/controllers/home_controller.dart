@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:flutter/services.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
@@ -20,6 +21,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     readBibleData();
+
     super.onInit();
   }
 
@@ -66,6 +68,11 @@ class HomeController extends GetxController {
 
   void readBibleData() async {
     cacheStateHandler.setLoading();
+    await DatabaseService().copyDatabase();
+    var books = await DatabaseService().readBookDatabase();
+    var amh = await DatabaseService().readVersesAMHDatabase();
+    var niv = await DatabaseService().readVersesNIVDatabase();
+
     try {
       final String jsonString =
           await rootBundle.loadString('assets/bible_list.json');

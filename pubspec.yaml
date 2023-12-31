@@ -21,6 +21,8 @@ dependencies:
   just_audio: ^0.9.36
   audio_session: ^0.1.18
   page_flip: ^0.2.3
+  sqflite: ^2.3.0
+  path: ^1.8.3
 
 
 
@@ -36,4 +38,5 @@ flutter:
     - assets/
     - assets/books/exodus/
     - assets/images/
+    - assets/db/
 
