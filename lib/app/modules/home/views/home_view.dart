@@ -1,5 +1,5 @@
+import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
-import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/refresh_error_widget.dart';
@@ -13,6 +13,8 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
+  final DataGetterAndSetter getterAndSetterController =
+      Get.find<DataGetterAndSetter>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -355,8 +357,8 @@ class HomeView extends GetView<HomeController> {
                                                       -1) {
                                                     controller.selectedVersesAMH
                                                         .clear();
-                                                    controller.selectedVersesAMH
-                                                        .addAll(controller
+                                                    controller.selectedVersesAMH.addAll(
+                                                        getterAndSetterController
                                                             .getAMHBookChapters(
                                                                 controller
                                                                     .newTestamentBook[
@@ -371,8 +373,8 @@ class HomeView extends GetView<HomeController> {
                                                   } else if (controller
                                                           .selectedOldTestamentBookIndex !=
                                                       -1) {
-                                                    controller.selectedVersesAMH
-                                                        .addAll(controller
+                                                    controller.selectedVersesAMH.addAll(
+                                                        getterAndSetterController
                                                             .getAMHBookChapters(
                                                                 controller
                                                                     .newTestamentBook[

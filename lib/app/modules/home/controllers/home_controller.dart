@@ -107,14 +107,5 @@ class HomeController extends GetxController {
     }
   }
 
-  getAMHBookChapters(
-    int book,
-    int chapter,
-    List<VersesAMH> versesAMH,
-  ) {
-    List<VersesAMH> verseAMHForBook = versesAMH
-        .where((element) => element.book == book && element.chapter == chapter)
-        .toList();
-    return verseAMHForBook;
-  }
+  
 }

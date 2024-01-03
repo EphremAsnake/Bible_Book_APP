@@ -1,3 +1,4 @@
+import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -10,17 +11,18 @@ import '../controllers/detail_controller.dart';
 class DetailView extends GetView<DetailController> {
   DetailView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
-  // final homeController = Get.find();
+  final DataGetterAndSetter getterAndSetterController =
+      Get.find<DataGetterAndSetter>();
   final _controller = GlobalKey<PageFlipWidgetState>();
-  List<String> books = [
-    "exodus.1.txt",
-    "exodus.2.txt",
-    "exodus.3.txt",
-    "exodus.4.txt"
-  ];
 
   @override
   Widget build(BuildContext context) {
+    List<String> books = [
+      getterAndSetterController.selectedVersesAMH[0].para!,
+      getterAndSetterController.selectedVersesAMH[1].para!,
+      getterAndSetterController.selectedVersesAMH[2].para!,
+      getterAndSetterController.selectedVersesAMH[3].para!,
+    ];
     return Scaffold(
       body: SafeArea(
         child: PageFlipWidget(

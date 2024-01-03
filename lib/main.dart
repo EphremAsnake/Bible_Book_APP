@@ -1,4 +1,5 @@
 import 'package:bible_book_app/app/core/core_dependency.dart';
+import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
@@ -25,6 +26,9 @@ void main() async {
 
   //getting app's master data
   await MasterDataHelper().getMasterData();
+
+  //putting getter and setter controller
+  Get.put(DataGetterAndSetter());
 
   //setting app theme
   final themeController = Get.put(ThemeController());
