@@ -25,7 +25,14 @@ class DataGetterAndSetter extends GetxController {
     List<VersesAMH> verseAMHForBook = versesAMH
         .where((element) => element.book == book && element.chapter == chapter)
         .toList();
-    return verseAMHForBook;
+    List<VersesAMH> verseTitle = versesAMH
+        .where((element) =>
+            element.book == book &&
+            element.chapter == chapter - 1 &&
+            element.para == "mt1")
+        .toList();
+    List<VersesAMH> verseAMHListForBook = [...verseAMHForBook, ...verseTitle];
+    return verseAMHListForBook;
   }
 
   void readData() async {

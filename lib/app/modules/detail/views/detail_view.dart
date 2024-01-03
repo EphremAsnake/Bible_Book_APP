@@ -17,12 +17,18 @@ class DetailView extends GetView<DetailController> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> books = [
-      getterAndSetterController.selectedVersesAMH[0].para!,
-      getterAndSetterController.selectedVersesAMH[1].para!,
-      getterAndSetterController.selectedVersesAMH[2].para!,
-      getterAndSetterController.selectedVersesAMH[3].para!,
-    ];
+    var data = getterAndSetterController.selectedVersesAMH;
+    String chapterText = "";
+    String title = "";
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].para == "mt1") {
+        print(data[i].para);
+        title = data[i].verseText!;
+      } else {
+        chapterText = "$chapterText ${i + 1} ${data[i].verseText}";
+      }
+    }
+    List<String> books = [chapterText];
     return Scaffold(
       body: SafeArea(
         child: PageFlipWidget(
@@ -33,17 +39,99 @@ class DetailView extends GetView<DetailController> {
               child: const Center(child: Text('Last Page!'))),
           children: books.map<Widget>(
             (book) {
-              return FutureBuilder(
-                future: controller.loadBook(book),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return Text(snapshot.data!);
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    // Text(title),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                     Text(
+                      "ምዕራፍ ${data[0].chapter}",
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 800,
+                      child: ListView.builder(
+                        itemCount:
+                            getterAndSetterController.selectedVersesAMH.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 3),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                index == 0
+                                    ? Row(
+                                        children: <Widget>[
+                                          Text(
+                                            index == 0 ? '${data[index].chapter}' : '',
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              fontSize: 50.0,
+                                              fontWeight: FontWeight.normal,
+                                              color: themeData?.primaryColor,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${index + 1} ',
+                                            style: const TextStyle(
+                                              fontSize: 15.0,
+                                              color: Color.fromARGB(
+                                                  255, 146, 45, 38),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              '${data[index].verseText}',
+                                              style: const TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : const SizedBox.shrink(),
+                                if (index != 0)
+                                  RichText(
+                                    text: TextSpan(
+                                      text: '${index + 1} ',
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 146, 45, 38),
+                                      ),
+                                      children: <InlineSpan>[
+                                        TextSpan(
+                                          text: '${data[index].verseText}',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                data[index].para == "q1" ||
+                                                        data[index].para == "q2"
+                                                    ? FontStyle.italic
+                                                    : FontStyle.normal,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ).toList(),

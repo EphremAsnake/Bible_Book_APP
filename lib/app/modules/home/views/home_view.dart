@@ -355,39 +355,40 @@ class HomeView extends GetView<HomeController> {
                                                   if (controller
                                                           .selectedNewTestamentBookIndex !=
                                                       -1) {
-                                                    controller.selectedVersesAMH
+                                                    getterAndSetterController
+                                                        .selectedVersesAMH
                                                         .clear();
-                                                    controller.selectedVersesAMH.addAll(
-                                                        getterAndSetterController
+                                                    getterAndSetterController
+                                                        .selectedVersesAMH
+                                                        .addAll(getterAndSetterController
                                                             .getAMHBookChapters(
                                                                 controller
                                                                     .newTestamentBook[
-                                                                        index]
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex]
                                                                     .id!,
-                                                                controller
-                                                                    .newTestamentBook[
-                                                                        index]
-                                                                    .chapters!,
+                                                                chapters[index],
                                                                 controller
                                                                     .versesAMH));
                                                   } else if (controller
                                                           .selectedOldTestamentBookIndex !=
                                                       -1) {
-                                                    controller.selectedVersesAMH.addAll(
-                                                        getterAndSetterController
+                                                    getterAndSetterController
+                                                        .selectedVersesAMH
+                                                        .clear();
+                                                    getterAndSetterController
+                                                        .selectedVersesAMH
+                                                        .addAll(getterAndSetterController
                                                             .getAMHBookChapters(
                                                                 controller
-                                                                    .newTestamentBook[
-                                                                        index]
+                                                                    .oldTestamentBook[
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex]
                                                                     .id!,
-                                                                controller
-                                                                    .newTestamentBook[
-                                                                        index]
-                                                                    .chapters!,
+                                                                chapters[index],
                                                                 controller
                                                                     .versesAMH));
                                                   }
-
                                                   Get.toNamed("/detail");
                                                 },
                                               );
