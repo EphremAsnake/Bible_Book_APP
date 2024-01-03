@@ -1,4 +1,5 @@
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
+import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/refresh_error_widget.dart';
@@ -153,7 +154,7 @@ class HomeView extends GetView<HomeController> {
                                                             controller
                                                                 .oldTestamentBook[
                                                                     index]
-                                                                .name,
+                                                                .titleGeez!,
                                                             style: TextStyle(
                                                               color: index ==
                                                                       controller
@@ -216,7 +217,7 @@ class HomeView extends GetView<HomeController> {
                                                             controller
                                                                 .newTestamentBook[
                                                                     index]
-                                                                .name,
+                                                                .titleGeez!,
                                                             style: TextStyle(
                                                               color: index ==
                                                                       controller
@@ -291,14 +292,14 @@ class HomeView extends GetView<HomeController> {
                                     bookChapters = controller
                                         .oldTestamentBook[controller
                                             .selectedOldTestamentBookIndex]
-                                        .chapters;
+                                        .chapters!;
                                   } else if (controller
                                           .selectedNewTestamentBookIndex !=
                                       -1) {
                                     bookChapters = controller
                                         .newTestamentBook[controller
                                             .selectedNewTestamentBookIndex]
-                                        .chapters;
+                                        .chapters!;
                                   }
 
                                   List<int> chapters = List.generate(
@@ -346,8 +347,45 @@ class HomeView extends GetView<HomeController> {
                                               controller
                                                   .updateSelectedIndex(index);
                                               Future.delayed(
-                                                const Duration(milliseconds: 100),
+                                                const Duration(
+                                                    milliseconds: 100),
                                                 () {
+                                                  if (controller
+                                                          .selectedNewTestamentBookIndex !=
+                                                      -1) {
+                                                    controller.selectedVersesAMH
+                                                        .clear();
+                                                    controller.selectedVersesAMH
+                                                        .addAll(controller
+                                                            .getAMHBookChapters(
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        index]
+                                                                    .id!,
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        index]
+                                                                    .chapters!,
+                                                                controller
+                                                                    .versesAMH));
+                                                  } else if (controller
+                                                          .selectedOldTestamentBookIndex !=
+                                                      -1) {
+                                                    controller.selectedVersesAMH
+                                                        .addAll(controller
+                                                            .getAMHBookChapters(
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        index]
+                                                                    .id!,
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        index]
+                                                                    .chapters!,
+                                                                controller
+                                                                    .versesAMH));
+                                                  }
+
                                                   Get.toNamed("/detail");
                                                 },
                                               );

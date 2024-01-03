@@ -10,7 +10,7 @@ import '../controllers/detail_controller.dart';
 class DetailView extends GetView<DetailController> {
   DetailView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
-
+  // final homeController = Get.find();
   final _controller = GlobalKey<PageFlipWidgetState>();
   List<String> books = [
     "exodus.1.txt",

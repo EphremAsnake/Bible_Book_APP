@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
+import 'package:bible_book_app/app/data/models/bible/book.dart';
+import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:flutter/services.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/master_data_http_attribuites.dart';
-import 'package:bible_book_app/app/data/models/bible/bible.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +14,12 @@ class HomeController extends GetxController {
   int selectedIndex = -1;
   int selectedOldTestamentBookIndex = -1;
   int selectedNewTestamentBookIndex = -1;
-  final cacheStateHandler = ApiStateHandler<Bible>();
+  final cacheStateHandler = ApiStateHandler<List<Book>>();
   var httpService = Get.find<HttpService>();
   List<Book> oldTestamentBook = [];
   List<Book> newTestamentBook = [];
+  List<VersesAMH> versesAMH = [];
+  List<VersesAMH> selectedVersesAMH = [];
 
   @override
   void onInit() {
@@ -69,26 +72,32 @@ class HomeController extends GetxController {
   void readBibleData() async {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
-    var books = await DatabaseService().readBookDatabase();
+    List<Book> books = await DatabaseService().readBookDatabase();
     var amh = await DatabaseService().readVersesAMHDatabase();
     var niv = await DatabaseService().readVersesNIVDatabase();
+    versesAMH.addAll(amh);
 
     try {
-      final String jsonString =
-          await rootBundle.loadString('assets/bible_list.json');
-      final Map<String, dynamic> jsonData = jsonDecode(jsonString);
-      final Bible bibles = Bible.fromJson(jsonData);
+      // final String jsonString =
+      //     await rootBundle.loadString('assets/bible_list.json');
+      // final Map
+      //
+      //
+      //
+      //
+      //
+      //String, dynamic> jsonData = jsonDecode(jsonString);
+      // final Bible bibles = Bible.fromJson(jsonData);
 
       //default iterating over the list of bible index 0 nd version index of 0
-      for (int k = 0; k < bibles.bibles[0].versions[0].books.length; k++) {
-        if (bibles.bibles[0].versions[0].books[k].testament == Testament.OLD) {
-          oldTestamentBook.add(bibles.bibles[0].versions[0].books[k]);
-        } else if (bibles.bibles[0].versions[0].books[k].testament ==
-            Testament.NEW) {
-          newTestamentBook.add(bibles.bibles[0].versions[0].books[k]);
+      for (int k = 0; k < books.length; k++) {
+        if (books[k].testament == "OT") {
+          oldTestamentBook.add(books[k]);
+        } else if (books[k].testament == "NT") {
+          newTestamentBook.add(books[k]);
         }
       }
-      cacheStateHandler.setSuccess(bibles);
+      cacheStateHandler.setSuccess(books);
       update();
     } catch (ex) {
       // Update state with error message
@@ -96,5 +105,16 @@ class HomeController extends GetxController {
       cacheStateHandler.setError(errorMessage);
       update();
     }
+  }
+
+  getAMHBookChapters(
+    int book,
+    int chapter,
+    List<VersesAMH> versesAMH,
+  ) {
+    List<VersesAMH> verseAMHForBook = versesAMH
+        .where((element) => element.book == book && element.chapter == chapter)
+        .toList();
+    return verseAMHForBook;
   }
 }
