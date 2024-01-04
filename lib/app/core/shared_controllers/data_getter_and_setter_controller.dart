@@ -5,6 +5,7 @@ import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:get/get.dart';
+import 'package:collection/collection.dart';
 
 class DataGetterAndSetter extends GetxController {
   int selectedIndex = -1;
@@ -35,7 +36,34 @@ class DataGetterAndSetter extends GetxController {
     return verseAMHListForBook;
   }
 
-  void readData() async {
+  getNextBookChapter(
+    int book,
+    int chapter,
+    int index,
+  ) {
+    VersesAMH nextVerseForBook = selectedVersesAMH[index + 1];
+    return nextVerseForBook;
+  }
+
+  getPreviousBookChapter(
+    int book,
+    int chapter,
+    int index,
+  ) {
+    VersesAMH previousVerseForBook = selectedVersesAMH[index - 1];
+    return previousVerseForBook;
+  }
+
+  groupedBookList() {
+    versesAMH.removeWhere((e) => e.para == "mt1");
+    var groupedVerses = groupBy(
+        versesAMH, (VersesAMH verse) => '${verse.book}-${verse.chapter}');
+    List<List<VersesAMH>> groupedVerseList = groupedVerses.values.toList();
+
+    return groupedVerseList;
+  }
+
+  Future<void> readData() async {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();

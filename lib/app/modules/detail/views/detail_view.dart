@@ -1,5 +1,6 @@
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
+import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -17,18 +18,18 @@ class DetailView extends GetView<DetailController> {
 
   @override
   Widget build(BuildContext context) {
-    var data = getterAndSetterController.selectedVersesAMH;
+   
+    List<List<VersesAMH>> data = getterAndSetterController.groupedBookList();
     String chapterText = "";
-    String title = "";
-    for (int i = 0; i < data.length; i++) {
-      if (data[i].para == "mt1") {
-        print(data[i].para);
-        title = data[i].verseText!;
-      } else {
-        chapterText = "$chapterText ${i + 1} ${data[i].verseText}";
-      }
-    }
-    List<String> books = [chapterText];
+    // String title = "";
+    // for (int i = 0; i < data.length; i++) {
+    //   if (data[i].para == "mt1") {
+    //     print(data[i].para);
+    //     title = data[i].verseText!;
+    //   } else {
+    //     chapterText = "$chapterText ${i + 1} ${data[i].verseText}";
+    //   }
+    // }
     return Scaffold(
       body: SafeArea(
         child: PageFlipWidget(
@@ -37,7 +38,8 @@ class DetailView extends GetView<DetailController> {
           lastPage: Container(
               color: Colors.white,
               child: const Center(child: Text('Last Page!'))),
-          children: books.map<Widget>(
+          initialIndex: 0,
+          children: data.map<Widget>(
             (book) {
               return SingleChildScrollView(
                 child: Column(
@@ -46,18 +48,17 @@ class DetailView extends GetView<DetailController> {
                     const SizedBox(
                       height: 40,
                     ),
-                     Text(
-                      "ምዕራፍ ${data[0].chapter}",
-                      style: const TextStyle(
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    // Text(
+                    //   "ምዕራፍ ${book[0].chapter}",
+                    //   style: const TextStyle(
+                    //     fontSize: 17.0,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 800,
                       child: ListView.builder(
-                        itemCount:
-                            getterAndSetterController.selectedVersesAMH.length,
+                        itemCount: book.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return Padding(
@@ -70,7 +71,9 @@ class DetailView extends GetView<DetailController> {
                                     ? Row(
                                         children: <Widget>[
                                           Text(
-                                            index == 0 ? '${data[index].chapter}' : '',
+                                            index == 0
+                                                ? '${book[index].chapter}'
+                                                : '',
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontSize: 50.0,
@@ -88,7 +91,7 @@ class DetailView extends GetView<DetailController> {
                                           ),
                                           Expanded(
                                             child: Text(
-                                              '${data[index].verseText}',
+                                              '${book[index].verseText}',
                                               style: const TextStyle(
                                                 fontSize: 14.0,
                                                 color: Colors.black,
@@ -109,13 +112,13 @@ class DetailView extends GetView<DetailController> {
                                       ),
                                       children: <InlineSpan>[
                                         TextSpan(
-                                          text: '${data[index].verseText}',
+                                          text: '${book[index].verseText}',
                                           style: TextStyle(
                                             fontSize: 15.0,
                                             fontWeight: FontWeight.normal,
                                             fontStyle:
-                                                data[index].para == "q1" ||
-                                                        data[index].para == "q2"
+                                                book[index].para == "q1" ||
+                                                        book[index].para == "q2"
                                                     ? FontStyle.italic
                                                     : FontStyle.normal,
                                             color: Colors.black,

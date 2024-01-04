@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
@@ -20,7 +21,8 @@ class HomeController extends GetxController {
   List<Book> newTestamentBook = [];
   List<VersesAMH> versesAMH = [];
   List<VersesAMH> selectedVersesAMH = [];
-
+  final DataGetterAndSetter getterAndSetterController =
+      Get.find<DataGetterAndSetter>();
   @override
   void onInit() {
     readBibleData();
@@ -73,8 +75,9 @@ class HomeController extends GetxController {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();
-    var amh = await DatabaseService().readVersesAMHDatabase();
+    var amh = await nd DatabaseService().readVersesAMHDatabase();
     var niv = await DatabaseService().readVersesNIVDatabase();
+    await getterAndSetterController.readData();
     versesAMH.addAll(amh);
 
     try {
@@ -106,6 +109,4 @@ class HomeController extends GetxController {
       update();
     }
   }
-
-  
 }
