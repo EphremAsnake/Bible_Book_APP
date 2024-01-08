@@ -39,4 +39,9 @@ flutter:
     - assets/books/exodus/
     - assets/images/
     - assets/db/
+  fonts:
+    - family: Abyssinica
+      fonts:
+        - asset: assets/fonts/AbyssinicaSIL-Regular.ttf
+
 
