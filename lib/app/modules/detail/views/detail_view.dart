@@ -1,12 +1,12 @@
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
+import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:page_flip/page_flip.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:collection/collection.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
@@ -16,11 +16,14 @@ class DetailView extends GetView<DetailController> {
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
   final _controller = GlobalKey<PageFlipWidgetState>();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     List<List<VersesAMH>> data = getterAndSetterController.groupedBookList();
-    String chapterText = "";
+    List<VersesAMH> selectedVerses = getterAndSetterController.verseAMHListForBook;
+    int defaultIndex = data.indexOf(selectedVerses);
+    String chapterText = "";   
+
     // String title = "";
     // for (int i = 0; i < data.length; i++) {
     //   if (data[i].para == "mt1") {
@@ -31,12 +34,18 @@ class DetailView extends GetView<DetailController> {
     //   }
     // }
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: Icon(
-          Icons.menu,
-          color: themeData?.primaryColor,
+        leading: IconButton(
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
+          icon: Icon(
+            Icons.menu,
+            color: themeData?.primaryColor,
+          ),
         ),
         title: GestureDetector(
           onTap: () {
@@ -54,38 +63,51 @@ class DetailView extends GetView<DetailController> {
                   height: 290,
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 12),
                       child: Column(
                         children: [
                           Card(
                             elevation: 0,
                             child: ListTile(
                               title: const Text('አማርኛ 1954'),
-                              leading: Image.asset("assets/images/bible.png",height: 32.sp,),
+                              leading: Image.asset(
+                                "assets/images/bible.png",
+                                height: 32.sp,
+                              ),
                               trailing: const Icon(Icons.chevron_right),
                             ),
                           ),
                           Card(
-                             elevation: 0,
+                            elevation: 0,
                             child: ListTile(
                               title: const Text('አዲስ መደበኛ ትርጉም'),
-                              leading: Image.asset("assets/images/bible.png",height: 32.sp,),
+                              leading: Image.asset(
+                                "assets/images/bible.png",
+                                height: 32.sp,
+                              ),
                               trailing: const Icon(Icons.chevron_right),
                             ),
                           ),
                           Card(
-                             elevation: 0,
+                            elevation: 0,
                             child: ListTile(
                               title: const Text('English NIV'),
-                              leading: Image.asset("assets/images/bible.png",height: 32.sp,),
+                              leading: Image.asset(
+                                "assets/images/bible.png",
+                                height: 32.sp,
+                              ),
                               trailing: const Icon(Icons.chevron_right),
                             ),
                           ),
                           Card(
-                             elevation: 0,
+                            elevation: 0,
                             child: ListTile(
                               title: const Text('English KJV'),
-                              leading: Image.asset("assets/images/bible.png",height: 32.sp,),
+                              leading: Image.asset(
+                                "assets/images/bible.png",
+                                height: 32.sp,
+                              ),
                               trailing: const Icon(Icons.chevron_right),
                             ),
                           ),
@@ -105,19 +127,24 @@ class DetailView extends GetView<DetailController> {
                   ?.primaryColor, // Set the background color of the title
               borderRadius: BorderRadius.circular(8),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'አማርኛ 1954',
                   style: TextStyle(
-                    color: Colors.white, // Set the text color of the title
+                    color: themeData
+                        ?.whiteColor, // Set the text color of the title
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
                   ),
                 ),
-                SizedBox(width: 2),
-                Icon(Icons.arrow_drop_down, size: 18),
+                const SizedBox(width: 2),
+                Icon(
+                  Icons.arrow_drop_down,
+                  size: 18,
+                  color: themeData?.whiteColor,
+                ),
               ],
             ),
           ),
@@ -148,21 +175,24 @@ class DetailView extends GetView<DetailController> {
               return [
                 const PopupMenuItem<String>(
                   value: 'option1',
-                  child: Text('Option 1'),
+                  child: Text('Settings'),
                 ),
                 const PopupMenuItem<String>(
                   value: 'option2',
-                  child: Text('Option 2'),
+                  child: Text('About'),
                 ),
                 const PopupMenuItem<String>(
                   value: 'option3',
-                  child: Text('Option 3'),
+                  child: Text('Privacy Policy'),
                 ),
               ];
             },
           ),
         ],
       ),
+      drawer: CustomDrawer(
+          themeData: themeData,
+          getterAndSetterController: getterAndSetterController),
       body: SafeArea(
         child: PageFlipWidget(
           key: _controller,
@@ -173,18 +203,21 @@ class DetailView extends GetView<DetailController> {
           initialIndex: 0,
           children: data.map<Widget>(
             (book) {
+             
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Text(title),
-
-                    // Text(
-                    //   "ምዕራፍ ${book[0].chapter}",
-                    //   style: const TextStyle(
-                    //     fontSize: 17.0,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "ምዕራፍ ${book[0].chapter}",
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                        fontFamily: "Abyssinica",
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     InteractiveViewer(
                       boundaryMargin: const EdgeInsets.all(20.0),
                       minScale: 0.1,
@@ -195,6 +228,7 @@ class DetailView extends GetView<DetailController> {
                           itemCount: book.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
+                           
                             return Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 14.0, vertical: 3),
@@ -240,7 +274,7 @@ class DetailView extends GetView<DetailController> {
                                                       text:
                                                           book[index].verseText,
                                                       style: const TextStyle(
-                                                          fontSize: 15.0,
+                                                          fontSize: 16.0,
                                                           color: Colors.black,
                                                           fontFamily:
                                                               "Abyssinica"),
@@ -267,7 +301,7 @@ class DetailView extends GetView<DetailController> {
                                             text: '${book[index].verseText}',
                                             style: TextStyle(
                                               fontFamily: "Abyssinica",
-                                              fontSize: 15.0,
+                                              fontSize: 16.0,
                                               fontWeight: FontWeight.normal,
                                               fontStyle: book[index].para ==
                                                           "q1" ||

@@ -17,6 +17,7 @@ class DataGetterAndSetter extends GetxController {
   List<Book> newTestamentBook = [];
   List<VersesAMH> versesAMH = [];
   List<VersesAMH> selectedVersesAMH = [];
+  List<VersesAMH> verseAMHListForBook = [];
 
   getAMHBookChapters(
     int book,
@@ -32,7 +33,11 @@ class DataGetterAndSetter extends GetxController {
             element.chapter == chapter - 1 &&
             element.para == "mt1")
         .toList();
-    List<VersesAMH> verseAMHListForBook = [...verseAMHForBook, ...verseTitle];
+    List<VersesAMH> verseAMHListForBookList = [
+      ...verseAMHForBook,
+      ...verseTitle
+    ];
+    verseAMHListForBook.addAll(verseAMHListForBookList);
     return verseAMHListForBook;
   }
 
