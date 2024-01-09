@@ -15,25 +15,25 @@ class DataGetterAndSetter extends GetxController {
   var httpService = Get.find<HttpService>();
   List<Book> oldTestamentBook = [];
   List<Book> newTestamentBook = [];
-  List<VersesAMH> versesAMH = [];
-  List<VersesAMH> selectedVersesAMH = [];
-  List<VersesAMH> verseAMHListForBook = [];
+  List<Verses> versesAMH = [];
+  List<Verses> selectedVersesAMH = [];
+  List<Verses> verseAMHListForBook = [];
 
   getAMHBookChapters(
     int book,
     int chapter,
-    List<VersesAMH> versesAMH,
+    List<Verses> versesAMH,
   ) {
-    List<VersesAMH> verseAMHForBook = versesAMH
+    List<Verses> verseAMHForBook = versesAMH
         .where((element) => element.book == book && element.chapter == chapter)
         .toList();
-    List<VersesAMH> verseTitle = versesAMH
+    List<Verses> verseTitle = versesAMH
         .where((element) =>
             element.book == book &&
             element.chapter == chapter - 1 &&
             element.para == "mt1")
         .toList();
-    List<VersesAMH> verseAMHListForBookList = [
+    List<Verses> verseAMHListForBookList = [
       ...verseAMHForBook,
       ...verseTitle
     ];
@@ -46,7 +46,7 @@ class DataGetterAndSetter extends GetxController {
     int chapter,
     int index,
   ) {
-    VersesAMH nextVerseForBook = selectedVersesAMH[index + 1];
+    Verses nextVerseForBook = selectedVersesAMH[index + 1];
     return nextVerseForBook;
   }
 
@@ -55,15 +55,15 @@ class DataGetterAndSetter extends GetxController {
     int chapter,
     int index,
   ) {
-    VersesAMH previousVerseForBook = selectedVersesAMH[index - 1];
+    Verses previousVerseForBook = selectedVersesAMH[index - 1];
     return previousVerseForBook;
   }
 
   groupedBookList() {
     versesAMH.removeWhere((e) => e.para == "mt1");
     var groupedVerses = groupBy(
-        versesAMH, (VersesAMH verse) => '${verse.book}-${verse.chapter}');
-    List<List<VersesAMH>> groupedVerseList = groupedVerses.values.toList();
+        versesAMH, (Verses verse) => '${verse.book}-${verse.chapter}');
+    List<List<Verses>> groupedVerseList = groupedVerses.values.toList();
 
     return groupedVerseList;
   }

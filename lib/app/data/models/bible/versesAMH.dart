@@ -1,37 +1,37 @@
 import 'dart:convert';
 
-class VersesAMH {
+class Verses {
   int? book;
   int? chapter;
   int? verseNumber;
   String? para;
   String? verseText;
-  String? verseLocation;
-  VersesAMH({
+  int? highlight;
+  Verses({
     this.book,
     this.chapter,
     this.verseNumber,
     this.para,
     this.verseText,
-    this.verseLocation,
+    this.highlight,
   });
   
 
-  VersesAMH copyWith({
+  Verses copyWith({
     int? book,
     int? chapter,
     int? verseNumber,
     String? para,
     String? verseText,
-    String? verseLocation,
+    int? highlight,
   }) {
-    return VersesAMH(
+    return Verses(
       book: book ?? this.book,
       chapter: chapter ?? this.chapter,
       verseNumber: verseNumber ?? this.verseNumber,
       para: para ?? this.para,
       verseText: verseText ?? this.verseText,
-      verseLocation: verseLocation ?? this.verseLocation,
+      highlight: highlight ?? this.highlight,
     );
   }
 
@@ -53,44 +53,44 @@ class VersesAMH {
     if(verseText != null){
       result.addAll({'verseText': verseText});
     }
-    if(verseLocation != null){
-      result.addAll({'verseLocation': verseLocation});
+    if(highlight != null){
+      result.addAll({'highlight': highlight});
     }
   
     return result;
   }
 
-  factory VersesAMH.fromMap(Map<String, dynamic> map) {
-    return VersesAMH(
+  factory Verses.fromMap(Map<String, dynamic> map) {
+    return Verses(
       book: map['book']?.toInt(),
       chapter: map['chapter']?.toInt(),
       verseNumber: map['verseNumber']?.toInt(),
       para: map['para'],
       verseText: map['verseText'],
-      verseLocation: map['verseLocation'],
+      highlight: map['highlight'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory VersesAMH.fromJson(String source) => VersesAMH.fromMap(json.decode(source));
+  factory Verses.fromJson(String source) => Verses.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'VersesAMH(book: $book, chapter: $chapter, verseNumber: $verseNumber, para: $para, verseText: $verseText, verseLocation: $verseLocation)';
+    return 'VersesAMH(book: $book, chapter: $chapter, verseNumber: $verseNumber, para: $para, verseText: $verseText, highlight: $highlight)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
   
-    return other is VersesAMH &&
+    return other is Verses &&
       other.book == book &&
       other.chapter == chapter &&
       other.verseNumber == verseNumber &&
       other.para == para &&
       other.verseText == verseText &&
-      other.verseLocation == verseLocation;
+      other.highlight == highlight;
   }
 
   @override
@@ -100,6 +100,6 @@ class VersesAMH {
       verseNumber.hashCode ^
       para.hashCode ^
       verseText.hashCode ^
-      verseLocation.hashCode;
+      highlight.hashCode;
   }
 }

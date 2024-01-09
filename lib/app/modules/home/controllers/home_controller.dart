@@ -19,8 +19,8 @@ class HomeController extends GetxController {
   var httpService = Get.find<HttpService>();
   List<Book> oldTestamentBook = [];
   List<Book> newTestamentBook = [];
-  List<VersesAMH> versesAMH = [];
-  List<VersesAMH> selectedVersesAMH = [];
+  List<Verses> versesAMH = [];
+  List<Verses> selectedVersesAMH = [];
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
   @override

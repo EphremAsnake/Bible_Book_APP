@@ -19,8 +19,8 @@ class DetailView extends GetView<DetailController> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    List<List<VersesAMH>> data = getterAndSetterController.groupedBookList();
-    List<VersesAMH> selectedVerses = getterAndSetterController.verseAMHListForBook;
+    List<List<Verses>> data = getterAndSetterController.groupedBookList();
+    List<Verses> selectedVerses = getterAndSetterController.verseAMHListForBook;
     int defaultIndex = data.indexOf(selectedVerses);
     String chapterText = "";   
 

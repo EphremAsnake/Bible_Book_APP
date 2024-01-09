@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
-import 'package:bible_book_app/app/data/models/bible/versesNIV.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,7 +9,7 @@ class DatabaseService {
   Future<void> copyDatabase() async {
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sqlite');
+    String path = join(databasesPath, 'bible.sql');
 
     // Check if the database file already exists
     bool exists = await databaseExists(path);
@@ -20,7 +19,7 @@ class DatabaseService {
       await Directory(dirname(path)).create(recursive: true);
 
       // Copy the database file from assets to the device
-      ByteData data = await rootBundle.load('assets/db/bible.sqlite');
+      ByteData data = await rootBundle.load('assets/db/bible.sql');
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes);
@@ -31,7 +30,7 @@ class DatabaseService {
     List<Book> books = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sqlite');
+    String path = join(databasesPath, 'bible.sql');
 
     // Open the database
     Database database = await openDatabase(path);
@@ -63,26 +62,26 @@ class DatabaseService {
     return books;
   }
 
-  Future<List<VersesAMH>> readVersesAMHDatabase() async {
-    List<VersesAMH> versesAMH = [];
+  Future<List<Verses>> readVersesAMHDatabase() async {
+    List<Verses> versesAMH = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sqlite');
+    String path = join(databasesPath, 'bible.sql');
 
     // Open the database
     Database database = await openDatabase(path);
 
     // Query the database
     List<Map<String, dynamic>> rows =
-        await database.rawQuery('SELECT * FROM versesAMH');
+        await database.rawQuery('SELECT * FROM AMHNIV');
 
     // Process the retrieved data
     for (Map<String, dynamic> row in rows) {
-      final verseAMH = VersesAMH(
+      final verseAMH = Verses(
         book: row["book"],
         chapter: row["chapter"],
         para: row["para"],
-        verseLocation: row["verseLocation"],
+        highlight: row["highlight"],
         verseNumber: row["verseNumber"],
         verseText: row["verseText"],
       );
@@ -97,26 +96,26 @@ class DatabaseService {
     return versesAMH;
   }
 
-  Future<List<VersesNIV>> readVersesNIVDatabase() async {
-    List<VersesNIV> versesNIV = [];
+  Future<List<Verses>> readVersesNIVDatabase() async {
+    List<Verses> versesNIV = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sqlite');
+    String path = join(databasesPath, 'bible.sql');
 
     // Open the database
     Database database = await openDatabase(path);
 
     // Query the database
     List<Map<String, dynamic>> rows =
-        await database.rawQuery('SELECT * FROM versesNIV');
+        await database.rawQuery('SELECT * FROM ENGNIV');
 
     // Process the retrieved data
     for (Map<String, dynamic> row in rows) {
-      final verseNIV = VersesNIV(
+      final verseNIV = Verses(
         book: row["book"],
         chapter: row["chapter"],
         para: row["para"],
-        verseLocation: row["verseLocation"],
+        highlight: row["highlight"],
         verseNumber: row["verseNumber"],
         verseText: row["verseText"],
       );
