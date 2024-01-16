@@ -64,7 +64,6 @@ class DataGetterAndSetter extends GetxController {
     var groupedVerses = groupBy(
         versesAMH, (Verses verse) => '${verse.book}-${verse.chapter}');
     List<List<Verses>> groupedVerseList = groupedVerses.values.toList();
-
     return groupedVerseList;
   }
 
@@ -73,9 +72,8 @@ class DataGetterAndSetter extends GetxController {
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();
     var amh = await DatabaseService().readVersesAMHDatabase();
-    var niv = await DatabaseService().readVersesNIVDatabase();
     versesAMH.addAll(amh);
-
+   
     try {
       //default iterating over the list of bible index 0 nd version index of 0
       for (int k = 0; k < books.length; k++) {

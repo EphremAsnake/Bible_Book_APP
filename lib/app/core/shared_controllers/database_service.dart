@@ -9,7 +9,7 @@ class DatabaseService {
   Future<void> copyDatabase() async {
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sql');
+    String path = join(databasesPath, 'bible.db');
 
     // Check if the database file already exists
     bool exists = await databaseExists(path);
@@ -19,7 +19,7 @@ class DatabaseService {
       await Directory(dirname(path)).create(recursive: true);
 
       // Copy the database file from assets to the device
-      ByteData data = await rootBundle.load('assets/db/bible.sql');
+      ByteData data = await rootBundle.load('assets/db/bible.db');
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(path).writeAsBytes(bytes);
@@ -30,7 +30,7 @@ class DatabaseService {
     List<Book> books = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sql');
+    String path = join(databasesPath, 'bible.db');
 
     // Open the database
     Database database = await openDatabase(path);
@@ -66,7 +66,7 @@ class DatabaseService {
     List<Verses> versesAMH = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sql');
+    String path = join(databasesPath, 'bible.db');
 
     // Open the database
     Database database = await openDatabase(path);
@@ -96,18 +96,18 @@ class DatabaseService {
     return versesAMH;
   }
 
-  Future<List<Verses>> readVersesNIVDatabase() async {
-    List<Verses> versesNIV = [];
+  Future<List<Verses>> changeBibleType(String type) async {
+    List<Verses> verses = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'bible.sql');
+    String path = join(databasesPath, 'bible.db');
 
     // Open the database
     Database database = await openDatabase(path);
 
     // Query the database
     List<Map<String, dynamic>> rows =
-        await database.rawQuery('SELECT * FROM ENGNIV');
+        await database.rawQuery('SELECT * FROM $type');
 
     // Process the retrieved data
     for (Map<String, dynamic> row in rows) {
@@ -120,13 +120,13 @@ class DatabaseService {
         verseText: row["verseText"],
       );
 
-      versesNIV.add(verseNIV);
+      verses.add(verseNIV);
     }
 
     // Close the database
     await database.close();
 
     //return result
-    return versesNIV;
+    return verses;
   }
 }
