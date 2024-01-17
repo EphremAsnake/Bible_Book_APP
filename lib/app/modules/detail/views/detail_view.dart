@@ -39,6 +39,48 @@ class DetailView extends GetView<DetailController> {
       builder: (_) {
         return Scaffold(
           key: _scaffoldKey,
+          endDrawer: Drawer(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  color: Theme.of(context).primaryColor,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          onTap: () {},
+                          decoration: const InputDecoration(
+                            hintText: 'Search...',
+                            hintStyle: TextStyle(color: Colors.white70),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                          onChanged: (value) {
+                            // setState(() {
+                            //   _searchQuery = value;
+                            // });
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                const Expanded(child: SizedBox()),
+                AmharicKeyboard(),
+                // Drawer content below the search field...
+              ],
+            ),
+          ),
           appBar: AppBar(
             elevation: 0,
             backgroundColor: Colors.white,
@@ -199,10 +241,7 @@ class DetailView extends GetView<DetailController> {
             actions: [
               IconButton(
                   onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: BibleSearchDelegate(),
-                    );
+                    _scaffoldKey.currentState?.openEndDrawer();
                   },
                   icon: Icon(
                     Icons.search,

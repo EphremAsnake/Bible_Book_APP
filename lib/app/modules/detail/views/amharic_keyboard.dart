@@ -12,12 +12,13 @@ class AmharicKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.grey[200],
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
          
           SizedBox(
-            height: 50,
+            height: 55,
             child: GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -50,7 +51,7 @@ class AmharicKeyboard extends StatelessWidget {
               ),
           ),
           SizedBox(
-            height: 180,
+            height: 150,
             child: GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

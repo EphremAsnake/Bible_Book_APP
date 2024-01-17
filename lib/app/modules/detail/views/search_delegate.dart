@@ -6,6 +6,9 @@ class BibleSearchDelegate extends SearchDelegate<String> {
   ];
 
   final List<String> recentSearches = [];
+
+  FocusNode? _focusNode;
+  
   
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -21,6 +24,9 @@ class BibleSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildLeading(BuildContext context) {
+      Future.delayed(Duration(milliseconds: 300), () {
+      FocusScope.of(context).requestFocus(FocusNode());
+    });
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
@@ -69,4 +75,6 @@ class BibleSearchDelegate extends SearchDelegate<String> {
       },
     );
   }
+ 
+
 }
