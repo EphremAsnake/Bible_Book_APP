@@ -17,6 +17,7 @@ class DetailView extends GetView<DetailController> {
       Get.find<DataGetterAndSetter>();
   final _controller = GlobalKey<PageFlipWidgetState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     // List<Verses> selectedVerses = getterAndSetterController.verseAMHListFor    update();Book;
@@ -82,7 +83,18 @@ class DetailView extends GetView<DetailController> {
                                       Icons.search,
                                       color: Colors.white,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      controller.searchResultVerses =
+                                          await controller.search(
+                                              BibleType: "AMHNIV",
+                                              searchType: controller
+                                                  .selectedSearchTypeOptions,
+                                              searchPlace: controller
+                                                  .selectedSearchPlaceOptions,
+                                              query: controller
+                                                  .searchController.text);
+                                      controller.update();
+                                    },
                                   ),
                                 ),
                               ),
@@ -99,7 +111,119 @@ class DetailView extends GetView<DetailController> {
                     ],
                   ),
                 ),
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showBookSelectionMenu(context);
+                        },
+                        child: Container(
+                          height: 38,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: themeData
+                                ?.primaryColor, // Set the background color of the title
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'አማርኛ 1954',
+                                style: TextStyle(
+                                  color: themeData
+                                      ?.whiteColor, // Set the text color of the title
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(width: 2),
+                              Icon(
+                                Icons.arrow_drop_down,
+                                size: 18,
+                                color: themeData?.whiteColor,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        value: controller.selectedSearchTypeOptions,
+                        items:
+                            controller.searchTypeOptions.map((String option) {
+                          return DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          controller.setSelectedSearchTypeOptions(newValue!);
+                        },
+                      ),
+                      DropdownButton<String>(
+                        value: controller.selectedSearchPlaceOptions,
+                        items:
+                            controller.searchPlaceOptions.map((String option) {
+                          return DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(option),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          controller.setSelectedSearchPlaceOptions(newValue!);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 const Expanded(child: SizedBox()),
+                Visibility(
+                  visible: controller.searchResultVerses.isNotEmpty,
+                  child: Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.searchResultVerses.length,
+                      itemBuilder: (context, index) {
+                        String verseText =
+                            controller.searchResultVerses[index].verseText ??
+                                "";
+                        String searchText = controller.searchController.text;
+                        List<TextSpan> textSpans = [];
+                        int start = 0;
+                        while (start < verseText.length) {
+                          int index = verseText.indexOf(searchText, start);
+                          if (index == -1) {
+                            textSpans.add(TextSpan(
+                                text: verseText.substring(start),
+                                style: const TextStyle(color: Colors.black)));
+                            break;
+                          }
+                          textSpans.add(
+                            TextSpan(
+                                text: verseText.substring(start, index),
+                                style: const TextStyle(color: Colors.black)),
+                          );
+                          textSpans.add(TextSpan(
+                            text: verseText.substring(
+                                index, index + searchText.length),
+                            style: const TextStyle(color: Colors.red),
+                          ));
+
+                          start = index + searchText.length;
+                        }
+
+                        return RichText(
+                          text: TextSpan(children: textSpans),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 Visibility(
                     visible: controller.isAmharicKeyboardVisible,
                     child: AmharicKeyboard()),
@@ -121,118 +245,7 @@ class DetailView extends GetView<DetailController> {
             ),
             title: GestureDetector(
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 247, 247, 247),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(80),
-                          topRight: Radius.circular(80),
-                        ),
-                      ),
-                      height: 290,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 12),
-                          child: Column(
-                            children: [
-                              Card(
-                                elevation: 0,
-                                child: ListTile(
-                                  onTap: () async {
-                                    getterAndSetterController.versesAMH =
-                                        await DatabaseService()
-                                            .changeBibleType("AMHNIV");
-                                    getterAndSetterController.update();
-                                    controller.allVerses =
-                                        getterAndSetterController
-                                            .groupedBookList();
-                                    controller.update();
-                                  },
-                                  title: const Text('አማርኛ 1954'),
-                                  leading: Image.asset(
-                                    "assets/images/bible.png",
-                                    height: 32.sp,
-                                  ),
-                                  trailing: const Icon(Icons.chevron_right),
-                                ),
-                              ),
-                              Card(
-                                elevation: 0,
-                                child: ListTile(
-                                  onTap: () async {
-                                    getterAndSetterController.versesAMH =
-                                        await DatabaseService()
-                                            .changeBibleType("AMHKJV");
-                                    getterAndSetterController.update();
-                                    controller.allVerses =
-                                        getterAndSetterController
-                                            .groupedBookList();
-
-                                    controller.update();
-                                  },
-                                  title: const Text('አዲሱ መደበኛ ትርጉም'),
-                                  leading: Image.asset(
-                                    "assets/images/bible.png",
-                                    height: 32.sp,
-                                  ),
-                                  trailing: const Icon(Icons.chevron_right),
-                                ),
-                              ),
-                              Card(
-                                elevation: 0,
-                                child: ListTile(
-                                  onTap: () async {
-                                    getterAndSetterController.versesAMH =
-                                        await DatabaseService()
-                                            .changeBibleType("ENGNIV");
-                                    getterAndSetterController.update();
-                                    controller.allVerses =
-                                        getterAndSetterController
-                                            .groupedBookList();
-
-                                    var data = controller.allVerses;
-                                    controller.update();
-                                  },
-                                  title: const Text('English NIV'),
-                                  leading: Image.asset(
-                                    "assets/images/bible.png",
-                                    height: 32.sp,
-                                  ),
-                                  trailing: const Icon(Icons.chevron_right),
-                                ),
-                              ),
-                              Card(
-                                elevation: 0,
-                                child: ListTile(
-                                  onTap: () async {
-                                    getterAndSetterController.versesAMH =
-                                        await DatabaseService()
-                                            .changeBibleType("ENGKJV");
-                                    getterAndSetterController.update();
-                                    controller.allVerses =
-                                        getterAndSetterController
-                                            .groupedBookList();
-                                    controller.update();
-                                  },
-                                  title: const Text('English KJV'),
-                                  leading: Image.asset(
-                                    "assets/images/bible.png",
-                                    height: 32.sp,
-                                  ),
-                                  trailing: const Icon(Icons.chevron_right),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
+                showBookSelectionMenu(context);
               },
               child: Container(
                 height: 30,
@@ -461,6 +474,113 @@ class DetailView extends GetView<DetailController> {
                     ),
                   ),
               ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showBookSelectionMenu(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 247, 247, 247),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(80),
+              topRight: Radius.circular(80),
+            ),
+          ),
+          height: 290,
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+              child: Column(
+                children: [
+                  Card(
+                    elevation: 0,
+                    child: ListTile(
+                      onTap: () async {
+                        getterAndSetterController.versesAMH =
+                            await DatabaseService().changeBibleType("AMHNIV");
+                        getterAndSetterController.update();
+                        controller.allVerses =
+                            getterAndSetterController.groupedBookList();
+                        controller.update();
+                      },
+                      title: const Text('አማርኛ 1954'),
+                      leading: Image.asset(
+                        "assets/images/bible.png",
+                        height: 32.sp,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0,
+                    child: ListTile(
+                      onTap: () async {
+                        getterAndSetterController.versesAMH =
+                            await DatabaseService().changeBibleType("AMHKJV");
+                        getterAndSetterController.update();
+                        controller.allVerses =
+                            getterAndSetterController.groupedBookList();
+
+                        controller.update();
+                      },
+                      title: const Text('አዲሱ መደበኛ ትርጉም'),
+                      leading: Image.asset(
+                        "assets/images/bible.png",
+                        height: 32.sp,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0,
+                    child: ListTile(
+                      onTap: () async {
+                        getterAndSetterController.versesAMH =
+                            await DatabaseService().changeBibleType("ENGNIV");
+                        getterAndSetterController.update();
+                        controller.allVerses =
+                            getterAndSetterController.groupedBookList();
+
+                        var data = controller.allVerses;
+                        controller.update();
+                      },
+                      title: const Text('English NIV'),
+                      leading: Image.asset(
+                        "assets/images/bible.png",
+                        height: 32.sp,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+                  Card(
+                    elevation: 0,
+                    child: ListTile(
+                      onTap: () async {
+                        getterAndSetterController.versesAMH =
+                            await DatabaseService().changeBibleType("ENGKJV");
+                        getterAndSetterController.update();
+                        controller.allVerses =
+                            getterAndSetterController.groupedBookList();
+                        controller.update();
+                      },
+                      title: const Text('English KJV'),
+                      leading: Image.asset(
+                        "assets/images/bible.png",
+                        height: 32.sp,
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

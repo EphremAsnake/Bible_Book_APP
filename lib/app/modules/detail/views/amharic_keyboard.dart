@@ -22,51 +22,54 @@ class AmharicKeyboard extends StatelessWidget {
           color: Colors.grey[200],
           padding: const EdgeInsets.all(0.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start, 
             children: [
-              SizedBox(
-                height: 55,
-                child: GridView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount:
-                      detailController.selectedAmharicLetter?.forms.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        detailController.selectedAmharicLetter?.basicForm == '0'
-                            ? 10
-                            : 7,
-                    mainAxisSpacing: 4.0, // Adjust the spacing here
-                    crossAxisSpacing: 4.0, // Adjust the spacing here
+              Visibility(
+                visible:  detailController.selectedAmharicLetter?.forms.isNotEmpty ?? false,
+                child: SizedBox(
+                  height: 55,
+                  child: GridView.builder(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount:
+                        detailController.selectedAmharicLetter?.forms.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          detailController.selectedAmharicLetter?.basicForm == '0'
+                              ? 10
+                              : 7,
+                      mainAxisSpacing: 4.0, // Adjust the spacing here
+                      crossAxisSpacing: 4.0, // Adjust the spacing here
+                    ),
+                    itemBuilder: (context, index) {
+                      final key =
+                          detailController.selectedAmharicLetter?.forms[index];
+                      return InkWell(
+                        onTap: () {
+                          detailController.onKeyPressed(key!);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            key ?? "",
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  itemBuilder: (context, index) {
-                    final key =
-                        detailController.selectedAmharicLetter?.forms[index];
-                    return InkWell(
-                      onTap: () {
-                        detailController.onKeyPressed(key!);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          key ?? "",
-                          style: const TextStyle(fontSize: 18.0),
-                        ),
-                      ),
-                    );
-                  },
                 ),
               ),
               SizedBox(
                 height: 235,
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(1),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: _keyboardRows.length,
@@ -163,3 +166,4 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('↓', []),
   
 ];
+
