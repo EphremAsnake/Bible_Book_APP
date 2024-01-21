@@ -1,4 +1,6 @@
+import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AmharicLetter {
   final String basicForm;
@@ -7,84 +9,112 @@ class AmharicLetter {
   AmharicLetter(this.basicForm, this.forms);
 }
 
+final DetailController detailController = Get.find();
+
 class AmharicKeyboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      padding: const EdgeInsets.all(0.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-         
-          SizedBox(
-            height: 55,
-            child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount:  _keyboardRows[0].forms.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 10,
-                  mainAxisSpacing: 8.0,
-                  crossAxisSpacing: 8.0,
-                ),
-                itemBuilder: (context, index) {
-                  final key = _keyboardRows[index];
-                  return InkWell(
-                    onTap: () {
-                      // Handle key press
-                      print('Pressed key: $key');
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        _keyboardRows[0].forms[index],
-                        style: const TextStyle(fontSize: 18.0),
-                      ),
-                    ),
-                  );
-                },
-              ),
-          ),
-          SizedBox(
-            height: 150,
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _keyboardRows.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 10,
-                mainAxisSpacing: 8.0,
-                crossAxisSpacing: 8.0,
-              ),
-              itemBuilder: (context, index) {
-                final key = _keyboardRows[index];
-                return InkWell(
-                  onTap: () {
-                    // Handle key press
-                    print('Pressed key: $key');
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      key.basicForm,
-                      style: const TextStyle(fontSize: 18.0),
-                    ),
+    return GetBuilder<DetailController>(
+      init: DetailController(),
+      initState: (_) {},
+      builder: (_) {
+        return Container(
+          color: Colors.grey[200],
+          padding: const EdgeInsets.all(0.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 55,
+                child: GridView.builder(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount:
+                      detailController.selectedAmharicLetter?.forms.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount:
+                        detailController.selectedAmharicLetter?.basicForm == '0'
+                            ? 10
+                            : 7,
+                    mainAxisSpacing: 4.0, // Adjust the spacing here
+                    crossAxisSpacing: 4.0, // Adjust the spacing here
                   ),
-                );
-              },
-            ),
+                  itemBuilder: (context, index) {
+                    final key =
+                        detailController.selectedAmharicLetter?.forms[index];
+                    return InkWell(
+                      onTap: () {
+                        detailController.onKeyPressed(key!);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          key ?? "",
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 235,
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(0),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _keyboardRows.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 8,
+                    mainAxisSpacing: 4.0, // Adjust the spacing here
+                    crossAxisSpacing: 4.0, // Adjust the spacing here
+                  ),
+                  itemBuilder: (context, index) {
+                    final key = _keyboardRows[index];
+                    return InkWell(
+                      onTap: () {
+                        if (key.basicForm == "AB") {
+                          FocusScope.of(context)
+                              .requestFocus(detailController.focusNode);
+                        } else if (key.basicForm == '←') {
+                          detailController.onBackSpaceKeyPressed();
+                        } else if (key.basicForm == '#') {
+                          detailController.onKeyPressed(key.basicForm);
+                        } else if (key.basicForm == '↓') {
+                          detailController.makeAmharicKeyboardInVisible();
+                        } else if (key.basicForm == '―') {
+                          detailController.onKeyPressed(" ");
+                        } else if (key.basicForm == '@') {
+                          detailController.onKeyPressed(key.basicForm);
+                        } else {
+                          detailController.setSelectedAmharicLetter(key);
+                        }
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          key.basicForm,
+                          style: const TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -123,4 +153,12 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('ፀ', ['ፀ', 'ፁ', 'ፂ', 'ፃ', 'ፄ', 'ፅ', 'ፆ']),
   AmharicLetter('ፈ', ['ፈ', 'ፉ', 'ፊ', 'ፋ', 'ፌ', 'ፍ', 'ፎ']),
   AmharicLetter('ፐ', ['ፐ', 'ፑ', 'ፒ', 'ፓ', 'ፔ', 'ፕ', 'ፖ']),
+  AmharicLetter('AB', []),
+  AmharicLetter('0', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
+  AmharicLetter('―', []),
+  AmharicLetter('@', []),
+  AmharicLetter('#', []),
+  AmharicLetter('←', []),
+  AmharicLetter('↓', []),
+  
 ];

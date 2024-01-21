@@ -2,7 +2,6 @@ import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_sette
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
-import 'package:bible_book_app/app/modules/detail/views/search_delegate.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,43 +39,70 @@ class DetailView extends GetView<DetailController> {
         return Scaffold(
           key: _scaffoldKey,
           endDrawer: Drawer(
+            width: 90.w,
             child: Column(
               children: [
                 const SizedBox(
                   height: 15,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(
+                      left: 5, right: 5, top: 15, bottom: 10),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          onTap: () {},
-                          decoration: const InputDecoration(
-                            hintText: 'Search...',
-                            hintStyle: TextStyle(color: Colors.white70),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(color: Colors.white, width: 1.0),
                           ),
-                          style: const TextStyle(color: Colors.white),
-                          onChanged: (value) {
-                            // setState(() {
-                            //   _searchQuery = value;
-                            // });
-                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: TextField(
+                              focusNode: controller.focusNode,
+                              controller: controller.searchController,
+                              onTap: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                if (controller.isAmharicKeyboardVisible ==
+                                    false) {
+                                  controller.makeAmharicKeyboardVisible();
+                                }
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'ፍልግ',
+                                hintStyle:
+                                    const TextStyle(color: Colors.white70),
+                                border: InputBorder.none,
+                                suffixIcon: Container(
+                                  margin: const EdgeInsets.all(4.0),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.search,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              ),
+                              style: const TextStyle(color: Colors.white),
+                              onChanged: (value) {
+                                // setState(() {
+                                //   _searchQuery = value;
+                                // });
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
                       ),
                     ],
                   ),
                 ),
                 const Expanded(child: SizedBox()),
-                AmharicKeyboard(),
+                Visibility(
+                    visible: controller.isAmharicKeyboardVisible,
+                    child: AmharicKeyboard()),
                 // Drawer content below the search field...
               ],
             ),
