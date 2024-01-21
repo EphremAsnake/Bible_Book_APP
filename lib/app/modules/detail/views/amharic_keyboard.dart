@@ -94,6 +94,7 @@ class AmharicKeyboard extends StatelessWidget {
                           detailController.onKeyPressed(key.basicForm);
                         } else {
                           detailController.setSelectedAmharicLetter(key);
+                          detailController.onKeyPressed(key.basicForm);
                         }
                       },
                       child: Container(

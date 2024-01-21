@@ -174,7 +174,7 @@ class DetailView extends GetView<DetailController> {
 
                                     controller.update();
                                   },
-                                  title: const Text('አዲስ መደበኛ ትርጉም'),
+                                  title: const Text('አዲሱ መደበኛ ትርጉም'),
                                   leading: Image.asset(
                                     "assets/images/bible.png",
                                     height: 32.sp,
