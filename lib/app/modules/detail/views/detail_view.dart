@@ -42,26 +42,32 @@ class DetailView extends GetView<DetailController> {
           endDrawer: Drawer(
             width: 90.w,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 15,
                 ),
                 Container(
                   padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 15, bottom: 10),
+                      left: 5, right: 5, top: 25, bottom: 8),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     children: [
                       Expanded(
                         child: Container(
-                          height: 50,
+                          height: 40,
                           decoration: BoxDecoration(
+                            color: Colors.white,
                             borderRadius: BorderRadius.circular(10.0),
                             border: Border.all(color: Colors.white, width: 1.0),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextField(
+                              style: TextStyle(
+                                  color: themeData?.primaryColor, fontSize: 13),
+                              showCursor: true,
+                              cursorColor: themeData?.primaryColor,
                               focusNode: controller.focusNode,
                               controller: controller.searchController,
                               onTap: () {
@@ -74,31 +80,35 @@ class DetailView extends GetView<DetailController> {
                               decoration: InputDecoration(
                                 hintText: 'ፍልግ',
                                 hintStyle:
-                                    const TextStyle(color: Colors.white70),
+                                    TextStyle(color: themeData?.primaryColor),
+                                labelStyle:
+                                    TextStyle(color: themeData?.primaryColor),
                                 border: InputBorder.none,
                                 suffixIcon: Container(
-                                  margin: const EdgeInsets.all(4.0),
+                                  margin: const EdgeInsets.all(0.0),
                                   child: IconButton(
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.search,
-                                      color: Colors.white,
+                                      color: themeData?.primaryColor,
+                                      size: 26,
                                     ),
                                     onPressed: () async {
                                       controller.searchResultVerses =
                                           await controller.search(
-                                              BibleType: "AMHNIV",
+                                              BibleType: controller
+                                                  .selectedBookTypeOptions,
                                               searchType: controller
                                                   .selectedSearchTypeOptions,
                                               searchPlace: controller
                                                   .selectedSearchPlaceOptions,
                                               query: controller
                                                   .searchController.text);
+                                      controller.isAmharicKeyboardVisible = false;
                                       controller.update();
                                     },
                                   ),
                                 ),
                               ),
-                              style: const TextStyle(color: Colors.white),
                               onChanged: (value) {
                                 // setState(() {
                                 //   _searchQuery = value;
@@ -112,86 +122,105 @@ class DetailView extends GetView<DetailController> {
                   ),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          showBookSelectionMenu(context);
-                        },
-                        child: Container(
-                          height: 38,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 8),
-                          decoration: BoxDecoration(
-                            color: themeData
-                                ?.primaryColor, // Set the background color of the title
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'አማርኛ 1954',
-                                style: TextStyle(
-                                  color: themeData
-                                      ?.whiteColor, // Set the text color of the title
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              const SizedBox(width: 2),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                size: 18,
-                                color: themeData?.whiteColor,
-                              ),
-                            ],
-                          ),
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButton<String>(
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.black),
+                          value: controller.selectedBookTypeOptions,
+                          items:
+                              controller.bookTypeOptions.map((String option) {
+                            return DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            controller.setSelectedBookTypeOptions(newValue!);
+                          },
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      DropdownButton<String>(
-                        value: controller.selectedSearchTypeOptions,
-                        items:
-                            controller.searchTypeOptions.map((String option) {
-                          return DropdownMenuItem<String>(
-                            value: option,
-                            child: Text(option),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          controller.setSelectedSearchTypeOptions(newValue!);
-                        },
-                      ),
-                      DropdownButton<String>(
-                        value: controller.selectedSearchPlaceOptions,
-                        items:
-                            controller.searchPlaceOptions.map((String option) {
-                          return DropdownMenuItem<String>(
-                            value: option,
-                            child: Text(option),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          controller.setSelectedSearchPlaceOptions(newValue!);
-                        },
-                      ),
-                    ],
+                        DropdownButton<String>(
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.black),
+                          value: controller.selectedSearchTypeOptions,
+                          items:
+                              controller.searchTypeOptions.map((String option) {
+                            return DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            controller.setSelectedSearchTypeOptions(newValue!);
+                          },
+                        ),
+                        DropdownButton<String>(
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.black),
+                          value: controller.selectedSearchPlaceOptions,
+                          items: controller.searchPlaceOptions
+                              .map((String option) {
+                            return DropdownMenuItem<String>(
+                              value: option,
+                              child: Text(option),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            controller.setSelectedSearchPlaceOptions(newValue!);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Expanded(child: SizedBox()),
+                Visibility(
+                    visible: controller.searchResultVerses.isEmpty,
+                    child: const Expanded(child: SizedBox())),
+
+                Visibility(
+                  visible: controller.searchResultVerses.isNotEmpty,
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                             TextSpan(
+                              text: 'የተገኙ ዉጤትዎች ብዛት: ',
+                              style: TextStyle(
+                                fontSize: 13,
+                                 color: themeData?.blackColor,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '${controller.searchResultVerses.length}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: themeData?.primaryColor,
+                                fontSize: 13
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                ),
+
                 Visibility(
                   visible: controller.searchResultVerses.isNotEmpty,
                   child: Expanded(
                     child: ListView.builder(
+                      padding: const EdgeInsets.all(0),
                       shrinkWrap: true,
                       itemCount: controller.searchResultVerses.length,
-                      itemBuilder: (context, index) {
+                      itemBuilder: (context, i) {
                         String verseText =
-                            controller.searchResultVerses[index].verseText ??
-                                "";
+                            controller.searchResultVerses[i].verseText ?? "";
                         String searchText = controller.searchController.text;
                         List<TextSpan> textSpans = [];
                         int start = 0;
@@ -205,7 +234,8 @@ class DetailView extends GetView<DetailController> {
                           }
                           textSpans.add(
                             TextSpan(
-                                text: verseText.substring(start, index),
+                                text:
+                                    "${controller.searchResultVerses[i].verseNumber} ${verseText.substring(start, index)}",
                                 style: const TextStyle(color: Colors.black)),
                           );
                           textSpans.add(TextSpan(
@@ -217,8 +247,30 @@ class DetailView extends GetView<DetailController> {
                           start = index + searchText.length;
                         }
 
-                        return RichText(
-                          text: TextSpan(children: textSpans),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0, horizontal: 4),
+                          child: Card(
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
+                                    style: TextStyle(
+                                        color: themeData!.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(children: textSpans),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         );
                       },
                     ),

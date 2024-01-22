@@ -17,7 +17,9 @@ class DetailController extends GetxController {
   bool isAmharicKeyboardVisible = true;
   String selectedSearchTypeOptions = 'ሁሉንም ቃላት';
   String selectedSearchPlaceOptions = 'ብሉይ ኪዳን';
+  String selectedBookTypeOptions = 'አማርኛ 1954';
   List<Verses> searchResultVerses = [];
+  List<Book> books = [];
 
   List<String> searchPlaceOptions = [
     'ብሉይ ኪዳን',
@@ -28,6 +30,13 @@ class DetailController extends GetxController {
   List<String> searchTypeOptions = [
     'ሁሉንም ቃላት',
     'እንቅጩን',
+  ];
+
+  List<String> bookTypeOptions = [
+    'አማርኛ 1954',
+    'አዲሱ መደበኛ ትርጉም',
+    'English NIV',
+    'English KJV'
   ];
 
   @override
@@ -87,6 +96,11 @@ class DetailController extends GetxController {
     update();
   }
 
+  setSelectedBookTypeOptions(String newValue) {
+    selectedBookTypeOptions = newValue;
+    update();
+  }
+
   Future<List<Verses>> search({
     required String BibleType,
     required String searchType,
@@ -118,58 +132,61 @@ class DetailController extends GetxController {
       return emptyVerses;
     }
   }
-}
 
-Future<List<Verses>> handleSearch(
-  String testament,
-  String query,
-  String searchOption,
-  String BibleType,
-) async {
-  List<Verses> verses = await DatabaseService().changeBibleType(BibleType);
-  List<Book> oldTestamentBookIDs = [];
-  List<Verses> oldTestamentBookVerses = [];
-  List<Book> books = await DatabaseService().readBookDatabase();
+  Future<List<Verses>> handleSearch(
+    String testament,
+    String query,
+    String searchOption,
+    String BibleType,
+  ) async {
+    if (BibleType == 'አማርኛ 1954') {
+      BibleType = "AMHNIV";
+    } else if (BibleType == 'አዲሱ መደበኛ ትርጉም') {
+      BibleType = "AMHKJV";
+    } else if (BibleType == 'English NIV') {
+      BibleType = "ENGNIV";
+    } else if (BibleType == 'English KJV') {
+      BibleType = "ENGKJV";
+    }
+    List<Verses> verses = await DatabaseService().changeBibleType(BibleType);
+    List<Book> oldTestamentBookIDs = [];
+    List<Verses> oldTestamentBookVerses = [];
+    books = await DatabaseService().readBookDatabase();
 
-  if (testament != "") {
-    oldTestamentBookIDs =
-        books.where((element) => element.testament == testament).toList();
-  } else {
-    oldTestamentBookIDs = books;
-  }
-  for (int i = 0; i < oldTestamentBookIDs.length; i++) {
-    //check 
-    oldTestamentBookVerses = verses
-        .where((element) => element.book == oldTestamentBookIDs[i].id)
-        .toList();
-        
-  }
-  if (searchOption == "contains") {
-    oldTestamentBookVerses
-        .where((verse) => RegExp(r'\b' + RegExp.escape(query) + r'\b')
-            .hasMatch(verse.verseText!))
-        .toList();
-    return oldTestamentBookVerses;
-  } else if (searchOption == 'exact') {
-    oldTestamentBookVerses
-        .where((element) => element.verseText! == query)
-        .toList();
-    return oldTestamentBookVerses;
-  } else {
-    List<Verses> emptyVerses = [];
-    return emptyVerses;
-  }
-}
-
-List<String> searchItems(List<String> items, String searchTerm) {
-  List<String> searchResults = [];
-
-  for (String item in items) {
-    RegExp regex = RegExp(r'\b' + searchTerm + r'\b');
-    if (regex.hasMatch(item)) {
-      searchResults.add(item);
+    if (testament != "") {
+      oldTestamentBookIDs =
+          books.where((element) => element.testament == testament).toList();
+    } else {
+      oldTestamentBookIDs = books;
+    }
+    for (int i = 0; i < oldTestamentBookIDs.length; i++) {
+      //check
+      List<Verses> oldTestamentBookVerseTemp = verses
+          .where((element) => element.book == oldTestamentBookIDs[i].id)
+          .toList();
+      oldTestamentBookVerses.addAll(oldTestamentBookVerseTemp);
+    }
+    if (searchOption == "contains") {
+      oldTestamentBookVerses = oldTestamentBookVerses
+          .where((verse) => verse.verseText!.contains(query))
+          .toList();
+      return oldTestamentBookVerses;
+    } else if (searchOption == 'exact') {
+      List<Verses> searchResults = [];
+      for (Verses item in oldTestamentBookVerses) {
+        List<String> words = item.verseText!.split(" ");
+        if (words.contains(query)) {
+          searchResults.add(item);
+        }
+      }
+      return searchResults;
+    } else {
+      List<Verses> emptyVerses = [];
+      return emptyVerses;
     }
   }
 
-  return searchResults;
+  getBookName(int bookId) {
+    return books.where((element) => element.id == bookId).first.titleGeez;
+  }
 }
