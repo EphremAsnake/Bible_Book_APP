@@ -22,10 +22,12 @@ class AmharicKeyboard extends StatelessWidget {
           color: Colors.grey[200],
           padding: const EdgeInsets.all(0.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start, 
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Visibility(
-                visible:  detailController.selectedAmharicLetter?.forms.isNotEmpty ?? false,
+                visible:
+                    detailController.selectedAmharicLetter?.forms.isNotEmpty ??
+                        false,
                 child: SizedBox(
                   height: 55,
                   child: GridView.builder(
@@ -37,7 +39,8 @@ class AmharicKeyboard extends StatelessWidget {
                         detailController.selectedAmharicLetter?.forms.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
-                          detailController.selectedAmharicLetter?.basicForm == '0'
+                          detailController.selectedAmharicLetter?.basicForm ==
+                                  '0'
                               ? 10
                               : 7,
                       mainAxisSpacing: 4.0, // Adjust the spacing here
@@ -81,14 +84,25 @@ class AmharicKeyboard extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final key = _keyboardRows[index];
                     return InkWell(
-                      onTap: () {
+                      onTap: () async {
                         if (key.basicForm == "AB") {
                           FocusScope.of(context)
                               .requestFocus(detailController.focusNode);
                         } else if (key.basicForm == '←') {
                           detailController.onBackSpaceKeyPressed();
-                        } else if (key.basicForm == '#') {
-                          detailController.onKeyPressed(key.basicForm);
+                        } else if (key.basicForm == '🔎') {
+                          detailController.searchResultVerses =
+                              await detailController.search(
+                                  BibleType:
+                                      detailController.selectedBookTypeOptions,
+                                  searchType: detailController
+                                      .selectedSearchTypeOptions,
+                                  searchPlace: detailController
+                                      .selectedSearchPlaceOptions,
+                                  query:
+                                      detailController.searchController.text);
+                          detailController.isAmharicKeyboardVisible = false;
+                          detailController.update();
                         } else if (key.basicForm == '↓') {
                           detailController.makeAmharicKeyboardInVisible();
                         } else if (key.basicForm == '―') {
@@ -97,7 +111,7 @@ class AmharicKeyboard extends StatelessWidget {
                           detailController.onKeyPressed(key.basicForm);
                         } else {
                           detailController.setSelectedAmharicLetter(key);
-                          detailController.onKeyPressed(key.basicForm);
+                          // detailController.onKeyPressed(key.basicForm);
                         }
                       },
                       child: Container(
@@ -164,7 +178,4 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('←', []),
   AmharicLetter('↓', []),
   AmharicLetter('🔎', []),
-  
 ];
-
-
