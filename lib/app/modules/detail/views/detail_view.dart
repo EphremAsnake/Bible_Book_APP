@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_flip/page_flip.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
@@ -103,7 +104,8 @@ class DetailView extends GetView<DetailController> {
                                                   .selectedSearchPlaceOptions,
                                               query: controller
                                                   .searchController.text);
-                                      controller.isAmharicKeyboardVisible = false;
+                                      controller.isAmharicKeyboardVisible =
+                                          false;
                                       controller.update();
                                     },
                                   ),
@@ -191,20 +193,19 @@ class DetailView extends GetView<DetailController> {
                       child: RichText(
                         text: TextSpan(
                           children: [
-                             TextSpan(
+                            TextSpan(
                               text: 'የተገኙ ዉጤትዎች ብዛት: ',
                               style: TextStyle(
                                 fontSize: 13,
-                                 color: themeData?.blackColor,
+                                color: themeData?.blackColor,
                               ),
                             ),
                             TextSpan(
                               text: '${controller.searchResultVerses.length}',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: themeData?.primaryColor,
-                                fontSize: 13
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  color: themeData?.primaryColor,
+                                  fontSize: 13),
                             ),
                           ],
                         ),
@@ -400,126 +401,121 @@ class DetailView extends GetView<DetailController> {
                           ),
                         ),
                         // AmharicKeyboard(),
-                        InteractiveViewer(
-                          boundaryMargin: const EdgeInsets.all(20.0),
-                          minScale: 0.1,
-                          maxScale: 3.0,
-                          child: SizedBox(
-                            height: 800,
-                            child: ListView.builder(
-                              itemCount: controller.allVerses.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14.0, vertical: 3),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      index == 0
-                                          ? Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text(
-                                                  index == 0
-                                                      ? '${controller.allVerses[i][index].chapter}'
-                                                      : '',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily: "Abyssinica",
-                                                    fontSize: 50.0,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color:
-                                                        themeData?.primaryColor,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Expanded(
-                                                  child: RichText(
-                                                    text: TextSpan(
-                                                      children: [
-                                                        TextSpan(
-                                                          text:
-                                                              '${controller.allVerses[i][index].verseNumber}፤   ',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 12.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    146,
-                                                                    45,
-                                                                    38),
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          text: controller
-                                                              .allVerses[i]
-                                                                  [index]
-                                                              .verseText,
-                                                          style: const TextStyle(
-                                                              fontSize: 16.0,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontFamily:
-                                                                  "Abyssinica"),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox.shrink(),
-                                      if (index != 0)
-                                        RichText(
-                                          text: TextSpan(
-                                            text:
-                                                '${controller.allVerses[i][index].verseNumber}፤   ',
-                                            style: const TextStyle(
-                                              fontSize: 12.0,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromARGB(
-                                                  255, 146, 45, 38),
-                                            ),
-                                            children: <InlineSpan>[
-                                              TextSpan(
-                                                text:
-                                                    '${controller.allVerses[i][index].verseText}',
+                        SizedBox(
+                          height: 800,
+                          child: ListView.builder(
+                            itemCount: controller.allVerses.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14.0, vertical: 3),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    index == 0
+                                        ? Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                index == 0
+                                                    ? '${controller.allVerses[i][index].chapter}'
+                                                    : '',
+                                                textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontFamily: "Abyssinica",
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontStyle: controller
-                                                                  .allVerses[i]
-                                                                      [index]
-                                                                  .para ==
-                                                              "q1" ||
-                                                          controller
-                                                                  .allVerses[i]
-                                                                      [index]
-                                                                  .para ==
-                                                              "q2"
-                                                      ? FontStyle.italic
-                                                      : FontStyle.normal,
-                                                  color: Colors.black,
+                                                  fontSize: 50.0,
+                                                  fontWeight:
+                                                      FontWeight.normal,
+                                                  color:
+                                                      themeData?.primaryColor,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: RichText(
+                                                  text: TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            '${controller.allVerses[i][index].verseNumber}፤   ',
+                                                        style:
+                                                            const TextStyle(
+                                                          fontSize: 12.0,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  146,
+                                                                  45,
+                                                                  38),
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text: controller
+                                                            .allVerses[i]
+                                                                [index]
+                                                            .verseText,
+                                                        style: const TextStyle(
+                                                            fontSize: 16.0,
+                                                            color:
+                                                                Colors.black,
+                                                            fontFamily:
+                                                                "Abyssinica"),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ],
+                                          )
+                                        : const SizedBox.shrink(),
+                                    if (index != 0)
+                                      RichText(
+                                        text: TextSpan(
+                                          text:
+                                              '${controller.allVerses[i][index].verseNumber}፤   ',
+                                          style: const TextStyle(
+                                            fontSize: 12.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromARGB(
+                                                255, 146, 45, 38),
                                           ),
+                                          children: <InlineSpan>[
+                                            TextSpan(
+                                              text:
+                                                  '${controller.allVerses[i][index].verseText}',
+                                              style: TextStyle(
+                                                fontFamily: "Abyssinica",
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle: controller
+                                                                .allVerses[i]
+                                                                    [index]
+                                                                .para ==
+                                                            "q1" ||
+                                                        controller
+                                                                .allVerses[i]
+                                                                    [index]
+                                                                .para ==
+                                                            "q2"
+                                                    ? FontStyle.italic
+                                                    : FontStyle.normal,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
