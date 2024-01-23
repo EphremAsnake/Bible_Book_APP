@@ -1,13 +1,14 @@
+import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
+import 'package:bible_book_app/app/utils/keys/keys.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_flip/page_flip.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zoom_widget/zoom_widget.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
@@ -16,7 +17,7 @@ class DetailView extends GetView<DetailController> {
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
-  final _controller = GlobalKey<PageFlipWidgetState>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +39,7 @@ class DetailView extends GetView<DetailController> {
       init: DetailController(),
       initState: (_) {},
       builder: (_) {
+        controller.getSelectedBookName();
         return Scaffold(
           key: _scaffoldKey,
           endDrawer: Drawer(
@@ -312,7 +314,7 @@ class DetailView extends GetView<DetailController> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'አማርኛ 1954',
+                      controller.selectedBook,
                       style: TextStyle(
                         color: themeData
                             ?.whiteColor, // Set the text color of the title
@@ -377,152 +379,185 @@ class DetailView extends GetView<DetailController> {
               themeData: themeData,
               getterAndSetterController: getterAndSetterController),
           body: SafeArea(
-            child: PageFlipWidget(
-              key: _controller,
-              backgroundColor: Colors.white,
-              lastPage: Container(
-                  color: Colors.white,
-                  child: const Center(child: Text('Last Page!'))),
-              initialIndex: 0,
-              children: <Widget>[
-                for (var i = 0; i < controller.allVerses.length; i++)
-                  SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "ምዕራፍ ${controller.allVerses[i][0].chapter}",
-                          style: const TextStyle(
-                            fontSize: 17.0,
-                            fontFamily: "Abyssinica",
-                            fontWeight: FontWeight.bold,
+            // child: PageFlipWidget(
+            //   key: _controller,
+            //   backgroundColor: Colors.white,
+            //   lastPage: Container(
+            //       color: Colors.white,
+            //       child: const Center(child: Text('Last Page!'))),
+            //   initialIndex: 0,
+            //   children: <Widget>[
+            //     for (var i = 0; i < controller.allVerses.length; i++)
+            child: ExpandablePageView.builder(
+                physics: const ClampingScrollPhysics(),
+                itemCount: controller.allVerses.length,
+                animationCurve: Curves.easeIn,
+                itemBuilder: (context, i) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
-                        // AmharicKeyboard(),
-                        SizedBox(
-                          height: 800,
-                          child: ListView.builder(
-                            itemCount: controller.allVerses.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 14.0, vertical: 3),
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    index == 0
-                                        ? Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                index == 0
-                                                    ? '${controller.allVerses[i][index].chapter}'
-                                                    : '',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                  fontFamily: "Abyssinica",
-                                                  fontSize: 50.0,
-                                                  fontWeight:
-                                                      FontWeight.normal,
-                                                  color:
-                                                      themeData?.primaryColor,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: RichText(
-                                                  text: TextSpan(
-                                                    children: [
-                                                      TextSpan(
-                                                        text:
-                                                            '${controller.allVerses[i][index].verseNumber}፤   ',
-                                                        style:
-                                                            const TextStyle(
-                                                          fontSize: 12.0,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  146,
-                                                                  45,
-                                                                  38),
-                                                        ),
+                          Text(
+                            controller.selectedBook.contains("English")
+                                ? 'Chapter ${controller.allVerses[i][0].chapter}'
+                                : 'ምዕራፍ ${controller.allVerses[i][0].chapter}',
+                            style: const TextStyle(
+                              fontSize: 17.0,
+                              fontFamily: "Abyssinica",
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          // AmharicKeyboard(),
+                          InteractiveViewer(
+                            scaleEnabled: true, // Enable zooming
+                            maxScale: 5.0,
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height - 10,
+                              child: ListView.builder(
+                                itemCount: controller.allVerses[i].length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 14.0, vertical: 3),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        index == 0
+                                            ? Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                    index == 0
+                                                        ? '${controller.allVerses[i][index].chapter}'
+                                                        : '',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontFamily: "Abyssinica",
+                                                      fontSize: 50.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      color: themeData
+                                                          ?.primaryColor,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: RichText(
+                                                      text: TextSpan(
+                                                        children: [
+                                                          TextSpan(
+                                                            text: controller
+                                                                    .selectedBook
+                                                                    .contains(
+                                                                        "1954")
+                                                                ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                : controller
+                                                                        .selectedBook
+                                                                        .contains(
+                                                                            "አዲሱ")
+                                                                    ? '${controller.allVerses[i][index].verseNumber}'
+                                                                    : '${controller.allVerses[i][index].verseNumber}  ',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 12.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      146,
+                                                                      45,
+                                                                      38),
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text: controller
+                                                                .allVerses[i]
+                                                                    [index]
+                                                                .verseText,
+                                                            style: const TextStyle(
+                                                                fontSize: 16.0,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontFamily:
+                                                                    "Abyssinica"),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      TextSpan(
-                                                        text: controller
-                                                            .allVerses[i]
-                                                                [index]
-                                                            .verseText,
-                                                        style: const TextStyle(
-                                                            fontSize: 16.0,
-                                                            color:
-                                                                Colors.black,
-                                                            fontFamily:
-                                                                "Abyssinica"),
-                                                      ),
-                                                    ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : const SizedBox.shrink(),
+                                        if (index != 0)
+                                          RichText(
+                                            text: TextSpan(
+                                              text: controller.selectedBook
+                                                      .contains("1954")
+                                                  ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                  : controller.selectedBook
+                                                          .contains("አዲሱ")
+                                                      ? '${controller.allVerses[i][index].verseNumber}'
+                                                      : '${controller.allVerses[i][index].verseNumber}  ',
+                                              style: const TextStyle(
+                                                fontSize: 12.0,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromARGB(
+                                                    255, 146, 45, 38),
+                                              ),
+                                              children: <InlineSpan>[
+                                                TextSpan(
+                                                  text:
+                                                      '${controller.allVerses[i][index].verseText}',
+                                                  style: TextStyle(
+                                                    fontFamily: "Abyssinica",
+                                                    fontSize: 16.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontStyle: controller
+                                                                    .allVerses[
+                                                                        i]
+                                                                        [index]
+                                                                    .para ==
+                                                                "q1" ||
+                                                            controller
+                                                                    .allVerses[
+                                                                        i]
+                                                                        [index]
+                                                                    .para ==
+                                                                "q2"
+                                                        ? FontStyle.italic
+                                                        : FontStyle.normal,
+                                                    color: Colors.black,
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          )
-                                        : const SizedBox.shrink(),
-                                    if (index != 0)
-                                      RichText(
-                                        text: TextSpan(
-                                          text:
-                                              '${controller.allVerses[i][index].verseNumber}፤   ',
-                                          style: const TextStyle(
-                                            fontSize: 12.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color.fromARGB(
-                                                255, 146, 45, 38),
-                                          ),
-                                          children: <InlineSpan>[
-                                            TextSpan(
-                                              text:
-                                                  '${controller.allVerses[i][index].verseText}',
-                                              style: TextStyle(
-                                                fontFamily: "Abyssinica",
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.normal,
-                                                fontStyle: controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .para ==
-                                                            "q1" ||
-                                                        controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .para ==
-                                                            "q2"
-                                                    ? FontStyle.italic
-                                                    : FontStyle.normal,
-                                                color: Colors.black,
-                                              ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
+                                          ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-              ],
-            ),
+                  );
+                }),
+            //     ],
+            //   ),
           ),
         );
       },
@@ -537,8 +572,8 @@ class DetailView extends GetView<DetailController> {
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 247, 247, 247),
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(80),
-              topRight: Radius.circular(80),
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
             ),
           ),
           height: 290,
@@ -552,12 +587,23 @@ class DetailView extends GetView<DetailController> {
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
+                        SharedPreferencesStorage sharedPreferencesStorage =
+                            SharedPreferencesStorage();
                         getterAndSetterController.versesAMH =
                             await DatabaseService().changeBibleType("AMHNIV");
                         getterAndSetterController.update();
-                        controller.allVerses =
-                            getterAndSetterController.groupedBookList();
+                        controller.allVerses.assignAll(
+                            getterAndSetterController.groupedBookList());
+
+                        //saving selected book to local storage
+                        sharedPreferencesStorage.saveStringData(
+                            Keys.selectedBookKey, "አማርኛ 1954");
+
+                        //set selected book Name
+                        controller.setSelectedBook("አማርኛ 1954");
+
                         controller.update();
+                        Get.back();
                       },
                       title: const Text('አማርኛ 1954'),
                       leading: Image.asset(
@@ -571,13 +617,20 @@ class DetailView extends GetView<DetailController> {
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
+                        SharedPreferencesStorage sharedPreferencesStorage =
+                            SharedPreferencesStorage();
                         getterAndSetterController.versesAMH =
                             await DatabaseService().changeBibleType("AMHKJV");
                         getterAndSetterController.update();
-                        controller.allVerses =
-                            getterAndSetterController.groupedBookList();
-
+                        controller.allVerses.assignAll(
+                            getterAndSetterController.groupedBookList());
+                        //saving selected book to local storage
+                        sharedPreferencesStorage.saveStringData(
+                            Keys.selectedBookKey, "አዲሱ መደበኛ ትርጉም");
+                        //set selected book Name
+                        controller.setSelectedBook("አዲሱ መደበኛ ትርጉም");
                         controller.update();
+                        Get.back();
                       },
                       title: const Text('አዲሱ መደበኛ ትርጉም'),
                       leading: Image.asset(
@@ -591,14 +644,21 @@ class DetailView extends GetView<DetailController> {
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
+                        SharedPreferencesStorage sharedPreferencesStorage =
+                            SharedPreferencesStorage();
                         getterAndSetterController.versesAMH =
                             await DatabaseService().changeBibleType("ENGNIV");
                         getterAndSetterController.update();
-                        controller.allVerses =
-                            getterAndSetterController.groupedBookList();
+                        controller.allVerses.assignAll(
+                            getterAndSetterController.groupedBookList());
+                        //saving selected book to local storage
+                        sharedPreferencesStorage.saveStringData(
+                            Keys.selectedBookKey, "English NIV");
 
-                        var data = controller.allVerses;
+                        //set selected book Name
+                        controller.setSelectedBook("English NIV");
                         controller.update();
+                        Get.back();
                       },
                       title: const Text('English NIV'),
                       leading: Image.asset(
@@ -612,12 +672,21 @@ class DetailView extends GetView<DetailController> {
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
+                        SharedPreferencesStorage sharedPreferencesStorage =
+                            SharedPreferencesStorage();
                         getterAndSetterController.versesAMH =
                             await DatabaseService().changeBibleType("ENGKJV");
                         getterAndSetterController.update();
-                        controller.allVerses =
-                            getterAndSetterController.groupedBookList();
+                        controller.allVerses.assignAll(
+                            getterAndSetterController.groupedBookList());
+
+                        //saving selected book to local storage
+                        sharedPreferencesStorage.saveStringData(
+                            Keys.selectedBookKey, "English KJV");
+                        //set selected book Name
+                        controller.setSelectedBook("English KJV");
                         controller.update();
+                        Get.back();
                       },
                       title: const Text('English KJV'),
                       leading: Image.asset(

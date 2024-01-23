@@ -62,7 +62,7 @@ class DatabaseService {
     return books;
   }
 
-  Future<List<Verses>> readVersesAMHDatabase() async {
+  Future<List<Verses>> readVersesDatabase(String book) async {
     List<Verses> versesAMH = [];
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
@@ -73,7 +73,7 @@ class DatabaseService {
 
     // Query the database
     List<Map<String, dynamic>> rows =
-        await database.rawQuery('SELECT * FROM AMHNIV');
+        await database.rawQuery('SELECT * FROM $book');
 
     // Process the retrieved data
     for (Map<String, dynamic> row in rows) {

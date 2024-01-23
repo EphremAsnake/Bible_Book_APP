@@ -1,8 +1,10 @@
+import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
+import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,6 +16,7 @@ class DetailController extends GetxController {
   AmharicLetter? selectedAmharicLetter;
   FocusNode focusNode = FocusNode();
   TextEditingController searchController = TextEditingController();
+  String selectedBook = "አማርኛ 1954";
   bool isAmharicKeyboardVisible = true;
   String selectedSearchTypeOptions = 'ሁሉንም ቃላት';
   String selectedSearchPlaceOptions = 'ብሉይ ኪዳን';
@@ -43,7 +46,19 @@ class DetailController extends GetxController {
   void onInit() {
     super.onInit();
     loadData();
-    allVerses = getterAndSetterController.groupedBookList();
+    allVerses.assignAll(getterAndSetterController.groupedBookList());
+    setInitialSelectedBookTypeOptions();
+    update();
+  }
+
+  setInitialSelectedBookTypeOptions() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    String? bookName =
+        await sharedPreferencesStorage.readStringData(Keys.selectedBookKey);
+    if (bookName != null) {
+      selectedBookTypeOptions = bookName;
+    }
   }
 
   Future<String> loadBook(String fileName) async {
@@ -56,6 +71,23 @@ class DetailController extends GetxController {
 
   setSelectedAmharicLetter(AmharicLetter selectedAmharicLetterType) {
     selectedAmharicLetter = selectedAmharicLetterType;
+    update();
+  }
+
+  setSelectedBook(String selectedBookName) {
+    selectedBook = selectedBookName;
+    update();
+  }
+
+  getSelectedBookName() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    String? bookName =
+        await sharedPreferencesStorage.readStringData(Keys.selectedBookKey);
+    if (bookName != null) {
+      selectedBook = bookName;
+    }
+
     update();
   }
 

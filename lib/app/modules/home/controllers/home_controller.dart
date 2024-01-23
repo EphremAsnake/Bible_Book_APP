@@ -75,7 +75,7 @@ class HomeController extends GetxController {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();
-    var amh = await  DatabaseService().readVersesAMHDatabase();
+    var amh = await  DatabaseService().readVersesDatabase("AMHNIV");
     await getterAndSetterController.readData();
     versesAMH.addAll(amh);
 

@@ -1,9 +1,11 @@
+import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
+import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:get/get.dart';
 import 'package:collection/collection.dart';
 
@@ -33,10 +35,7 @@ class DataGetterAndSetter extends GetxController {
             element.chapter == chapter - 1 &&
             element.para == "mt1")
         .toList();
-    List<Verses> verseAMHListForBookList = [
-      ...verseAMHForBook,
-      ...verseTitle
-    ];
+    List<Verses> verseAMHListForBookList = [...verseAMHForBook, ...verseTitle];
     verseAMHListForBook.addAll(verseAMHListForBookList);
     return verseAMHListForBook;
   }
@@ -61,8 +60,8 @@ class DataGetterAndSetter extends GetxController {
 
   groupedBookList() {
     versesAMH.removeWhere((e) => e.para == "mt1");
-    var groupedVerses = groupBy(
-        versesAMH, (Verses verse) => '${verse.book}-${verse.chapter}');
+    var groupedVerses =
+        groupBy(versesAMH, (Verses verse) => '${verse.book}-${verse.chapter}');
     List<List<Verses>> groupedVerseList = groupedVerses.values.toList();
     return groupedVerseList;
   }
@@ -71,9 +70,30 @@ class DataGetterAndSetter extends GetxController {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();
-    var amh = await DatabaseService().readVersesAMHDatabase();
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    String selectedBook = "";
+    String? bookName =
+        await sharedPreferencesStorage.readStringData(Keys.selectedBookKey);
+    if (bookName != null) {
+      if (bookName == "አማርኛ 1954") {
+        selectedBook = "AMHNIV";
+      }
+      else if (bookName == "አዲሱ መደበኛ ትርጉም") {
+        selectedBook = "AMHKJV";
+      }
+      else if (bookName == "English NIV") {
+        selectedBook = "ENGNIV";
+      }
+      else if (bookName == "English KJV") {
+        selectedBook = "ENGKJV";
+      }
+    } else {
+      selectedBook = "AMHNIV";
+    }
+    var amh = await DatabaseService().readVersesDatabase(selectedBook);
     versesAMH.addAll(amh);
-   
+
     try {
       //default iterating over the list of bible index 0 nd version index of 0
       for (int k = 0; k < books.length; k++) {
