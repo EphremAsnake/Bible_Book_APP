@@ -51,6 +51,12 @@ class DetailController extends GetxController {
     update();
   }
 
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
+  }
+
   setInitialSelectedBookTypeOptions() async {
     SharedPreferencesStorage sharedPreferencesStorage =
         SharedPreferencesStorage();
@@ -220,5 +226,9 @@ class DetailController extends GetxController {
 
   getBookName(int bookId) {
     return books.where((element) => element.id == bookId).first.titleGeez;
+  }
+
+  clearSearchBar() {
+    searchController.text = "";
   }
 }

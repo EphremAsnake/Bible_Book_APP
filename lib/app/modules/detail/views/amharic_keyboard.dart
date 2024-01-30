@@ -51,7 +51,29 @@ class AmharicKeyboard extends StatelessWidget {
                           detailController.selectedAmharicLetter?.forms[index];
                       return InkWell(
                         onTap: () {
-                          detailController.onKeyPressed(key!);
+                          bool isFirstForm = false;
+                          int currentlySelectedKeyIndex = _keyboardRows
+                              .indexOf(detailController.selectedAmharicLetter!);
+                          AmharicLetter letter =
+                              _keyboardRows[currentlySelectedKeyIndex];
+                          List<String> inputValues =
+                              detailController.searchController.text.split('');
+                          if (inputValues.isNotEmpty) {
+                            if (letter.basicForm ==
+                                inputValues[inputValues.length - 1]) {
+                              isFirstForm = true;
+                            }
+
+                            if (isFirstForm == true) {
+                              inputValues[inputValues.length - 1] = key!;
+                              String inputValue = inputValues.join();
+                              detailController.searchController.text =
+                                  inputValue;
+                              detailController.update();
+                            } else {
+                              detailController.onKeyPressed(key!);
+                            }
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -111,7 +133,7 @@ class AmharicKeyboard extends StatelessWidget {
                           detailController.onKeyPressed(key.basicForm);
                         } else {
                           detailController.setSelectedAmharicLetter(key);
-                          // detailController.onKeyPressed(key.basicForm);
+                          detailController.onKeyPressed(key.basicForm);
                         }
                       },
                       child: Container(
