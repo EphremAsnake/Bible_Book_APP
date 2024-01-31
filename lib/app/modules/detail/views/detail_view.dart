@@ -406,6 +406,7 @@ class DetailView extends GetView<DetailController> {
             //   children: <Widget>[
             //     for (var i = 0; i < controller.allVerses.length; i++)
             child: ExpandablePageView.builder(
+                controller: controller.pageController,
                 physics: const ClampingScrollPhysics(),
                 itemCount: controller.allVerses.length,
                 animationCurve: Curves.easeIn,
@@ -435,7 +436,8 @@ class DetailView extends GetView<DetailController> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 5),
                               child: SizedBox(
-                                height: MediaQuery.of(context).size.height,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.85,
                                 child: ListView.builder(
                                   itemCount: controller.allVerses[i].length,
                                   shrinkWrap: true,
@@ -458,7 +460,8 @@ class DetailView extends GetView<DetailController> {
                                                           : '',
                                                       textAlign: TextAlign.left,
                                                       style: TextStyle(
-                                                        fontFamily: "Abyssinica",
+                                                        fontFamily:
+                                                            "Abyssinica",
                                                         fontSize: 50.0,
                                                         fontWeight:
                                                             FontWeight.normal,
@@ -505,7 +508,8 @@ class DetailView extends GetView<DetailController> {
                                                                       [index]
                                                                   .verseText,
                                                               style: const TextStyle(
-                                                                  fontSize: 16.0,
+                                                                  fontSize:
+                                                                      16.0,
                                                                   color: Colors
                                                                       .black,
                                                                   fontFamily:
@@ -545,14 +549,14 @@ class DetailView extends GetView<DetailController> {
                                                           FontWeight.normal,
                                                       fontStyle: controller
                                                                       .allVerses[
-                                                                          i]
-                                                                          [index]
+                                                                          i][
+                                                                          index]
                                                                       .para ==
                                                                   "q1" ||
                                                               controller
                                                                       .allVerses[
-                                                                          i]
-                                                                          [index]
+                                                                          i][
+                                                                          index]
                                                                       .para ==
                                                                   "q2"
                                                           ? FontStyle.italic
@@ -571,6 +575,10 @@ class DetailView extends GetView<DetailController> {
                               ),
                             ),
                           ),
+
+                          const SizedBox(
+                            height: 10,
+                          ),
                         ],
                       ),
                     ),
@@ -578,6 +586,40 @@ class DetailView extends GetView<DetailController> {
                 }),
             //     ],
             //   ),
+          ),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    controller.pageController.previousPage(duration: const Duration(milliseconds: 2), curve: Curves.easeIn);
+                  },
+                  elevation: 2,
+                  heroTag: "prev",
+                  backgroundColor: Colors.white,
+                  mini: true,
+                  child: Icon(
+                    Icons.chevron_left,
+                    color: themeData?.primaryColor,
+                  ),
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                    controller.pageController.nextPage(duration: const Duration(milliseconds: 2), curve: Curves.easeIn);
+                },
+                mini: true,
+                backgroundColor: Colors.white,
+                elevation: 2,
+                heroTag: "next",
+                child: Icon(
+                  Icons.chevron_right,
+                  color: themeData?.primaryColor,
+                ),
+              ),
+            ],
           ),
         );
       },

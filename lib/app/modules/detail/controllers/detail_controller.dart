@@ -23,6 +23,7 @@ class DetailController extends GetxController {
   String selectedBookTypeOptions = 'አማርኛ 1954';
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
+  PageController pageController = PageController();
 
   List<String> searchPlaceOptions = [
     'ብሉይ ኪዳን',
