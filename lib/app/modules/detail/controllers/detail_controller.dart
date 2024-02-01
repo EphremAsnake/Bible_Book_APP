@@ -23,6 +23,7 @@ class DetailController extends GetxController {
   String selectedBookTypeOptions = 'አማርኛ 1954';
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
+  List<Book> booksList = [];
   PageController pageController = PageController();
 
   List<String> searchPlaceOptions = [
@@ -49,6 +50,7 @@ class DetailController extends GetxController {
     loadData();
     allVerses.assignAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
+    getBooks();
     update();
   }
 
@@ -231,5 +233,21 @@ class DetailController extends GetxController {
 
   clearSearchBar() {
     searchController.text = "";
+  }
+
+  getBooks() async {
+    booksList = await DatabaseService().readBookDatabase();
+    update();
+  }
+
+  getBookTitle(int bookId) {
+    if (booksList.isNotEmpty) {
+      if (selectedBook.contains("English")) {
+        return booksList.where((element) => element.id == bookId).first.title;
+      }
+      else{
+        return booksList.where((element) => element.id == bookId).first.titleGeez;
+      }
+    }
   }
 }

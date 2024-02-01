@@ -22,19 +22,6 @@ class DetailView extends GetView<DetailController> {
 
   @override
   Widget build(BuildContext context) {
-    // List<Verses> selectedVerses = getterAndSetterController.verseAMHListFor    update();Book;
-    // int defaultIndex = data.indexOf(selectedVerses);
-    // String chapterText = "";
-
-    // String title = "";
-    // for (int i = 0; i < data.length; i++) {
-    //   if (data[i].para == "mt1") {
-    //     print(data[i].para);
-    //     title = data[i].verseText!;
-    //   } else {
-    //     chapterText = "$chapterText ${i + 1} ${data[i].verseText}";
-    //   }
-    // }
     return GetBuilder<DetailController>(
       init: DetailController(),
       initState: (_) {},
@@ -396,191 +383,177 @@ class DetailView extends GetView<DetailController> {
               themeData: themeData,
               getterAndSetterController: getterAndSetterController),
           body: SafeArea(
-            // child: PageFlipWidget(
-            //   key: _controller,
-            //   backgroundColor: Colors.white,
-            //   lastPage: Container(
-            //       color: Colors.white,
-            //       child: const Center(child: Text('Last Page!'))),
-            //   initialIndex: 0,
-            //   children: <Widget>[
-            //     for (var i = 0; i < controller.allVerses.length; i++)
             child: ExpandablePageView.builder(
                 controller: controller.pageController,
                 physics: const ClampingScrollPhysics(),
                 itemCount: controller.allVerses.length,
                 animationCurve: Curves.easeIn,
                 itemBuilder: (context, i) {
-                  return SingleChildScrollView(
-                    child: Container(
-                      color: Colors.white,
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
+                  return Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          controller.selectedBook.contains("English")
+                              ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}}'
+                              : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
+                          style: const TextStyle(
+                            fontSize: 17.0,
+                            fontFamily: "Abyssinica",
+                            fontWeight: FontWeight.bold,
                           ),
-                          Text(
-                            controller.selectedBook.contains("English")
-                                ? 'Chapter ${controller.allVerses[i][0].chapter}'
-                                : 'ምዕራፍ ${controller.allVerses[i][0].chapter}',
-                            style: const TextStyle(
-                              fontSize: 17.0,
-                              fontFamily: "Abyssinica",
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // AmharicKeyboard(),
-                          InteractiveViewer(
-                            scaleEnabled: true, // Enable zooming
-                            maxScale: 5.0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.85,
-                                child: ListView.builder(
-                                  itemCount: controller.allVerses[i].length,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 14.0, vertical: 3),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          index == 0
-                                              ? Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      index == 0
-                                                          ? '${controller.allVerses[i][index].chapter}'
-                                                          : '',
-                                                      textAlign: TextAlign.left,
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            "Abyssinica",
-                                                        fontSize: 50.0,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                        color: themeData
-                                                            ?.primaryColor,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Expanded(
-                                                      child: RichText(
-                                                        text: TextSpan(
-                                                          children: [
-                                                            TextSpan(
-                                                              text: controller
+                        ),
+                        // AmharicKeyboard(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 0.85,
+                            child: ListView.builder(
+                              // physics: const NeverScrollableScrollPhysics(),
+                              itemCount: controller.allVerses[i].length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14.0, vertical: 3),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      index == 0
+                                          ? Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  index == 0
+                                                      ? '${controller.allVerses[i][index].chapter}'
+                                                      : '',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        "Abyssinica",
+                                                    fontSize: 50.0,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: themeData
+                                                        ?.primaryColor,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Expanded(
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: controller
+                                                                  .selectedBook
+                                                                  .contains(
+                                                                      "1954")
+                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                              : controller
                                                                       .selectedBook
                                                                       .contains(
-                                                                          "1954")
-                                                                  ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                  : controller
-                                                                          .selectedBook
-                                                                          .contains(
-                                                                              "አዲሱ")
-                                                                      ? '${controller.allVerses[i][index].verseNumber}'
-                                                                      : '${controller.allVerses[i][index].verseNumber}  ',
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 12.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        146,
-                                                                        45,
-                                                                        38),
-                                                              ),
-                                                            ),
-                                                            TextSpan(
-                                                              text: controller
-                                                                  .allVerses[i]
-                                                                      [index]
-                                                                  .verseText,
-                                                              style: const TextStyle(
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontFamily:
-                                                                      "Abyssinica"),
-                                                            ),
-                                                          ],
+                                                                          "አዲሱ")
+                                                                  ? '${controller.allVerses[i][index].verseNumber}'
+                                                                  : '${controller.allVerses[i][index].verseNumber}  ',
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                            color: Color
+                                                                .fromARGB(
+                                                                    255,
+                                                                    146,
+                                                                    45,
+                                                                    38),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              : const SizedBox.shrink(),
-                                          if (index != 0)
-                                            RichText(
-                                              text: TextSpan(
-                                                text: controller.selectedBook
-                                                        .contains("1954")
-                                                    ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                    : controller.selectedBook
-                                                            .contains("አዲሱ")
-                                                        ? '${controller.allVerses[i][index].verseNumber}'
-                                                        : '${controller.allVerses[i][index].verseNumber}  ',
-                                                style: const TextStyle(
-                                                  fontSize: 12.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromARGB(
-                                                      255, 146, 45, 38),
-                                                ),
-                                                children: <InlineSpan>[
-                                                  TextSpan(
-                                                    text:
-                                                        '${controller.allVerses[i][index].verseText}',
-                                                    style: TextStyle(
-                                                      fontFamily: "Abyssinica",
-                                                      fontSize: 16.0,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                      fontStyle: controller
-                                                                      .allVerses[
-                                                                          i][
-                                                                          index]
-                                                                      .para ==
-                                                                  "q1" ||
-                                                              controller
-                                                                      .allVerses[
-                                                                          i][
-                                                                          index]
-                                                                      .para ==
-                                                                  "q2"
-                                                          ? FontStyle.italic
-                                                          : FontStyle.normal,
-                                                      color: Colors.black,
+                                                        TextSpan(
+                                                          text: controller
+                                                              .allVerses[i]
+                                                                  [index]
+                                                              .verseText,
+                                                          style: const TextStyle(
+                                                              fontSize:
+                                                                  16.0,
+                                                              color: Colors
+                                                                  .black,
+                                                              fontFamily:
+                                                                  "Abyssinica"),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
+                                            )
+                                          : const SizedBox.shrink(),
+                                      if (index != 0)
+                                        RichText(
+                                          text: TextSpan(
+                                            text: controller.selectedBook
+                                                    .contains("1954")
+                                                ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                : controller.selectedBook
+                                                        .contains("አዲሱ")
+                                                    ? '${controller.allVerses[i][index].verseNumber}'
+                                                    : '${controller.allVerses[i][index].verseNumber}  ',
+                                            style: const TextStyle(
+                                              fontSize: 12.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 146, 45, 38),
                                             ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
+                                            children: <InlineSpan>[
+                                              TextSpan(
+                                                text:
+                                                    '${controller.allVerses[i][index].verseText}',
+                                                style: TextStyle(
+                                                  fontFamily: "Abyssinica",
+                                                  fontSize: 16.0,
+                                                  fontWeight:
+                                                      FontWeight.normal,
+                                                  fontStyle: controller
+                                                                  .allVerses[
+                                                                      i][
+                                                                      index]
+                                                                  .para ==
+                                                              "q1" ||
+                                                          controller
+                                                                  .allVerses[
+                                                                      i][
+                                                                      index]
+                                                                  .para ==
+                                                              "q2"
+                                                      ? FontStyle.italic
+                                                      : FontStyle.normal,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
                           ),
+                        ),
 
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
                   );
                 }),
@@ -594,7 +567,9 @@ class DetailView extends GetView<DetailController> {
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: FloatingActionButton(
                   onPressed: () {
-                    controller.pageController.previousPage(duration: const Duration(milliseconds: 2), curve: Curves.easeIn);
+                    controller.pageController.previousPage(
+                        duration: const Duration(milliseconds: 1),
+                        curve: Curves.linear);
                   },
                   elevation: 2,
                   heroTag: "prev",
@@ -608,7 +583,9 @@ class DetailView extends GetView<DetailController> {
               ),
               FloatingActionButton(
                 onPressed: () {
-                    controller.pageController.nextPage(duration: const Duration(milliseconds: 2), curve: Curves.easeIn);
+                  controller.pageController.nextPage(
+                      duration: const Duration(milliseconds: 1),
+                      curve: Curves.linear);
                 },
                 mini: true,
                 backgroundColor: Colors.white,
