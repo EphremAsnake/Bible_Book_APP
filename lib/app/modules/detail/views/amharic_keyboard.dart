@@ -1,6 +1,7 @@
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class AmharicLetter {
   final String basicForm;
@@ -92,63 +93,62 @@ class AmharicKeyboard extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 235,
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(1),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _keyboardRows.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 8,
-                    mainAxisSpacing: 4.0, // Adjust the spacing here
-                    crossAxisSpacing: 4.0, // Adjust the spacing here
-                  ),
-                  itemBuilder: (context, index) {
-                    final key = _keyboardRows[index];
-                    return InkWell(
-                      onTap: () async {
-                        if (key.basicForm == "AB") {
-                          FocusScope.of(context)
-                              .requestFocus(detailController.focusNode);
-                        } else if (key.basicForm == '←') {
-                          detailController.onBackSpaceKeyPressed();
-                        } else if (key.basicForm == '🔎') {
-                          detailController.searchResultVerses =
-                              await detailController.search(
-                                  BibleType:
-                                      detailController.selectedBookTypeOptions,
-                                  searchType: detailController
-                                      .selectedSearchTypeOptions,
-                                  searchPlace: detailController
-                                      .selectedSearchPlaceOptions,
-                                  query:
-                                      detailController.searchController.text);
-                          detailController.isAmharicKeyboardVisible = false;
-                          detailController.update();
-                        } else if (key.basicForm == '↓') {
-                          detailController.makeAmharicKeyboardInVisible();
-                        } else if (key.basicForm == '―') {
-                          detailController.onKeyPressed(" ");
-                        } else if (key.basicForm == '@') {
-                          detailController.onKeyPressed(key.basicForm);
-                        } else {
-                          detailController.setSelectedAmharicLetter(key);
-                          detailController.onKeyPressed(key.basicForm);
-                        }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4.0),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          key.basicForm,
-                          style: const TextStyle(fontSize: 18.0),
+                height: 26.h,
+                child: Wrap(
+                  spacing: 4.0, // Adjust the spacing here
+                  runSpacing: 4.0, // Adjust the run spacing here
+                  children: _keyboardRows.map((key) {
+                    return SizedBox(
+                      width: key.basicForm == '―' ? 98.sp : 31.sp,
+                      height: 40,
+                      child: InkWell(
+                        onTap: () async {
+                          if (key.basicForm == "AB") {
+                            FocusScope.of(context)
+                                .requestFocus(detailController.focusNode);
+                          } else if (key.basicForm == '←') {
+                            detailController.onBackSpaceKeyPressed();
+                          } else if (key.basicForm == '🔎') {
+                            detailController
+                                    .searchResultVerses =
+                                await detailController.search(
+                                    BibleType: detailController
+                                        .selectedBookTypeOptions,
+                                    searchType:
+                                        detailController
+                                            .selectedSearchTypeOptions,
+                                    searchPlace: detailController
+                                        .selectedSearchPlaceOptions,
+                                    query:
+                                        detailController.searchController.text);
+                            detailController.isAmharicKeyboardVisible = false;
+                            detailController.update();
+                          } else if (key.basicForm == '↓') {
+                            detailController.makeAmharicKeyboardInVisible();
+                          } else if (key.basicForm == '―') {
+                            detailController.onKeyPressed(" ");
+                          } else if (key.basicForm == '@') {
+                            detailController.onKeyPressed(key.basicForm);
+                          } else {
+                            detailController.setSelectedAmharicLetter(key);
+                            detailController.onKeyPressed(key.basicForm);
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            key.basicForm,
+                            style: const TextStyle(fontSize: 18.0),
+                          ),
                         ),
                       ),
                     );
-                  },
+                  }).toList(),
                 ),
               ),
             ],
@@ -194,9 +194,7 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('ፈ', ['ፈ', 'ፉ', 'ፊ', 'ፋ', 'ፌ', 'ፍ', 'ፎ']),
   AmharicLetter('ፐ', ['ፐ', 'ፑ', 'ፒ', 'ፓ', 'ፔ', 'ፕ', 'ፖ']),
   AmharicLetter('AB', []),
-  AmharicLetter('0', ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']),
   AmharicLetter('―', []),
-  AmharicLetter('@', []),
   AmharicLetter('←', []),
   AmharicLetter('↓', []),
   AmharicLetter('🔎', []),

@@ -39,7 +39,7 @@ class DetailView extends GetView<DetailController> {
                 ),
                 Container(
                   padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 35, bottom: 8),
+                      left: 5, right: 5, top: 50, bottom: 8),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     children: [
@@ -133,8 +133,8 @@ class DetailView extends GetView<DetailController> {
                 Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 1),
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 1, top: 5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -379,6 +379,12 @@ class DetailView extends GetView<DetailController> {
               ),
             ],
           ),
+          onEndDrawerChanged: (isOpen) {
+            if (isOpen == false) {
+              controller.searchController.clear();
+              controller.searchResultVerses.clear();
+            }
+          },
           drawer: CustomDrawer(
               themeData: themeData,
               getterAndSetterController: getterAndSetterController),
@@ -410,8 +416,7 @@ class DetailView extends GetView<DetailController> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.85,
+                            height: MediaQuery.of(context).size.height * 0.85,
                             child: ListView.builder(
                               // physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.allVerses[i].length,
@@ -435,13 +440,12 @@ class DetailView extends GetView<DetailController> {
                                                       : '',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                    fontFamily:
-                                                        "Abyssinica",
+                                                    fontFamily: "Abyssinica",
                                                     fontSize: 50.0,
                                                     fontWeight:
                                                         FontWeight.normal,
-                                                    color: themeData
-                                                        ?.primaryColor,
+                                                    color:
+                                                        themeData?.primaryColor,
                                                   ),
                                                 ),
                                                 const SizedBox(
@@ -467,10 +471,9 @@ class DetailView extends GetView<DetailController> {
                                                               const TextStyle(
                                                             fontSize: 12.0,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                            color: Color
-                                                                .fromARGB(
+                                                                FontWeight.bold,
+                                                            color:
+                                                                Color.fromARGB(
                                                                     255,
                                                                     146,
                                                                     45,
@@ -483,10 +486,9 @@ class DetailView extends GetView<DetailController> {
                                                                   [index]
                                                               .verseText,
                                                           style: const TextStyle(
-                                                              fontSize:
-                                                                  16.0,
-                                                              color: Colors
-                                                                  .black,
+                                                              fontSize: 16.0,
+                                                              color:
+                                                                  Colors.black,
                                                               fontFamily:
                                                                   "Abyssinica"),
                                                         ),
@@ -520,18 +522,15 @@ class DetailView extends GetView<DetailController> {
                                                 style: TextStyle(
                                                   fontFamily: "Abyssinica",
                                                   fontSize: 16.0,
-                                                  fontWeight:
-                                                      FontWeight.normal,
+                                                  fontWeight: FontWeight.normal,
                                                   fontStyle: controller
-                                                                  .allVerses[
-                                                                      i][
-                                                                      index]
+                                                                  .allVerses[i]
+                                                                      [index]
                                                                   .para ==
                                                               "q1" ||
                                                           controller
-                                                                  .allVerses[
-                                                                      i][
-                                                                      index]
+                                                                  .allVerses[i]
+                                                                      [index]
                                                                   .para ==
                                                               "q2"
                                                       ? FontStyle.italic

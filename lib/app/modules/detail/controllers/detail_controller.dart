@@ -19,7 +19,7 @@ class DetailController extends GetxController {
   String selectedBook = "አማርኛ 1954";
   bool isAmharicKeyboardVisible = true;
   String selectedSearchTypeOptions = 'ሁሉንም ቃላት';
-  String selectedSearchPlaceOptions = 'ብሉይ ኪዳን';
+  String selectedSearchPlaceOptions = 'በሁሉም';
   String selectedBookTypeOptions = 'አማርኛ 1954';
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
@@ -52,12 +52,6 @@ class DetailController extends GetxController {
     setInitialSelectedBookTypeOptions();
     getBooks();
     update();
-  }
-
-  @override
-  void onClose() {
-    searchController.dispose();
-    super.onClose();
   }
 
   setInitialSelectedBookTypeOptions() async {
@@ -244,9 +238,11 @@ class DetailController extends GetxController {
     if (booksList.isNotEmpty) {
       if (selectedBook.contains("English")) {
         return booksList.where((element) => element.id == bookId).first.title;
-      }
-      else{
-        return booksList.where((element) => element.id == bookId).first.titleGeez;
+      } else {
+        return booksList
+            .where((element) => element.id == bookId)
+            .first
+            .titleGeez;
       }
     }
   }
