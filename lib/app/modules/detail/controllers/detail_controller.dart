@@ -24,7 +24,9 @@ class DetailController extends GetxController {
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
   List<Book> booksList = [];
+  bool hidePageNavigators = false;
   PageController pageController = PageController();
+  final ScrollController readerScrollController = ScrollController();
 
   List<String> searchPlaceOptions = [
     'ብሉይ ኪዳን',
@@ -51,6 +53,13 @@ class DetailController extends GetxController {
     allVerses.assignAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
     getBooks();
+    readerScrollController.addListener(() {
+      // Check if the scroll controller is actively scrolling
+      hidePageNavigators =
+          readerScrollController.position.activity?.isScrolling ?? false;
+
+      update();
+    });
     update();
   }
 

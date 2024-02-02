@@ -19,6 +19,7 @@ class DetailView extends GetView<DetailController> {
       Get.find<DataGetterAndSetter>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -221,8 +222,15 @@ class DetailView extends GetView<DetailController> {
                 Visibility(
                   visible: controller.searchResultVerses.isNotEmpty,
                   child: Expanded(
-                    child: Scrollbar(
+                    child: RawScrollbar(
+                      thumbColor: themeData?.primaryColor,
+                      controller: _scrollController,
+                      thickness: 12.0,
+                      trackVisibility: true,
+                      thumbVisibility: true,
+                      interactive: true,
                       child: ListView.builder(
+                        controller: _scrollController,
                         padding: const EdgeInsets.all(0),
                         shrinkWrap: true,
                         itemCount: controller.searchResultVerses.length,
@@ -421,6 +429,7 @@ class DetailView extends GetView<DetailController> {
                             height: MediaQuery.of(context).size.height * 0.85,
                             child: ListView.builder(
                               // physics: const NeverScrollableScrollPhysics(),
+                              controller: controller.readerScrollController,
                               itemCount: controller.allVerses[i].length,
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
@@ -561,44 +570,46 @@ class DetailView extends GetView<DetailController> {
             //     ],
             //   ),
           ),
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: FloatingActionButton(
-                  onPressed: () {
-                    controller.pageController.previousPage(
-                        duration: const Duration(milliseconds: 1),
-                        curve: Curves.linear);
-                  },
-                  elevation: 2,
-                  heroTag: "prev",
-                  backgroundColor: Colors.white,
-                  mini: true,
-                  child: Icon(
-                    Icons.chevron_left,
-                    color: themeData?.primaryColor,
-                  ),
-                ),
-              ),
-              FloatingActionButton(
-                onPressed: () {
-                  controller.pageController.nextPage(
-                      duration: const Duration(milliseconds: 1),
-                      curve: Curves.linear);
-                },
-                mini: true,
-                backgroundColor: Colors.white,
-                elevation: 2,
-                heroTag: "next",
-                child: Icon(
-                  Icons.chevron_right,
-                  color: themeData?.primaryColor,
-                ),
-              ),
-            ],
-          ),
+          floatingActionButton: controller.hidePageNavigators == false
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          controller.pageController.previousPage(
+                              duration: const Duration(milliseconds: 1),
+                              curve: Curves.linear);
+                        },
+                        elevation: 2,
+                        heroTag: "prev",
+                        backgroundColor: Colors.white,
+                        mini: true,
+                        child: Icon(
+                          Icons.chevron_left,
+                          color: themeData?.primaryColor,
+                        ),
+                      ),
+                    ),
+                    FloatingActionButton(
+                      onPressed: () {
+                        controller.pageController.nextPage(
+                            duration: const Duration(milliseconds: 1),
+                            curve: Curves.linear);
+                      },
+                      mini: true,
+                      backgroundColor: Colors.white,
+                      elevation: 2,
+                      heroTag: "next",
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: themeData?.primaryColor,
+                      ),
+                    ),
+                  ],
+                )
+              : null,
         );
       },
     );
@@ -642,6 +653,16 @@ class DetailView extends GetView<DetailController> {
                         //set selected book Name
                         controller.setSelectedBook("አማርኛ 1954");
 
+                        //scroll to top
+                        controller.readerScrollController.animateTo(
+                          0.0, // Scroll to the top
+                          duration: const Duration(
+                              milliseconds:
+                                  500), // Adjust the duration as needed
+                          curve: Curves
+                              .easeInOut, // Use a different curve if desired
+                        );
+
                         controller.update();
                         Get.back();
                       },
@@ -669,6 +690,16 @@ class DetailView extends GetView<DetailController> {
                             Keys.selectedBookKey, "አዲሱ መደበኛ ትርጉም");
                         //set selected book Name
                         controller.setSelectedBook("አዲሱ መደበኛ ትርጉም");
+
+                        //scroll to top
+                        controller.readerScrollController.animateTo(
+                          0.0, // Scroll to the top
+                          duration: const Duration(
+                              milliseconds:
+                                  500), // Adjust the duration as needed
+                          curve: Curves
+                              .easeInOut, // Use a different curve if desired
+                        );
                         controller.update();
                         Get.back();
                       },
@@ -697,6 +728,16 @@ class DetailView extends GetView<DetailController> {
 
                         //set selected book Name
                         controller.setSelectedBook("English NIV");
+
+                        //scroll to top
+                        controller.readerScrollController.animateTo(
+                          0.0, // Scroll to the top
+                          duration: const Duration(
+                              milliseconds:
+                                  500), // Adjust the duration as needed
+                          curve: Curves
+                              .easeInOut, // Use a different curve if desired
+                        );
                         controller.update();
                         Get.back();
                       },
@@ -725,6 +766,16 @@ class DetailView extends GetView<DetailController> {
                             Keys.selectedBookKey, "English KJV");
                         //set selected book Name
                         controller.setSelectedBook("English KJV");
+
+                        //scroll to top
+                        controller.readerScrollController.animateTo(
+                          0.0, // Scroll to the top
+                          duration: const Duration(
+                              milliseconds:
+                                  500), // Adjust the duration as needed
+                          curve: Curves
+                              .easeInOut, // Use a different curve if desired
+                        );
                         controller.update();
                         Get.back();
                       },

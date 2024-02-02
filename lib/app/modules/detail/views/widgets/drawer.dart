@@ -1,4 +1,3 @@
-
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
@@ -22,24 +21,25 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      
       child: Padding(
-        padding: const EdgeInsets.only(left: 0,right: 0,bottom: 37,top: 0),
+        padding: const EdgeInsets.only(left: 0, right: 0, bottom: 37, top: 0),
         child: ListView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            DrawerHeader(
-               padding: EdgeInsets.all(0),
-              child: Container(
-                child: Image(image: AssetImage("assets/images/banner.jpeg",),fit: BoxFit.fill,),
+            const DrawerHeader(
+              padding: EdgeInsets.all(0),
+              child: Image(
+                image: AssetImage(
+                  "assets/images/banner.jpeg",
+                ),
+                fit: BoxFit.fill,
               ),
             ),
             GetBuilder<HomeController>(
               init: HomeController(),
               initState: (_) {},
               builder: (controller) {
-                if (controller.cacheStateHandler.apiState ==
-                    ApiState.loading) {
+                if (controller.cacheStateHandler.apiState == ApiState.loading) {
                   return SizedBox(
                     height: 400,
                     width: 220,
@@ -74,234 +74,231 @@ class CustomDrawer extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              height: 80.h,
-                              width: 220,
-                              child: DefaultTabController(
-                                length: 2, // Number of tabs
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    TabBar(
-                                      indicatorColor: themeData!.primaryColor,
-                                      tabs: [
-                                        Tab(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'ብሉይ ኪዳን',
-                                              style: TextStyle(
-                                                fontSize: 14.5,
-                                                color:
-                                                    themeData?.primaryColor,
-                                                fontWeight: FontWeight.bold,
+                            Expanded(
+                              child: SizedBox(
+                                width: 54.w,
+                                child: DefaultTabController(
+                                  length: 2, // Number of tabs
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TabBar(
+                                        indicatorColor: themeData!.primaryColor,
+                                        tabs: [
+                                          Tab(
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'ብሉይ ኪዳን',
+                                                style: TextStyle(
+                                                  fontSize: 14.5,
+                                                  color:
+                                                      themeData?.primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Tab(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'አዲስ ኪዳን',
-                                              style: TextStyle(
-                                                fontSize: 14.5,
-                                                color:
-                                                    themeData?.primaryColor,
-                                                fontWeight: FontWeight.bold,
+                                          Tab(
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                'አዲስ ኪዳን',
+                                                style: TextStyle(
+                                                  fontSize: 14.5,
+                                                  color:
+                                                      themeData?.primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 100.h,
-                                      width: 300,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 0, left: 3),
-                                        child: TabBarView(
-                                          children: [
-                                            GetBuilder<HomeController>(
-                                              init: HomeController(),
-                                              initState: (_) {},
-                                              builder: (_) {
-                                                return ListView.builder(
-                                                  itemCount: controller
-                                                      .oldTestamentBook
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Container(
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: ListTile(
-                                                        visualDensity:
-                                                            const VisualDensity(
-                                                          vertical: -3,
-                                                        ),
-                                                        title: Text(
-                                                          controller
-                                                              .oldTestamentBook[
-                                                                  index]
-                                                              .titleGeez!,
-                                                          style: TextStyle(
-                                                            color: index ==
-                                                                    controller
-                                                                        .selectedOldTestamentBookIndex
-                                                                ? themeData
-                                                                    ?.primaryColor
-                                                                : themeData
-                                                                    ?.blackColor,
-                                                            fontSize: 16,
-                                                            fontWeight: index ==
-                                                                    controller
-                                                                        .selectedOldTestamentBookIndex
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : FontWeight
-                                                                    .normal,
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: SizedBox(
+                                          width: 300,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 0, left: 3, bottom: 10),
+                                            child: TabBarView(
+                                              children: [
+                                                GetBuilder<HomeController>(
+                                                  init: HomeController(),
+                                                  initState: (_) {},
+                                                  builder: (_) {
+                                                    return ListView.builder(
+                                                      itemCount: controller
+                                                          .oldTestamentBook
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
                                                           ),
-                                                        ),
-                                                        subtitle: Text(
-                                                          controller
-                                                              .oldTestamentBook[
-                                                                  index]
-                                                              .title!,
-                                                          style: TextStyle(
-                                                            color: index ==
-                                                                    controller
-                                                                        .selectedOldTestamentBookIndex
-                                                                ? themeData
-                                                                    ?.primaryColor
-                                                                : themeData
-                                                                    ?.blackColor,
-                                                            fontSize: 14,
-                                                            fontWeight: index ==
-                                                                    controller
-                                                                        .selectedOldTestamentBookIndex
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : FontWeight
-                                                                    .normal,
+                                                          child: ListTile(
+                                                            visualDensity:
+                                                                const VisualDensity(
+                                                              vertical: -3,
+                                                            ),
+                                                            title: Text(
+                                                              controller
+                                                                  .oldTestamentBook[
+                                                                      index]
+                                                                  .titleGeez!,
+                                                              style: TextStyle(
+                                                                color: index ==
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex
+                                                                    ? themeData
+                                                                        ?.primaryColor
+                                                                    : themeData
+                                                                        ?.blackColor,
+                                                                fontSize: 16,
+                                                                fontWeight: index ==
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex
+                                                                    ? FontWeight
+                                                                        .bold
+                                                                    : FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            subtitle: Text(
+                                                              controller
+                                                                  .oldTestamentBook[
+                                                                      index]
+                                                                  .title!,
+                                                              style: TextStyle(
+                                                                color: index ==
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex
+                                                                    ? themeData
+                                                                        ?.primaryColor
+                                                                    : themeData
+                                                                        ?.blackColor,
+                                                                fontSize: 14,
+                                                                fontWeight: index ==
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex
+                                                                    ? FontWeight
+                                                                        .bold
+                                                                    : FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            onTap: () {
+                                                              controller
+                                                                  .updateOldTestamentSelectedBookIndex(
+                                                                      index);
+                                                            },
                                                           ),
-                                                        ),
-                                                        onTap: () {
-                                                          controller
-                                                              .updateOldTestamentSelectedBookIndex(
-                                                                  index);
-                                                        },
-                                                      ),
+                                                        );
+                                                      },
                                                     );
                                                   },
-                                                );
-                                              },
-                                            ),
-                                            GetBuilder<HomeController>(
-                                              init: HomeController(),
-                                              initState: (_) {},
-                                              builder: (_) {
-                                                return ListView.builder(
-                                                  itemCount: controller
-                                                      .newTestamentBook
-                                                      .length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Container(
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                      ),
-                                                      child: ListTile(
-                                                        visualDensity:
-                                                            const VisualDensity(
-                                                                vertical: -3),
-                                                        title: Text(
-                                                          controller
-                                                              .newTestamentBook[
-                                                                  index]
-                                                              .titleGeez!,
-                                                          style: TextStyle(
-                                                            color: index ==
-                                                                    controller
-                                                                        .selectedNewTestamentBookIndex
-                                                                ? themeData
-                                                                    ?.primaryColor
-                                                                : themeData
-                                                                    ?.blackColor,
-                                                            fontSize: 16,
-                                                            fontWeight: index ==
-                                                                    controller
-                                                                        .selectedNewTestamentBookIndex
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : FontWeight
-                                                                    .normal,
+                                                ),
+                                                GetBuilder<HomeController>(
+                                                  init: HomeController(),
+                                                  initState: (_) {},
+                                                  builder: (_) {
+                                                    return ListView.builder(
+                                                      itemCount: controller
+                                                          .newTestamentBook
+                                                          .length,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Container(
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
                                                           ),
-                                                        ),
-                                                        subtitle: Text(
-                                                          controller
-                                                              .newTestamentBook[
-                                                                  index]
-                                                              .title!,
-                                                          style: TextStyle(
-                                                            color: index ==
-                                                                    controller
-                                                                        .selectedNewTestamentBookIndex
-                                                                ? themeData
-                                                                    ?.primaryColor
-                                                                : themeData
-                                                                    ?.blackColor,
-                                                            fontSize: 14,
-                                                            fontWeight: index ==
-                                                                    controller
-                                                                        .selectedNewTestamentBookIndex
-                                                                ? FontWeight
-                                                                    .bold
-                                                                : FontWeight
-                                                                    .normal,
+                                                          child: ListTile(
+                                                            visualDensity:
+                                                                const VisualDensity(
+                                                                    vertical:
+                                                                        -3),
+                                                            title: Text(
+                                                              controller
+                                                                  .newTestamentBook[
+                                                                      index]
+                                                                  .titleGeez!,
+                                                              style: TextStyle(
+                                                                color: index ==
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex
+                                                                    ? themeData
+                                                                        ?.primaryColor
+                                                                    : themeData
+                                                                        ?.blackColor,
+                                                                fontSize: 16,
+                                                                fontWeight: index ==
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex
+                                                                    ? FontWeight
+                                                                        .bold
+                                                                    : FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            subtitle: Text(
+                                                              controller
+                                                                  .newTestamentBook[
+                                                                      index]
+                                                                  .title!,
+                                                              style: TextStyle(
+                                                                color: index ==
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex
+                                                                    ? themeData
+                                                                        ?.primaryColor
+                                                                    : themeData
+                                                                        ?.blackColor,
+                                                                fontSize: 14,
+                                                                fontWeight: index ==
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex
+                                                                    ? FontWeight
+                                                                        .bold
+                                                                    : FontWeight
+                                                                        .normal,
+                                                              ),
+                                                            ),
+                                                            onTap: () {
+                                                              controller
+                                                                  .updateNewTestamentSelectedBookIndex(
+                                                                      index);
+                                                            },
                                                           ),
-                                                        ),
-                                                        onTap: () {
-                                                          controller
-                                                              .updateNewTestamentSelectedBookIndex(
-                                                                  index);
-                                                        },
-                                                      ),
+                                                        );
+                                                      },
                                                     );
                                                   },
-                                                );
-                                              },
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(
+                                        height: 7.h,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             )
                           ],
                         ),
-                        // Visibility(
-                        //   visible: controller.selectedOldTestamentBookIndex !=
-                        //           -1 ||
-                        //       controller.selectedNewTestamentBookIndex != -1,
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.symmetric(vertical: 40),
-                        //     child: VerticalDivider(
-                        //       color: themeData?.primaryColor,
-                        //     ),
-                        //   ),
-                        // ),
                         Visibility(
                           visible: controller.selectedOldTestamentBookIndex !=
                                   -1 ||
@@ -336,102 +333,104 @@ class CustomDrawer extends StatelessWidget {
 
                                     List<int> chapters = List.generate(
                                         bookChapters, (index) => index + 1);
-                                    return SizedBox(
-                                      width: 80,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.80,
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: chapters.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: ListTile(
-                                              dense: true,
-                                              visualDensity:
-                                                  const VisualDensity(
-                                                      vertical: -4),
-                                              title: Center(
-                                                child: Text(
-                                                  chapters[index].toString(),
-                                                  style: TextStyle(
-                                                      color: index ==
-                                                              controller
-                                                                  .selectedIndex
-                                                          ? themeData
-                                                              ?.primaryColor
-                                                          : themeData
-                                                              ?.blackColor,
-                                                      fontSize: index ==
-                                                              controller
-                                                                  .selectedIndex
-                                                          ? 16
-                                                          : 14,
-                                                      fontWeight: index ==
-                                                              controller
-                                                                  .selectedIndex
-                                                          ? FontWeight.bold
-                                                          : FontWeight
-                                                              .normal),
-                                                ),
+                                    return Expanded(
+                                      child: SizedBox(
+                                        width: 80,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: chapters.length,
+                                          itemBuilder: (context, index) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
-                                              onTap: () {
-                                                controller
-                                                    .updateSelectedIndex(
-                                                        index);
-                                                Future.delayed(
-                                                  const Duration(
-                                                      milliseconds: 100),
-                                                  () {
-                                                    if (controller
-                                                            .selectedNewTestamentBookIndex !=
-                                                        -1) {
-                                                      getterAndSetterController
-                                                          .selectedVersesAMH
-                                                          .clear();
-                                                      getterAndSetterController
-                                                          .selectedVersesAMH
-                                                          .addAll(getterAndSetterController.getAMHBookChapters(
-                                                              controller
-                                                                  .newTestamentBook[
-                                                                      controller
-                                                                          .selectedNewTestamentBookIndex]
-                                                                  .id!,
-                                                              chapters[index],
-                                                              controller
-                                                                  .versesAMH));
-                                                    } else if (controller
-                                                            .selectedOldTestamentBookIndex !=
-                                                        -1) {
-                                                      getterAndSetterController
-                                                          .selectedVersesAMH
-                                                          .clear();
-                                                      getterAndSetterController
-                                                          .selectedVersesAMH
-                                                          .addAll(getterAndSetterController.getAMHBookChapters(
-                                                              controller
-                                                                  .oldTestamentBook[
-                                                                      controller
-                                                                          .selectedOldTestamentBookIndex]
-                                                                  .id!,
-                                                              chapters[index],
-                                                              controller
-                                                                  .versesAMH));
-                                                    }
-                                                    Get.toNamed("/detail");
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
+                                              child: ListTile(
+                                                dense: true,
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        vertical: -4),
+                                                title: Center(
+                                                  child: Text(
+                                                    chapters[index].toString(),
+                                                    style: TextStyle(
+                                                        color: index ==
+                                                                controller
+                                                                    .selectedIndex
+                                                            ? themeData
+                                                                ?.primaryColor
+                                                            : themeData
+                                                                ?.blackColor,
+                                                        fontSize: index ==
+                                                                controller
+                                                                    .selectedIndex
+                                                            ? 20
+                                                            : 18,
+                                                        fontWeight: index ==
+                                                                controller
+                                                                    .selectedIndex
+                                                            ? FontWeight.bold
+                                                            : FontWeight
+                                                                .normal),
+                                                  ),
+                                                ),
+                                                onTap: () {
+                                                  controller
+                                                      .updateSelectedIndex(
+                                                          index);
+                                                  Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 100),
+                                                    () {
+                                                      if (controller
+                                                              .selectedNewTestamentBookIndex !=
+                                                          -1) {
+                                                        getterAndSetterController
+                                                            .selectedVersesAMH
+                                                            .clear();
+                                                        getterAndSetterController
+                                                            .selectedVersesAMH
+                                                            .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex]
+                                                                    .id!,
+                                                                chapters[index],
+                                                                controller
+                                                                    .versesAMH));
+                                                      } else if (controller
+                                                              .selectedOldTestamentBookIndex !=
+                                                          -1) {
+                                                        getterAndSetterController
+                                                            .selectedVersesAMH
+                                                            .clear();
+                                                        getterAndSetterController
+                                                            .selectedVersesAMH
+                                                            .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                controller
+                                                                    .oldTestamentBook[
+                                                                        controller
+                                                                            .selectedOldTestamentBookIndex]
+                                                                    .id!,
+                                                                chapters[index],
+                                                                controller
+                                                                    .versesAMH));
+                                                      }
+                                                      Get.toNamed("/detail");
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ),
                                     );
                                   },
+                                ),
+                                SizedBox(
+                                  height: 7.h,
                                 ),
                               ],
                             ),
