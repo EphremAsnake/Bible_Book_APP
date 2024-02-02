@@ -221,65 +221,67 @@ class DetailView extends GetView<DetailController> {
                 Visibility(
                   visible: controller.searchResultVerses.isNotEmpty,
                   child: Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(0),
-                      shrinkWrap: true,
-                      itemCount: controller.searchResultVerses.length,
-                      itemBuilder: (context, i) {
-                        String verseText =
-                            controller.searchResultVerses[i].verseText ?? "";
-                        String searchText = controller.searchController.text;
-                        List<TextSpan> textSpans = [];
-                        int start = 0;
-                        while (start < verseText.length) {
-                          int index = verseText.indexOf(searchText, start);
-                          if (index == -1) {
+                    child: Scrollbar(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.all(0),
+                        shrinkWrap: true,
+                        itemCount: controller.searchResultVerses.length,
+                        itemBuilder: (context, i) {
+                          String verseText =
+                              controller.searchResultVerses[i].verseText ?? "";
+                          String searchText = controller.searchController.text;
+                          List<TextSpan> textSpans = [];
+                          int start = 0;
+                          while (start < verseText.length) {
+                            int index = verseText.indexOf(searchText, start);
+                            if (index == -1) {
+                              textSpans.add(TextSpan(
+                                  text: verseText.substring(start),
+                                  style: const TextStyle(color: Colors.black)));
+                              break;
+                            }
+                            textSpans.add(
+                              TextSpan(
+                                  text:
+                                      "${controller.searchResultVerses[i].verseNumber} ${verseText.substring(start, index)}",
+                                  style: const TextStyle(color: Colors.black)),
+                            );
                             textSpans.add(TextSpan(
-                                text: verseText.substring(start),
-                                style: const TextStyle(color: Colors.black)));
-                            break;
+                              text: verseText.substring(
+                                  index, index + searchText.length),
+                              style: const TextStyle(color: Colors.red),
+                            ));
+
+                            start = index + searchText.length;
                           }
-                          textSpans.add(
-                            TextSpan(
-                                text:
-                                    "${controller.searchResultVerses[i].verseNumber} ${verseText.substring(start, index)}",
-                                style: const TextStyle(color: Colors.black)),
-                          );
-                          textSpans.add(TextSpan(
-                            text: verseText.substring(
-                                index, index + searchText.length),
-                            style: const TextStyle(color: Colors.red),
-                          ));
 
-                          start = index + searchText.length;
-                        }
-
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0, horizontal: 4),
-                          child: Card(
-                            elevation: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
-                                    style: TextStyle(
-                                        color: themeData!.primaryColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(children: textSpans),
-                                  ),
-                                ],
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 4),
+                            child: Card(
+                              elevation: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
+                                      style: TextStyle(
+                                          color: themeData!.primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13),
+                                    ),
+                                    RichText(
+                                      text: TextSpan(children: textSpans),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -404,7 +406,7 @@ class DetailView extends GetView<DetailController> {
                         ),
                         Text(
                           controller.selectedBook.contains("English")
-                              ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}}'
+                              ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}'
                               : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
                           style: const TextStyle(
                             fontSize: 17.0,
