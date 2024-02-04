@@ -25,8 +25,6 @@ class DetailView extends GetView<DetailController> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DetailController>(
-      init: DetailController(),
-      initState: (_) {},
       builder: (_) {
         controller.getSelectedBookName();
         return Scaffold(

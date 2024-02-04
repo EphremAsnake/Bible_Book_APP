@@ -50,7 +50,7 @@ void main() async {
       return GetMaterialApp(
         translations: AppTranslation(),
         locale: Get.deviceLocale,
-        fallbackLocale: const Locale('en', 'US'),
+        fallbackLocale: const Locale('amh', 'ET'),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: customSwatch,

@@ -88,7 +88,7 @@ class CustomDrawer extends StatelessWidget {
                                         tabs: [
                                           Tab(
                                             child: Align(
-                                              alignment: Alignment.centerLeft,
+                                              alignment: Alignment.center,
                                               child: Text(
                                                 'ot'.tr,
                                                 style: TextStyle(
@@ -102,7 +102,7 @@ class CustomDrawer extends StatelessWidget {
                                           ),
                                           Tab(
                                             child: Align(
-                                              alignment: Alignment.centerLeft,
+                                              alignment: Alignment.center,
                                               child: Text(
                                                 'nt'.tr,
                                                 style: TextStyle(

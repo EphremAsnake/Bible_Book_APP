@@ -50,7 +50,7 @@ class DetailController extends GetxController {
   void onInit() {
     super.onInit();
     loadData();
-    allVerses.assignAll(getterAndSetterController.groupedBookList());
+    allVerses.addAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
     getBooks();
     readerScrollController.addListener(() {

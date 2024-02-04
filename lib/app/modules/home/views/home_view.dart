@@ -296,7 +296,7 @@ class HomeView extends GetView<HomeController> {
                                 padding: EdgeInsets.only(
                                     left: 15.0,
                                     right: 15.0,
-                                    bottom: 5.sp,
+                                    bottom: 0.sp,
                                     top: 12.sp),
                                 child: Text(
                                   "chapters".tr,
