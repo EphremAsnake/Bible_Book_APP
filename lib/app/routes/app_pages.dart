@@ -1,3 +1,4 @@
+import 'package:bible_book_app/app/modules/splash_screen.dart';
 import 'package:get/get.dart';
 
 import '../modules/detail/bindings/detail_binding.dart';
@@ -10,18 +11,22 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () =>  HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
       name: _Paths.DETAIL,
-      page: () =>  DetailView(),
+      page: () => DetailView(),
       binding: DetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => SplashScreenPage(),
     ),
   ];
 }

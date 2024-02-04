@@ -4,7 +4,6 @@ import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_sette
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
-import 'package:flutter/services.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/master_data_http_attribuites.dart';
@@ -71,27 +70,15 @@ class HomeController extends GetxController {
     await file.writeAsString(jsonString);
   }
 
-  void readBibleData() async {
+  Future<void> readBibleData() async {
     cacheStateHandler.setLoading();
     await DatabaseService().copyDatabase();
     List<Book> books = await DatabaseService().readBookDatabase();
-    var amh = await  DatabaseService().readVersesDatabase("AMHNIV");
+    var amh = await DatabaseService().readVersesDatabase("AMHNIV");
     await getterAndSetterController.readData();
     versesAMH.addAll(amh);
 
     try {
-      // final String jsonString =
-      //     await rootBundle.loadString('assets/bible_list.json');
-      // final Map
-      //
-      //
-      //
-      //
-      //
-      //String, dynamic> jsonData = jsonDecode(jsonString);
-      // final Bible bibles = Bible.fromJson(jsonData);
-
-      //default iterating over the list of bible index 0 nd version index of 0
       for (int k = 0; k < books.length; k++) {
         if (books[k].testament == "OT") {
           oldTestamentBook.add(books[k]);
