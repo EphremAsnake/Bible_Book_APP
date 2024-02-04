@@ -1,7 +1,7 @@
 import 'package:bible_book_app/app/core/core_dependency.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
-import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
+import 'package:bible_book_app/app/utils/helpers/app_translation.dart';
 import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +31,6 @@ void main() async {
   //putting getter and setter controller
   Get.put(DataGetterAndSetter());
 
-  
-
-  // //putting detail controller
-  // Get.put(DetailController());
-
   //setting app theme
   final themeController = Get.put(ThemeController());
   themeController.getThemeData();
@@ -53,6 +48,9 @@ void main() async {
   runApp(
     Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
+        translations: AppTranslation(),
+        locale: Get.deviceLocale,
+        fallbackLocale: const Locale('en', 'US'),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: customSwatch,

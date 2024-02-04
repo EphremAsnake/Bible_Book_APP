@@ -1,3 +1,4 @@
+import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,8 @@ class _MySplashScreenPageState extends State<SplashScreenPage> {
     super.initState();
     //injecting home controller
     Get.lazyPut<HomeController>(() => HomeController(), fenix: true);
+    //putting detail controller
+    Get.lazyPut<DetailController>(() => DetailController(), fenix: true);
     //read books
     readBibleBooks();
   }

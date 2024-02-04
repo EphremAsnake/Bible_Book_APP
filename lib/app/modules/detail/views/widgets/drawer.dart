@@ -90,9 +90,9 @@ class CustomDrawer extends StatelessWidget {
                                             child: Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
-                                                'ብሉይ ኪዳን',
+                                                'ot'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 14.5,
+                                                  fontSize: 10.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,
@@ -104,9 +104,9 @@ class CustomDrawer extends StatelessWidget {
                                             child: Align(
                                               alignment: Alignment.centerLeft,
                                               child: Text(
-                                                'አዲስ ኪዳን',
+                                                'nt'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 14.5,
+                                                  fontSize: 10.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,

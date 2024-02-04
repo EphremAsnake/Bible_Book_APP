@@ -1,16 +1,39 @@
-abstract class AppTranslation {
-  static Map<String, Map<String, String>> translationsKeys = {
-    "en": en,
-    "amh": amh,
-  };
+import 'package:get/get.dart';
+
+class AppTranslation extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+        'en_US': en,
+        "amh_ET": amh,
+      };
 }
 
 final Map<String, String> en = {
-  'result': 'Results: ',
-  'day': "Awesome day..."
+  'searchResult': 'Results: ',
+  'book': "Holy Bible",
+  'ot': 'Old Testament',
+  'nt': 'New Testament',
+  'chapters': 'Chapter',
+  'search': 'Search',
+  'settings': 'Settings',
+  'about': "About",
+  'privacy_policy': 'Privacy Policy',
+  'all': 'All',
+  'every_word': 'Every Word',
+  'exactly': 'Exactly',
 };
 
 final Map<String, String> amh = {
-  'result': 'የተገኙ ዉጤትዎች ብዛት: ',
-  'day': "সন্ত্রস্ত দিন..."
+  'searchResult': 'የተገኙ ዉጤትዎች ብዛት: ',
+  'book': "መጽሐፍ ቅዱስ",
+  'ot': 'ብሉይ ኪዳን',
+  'nt': 'አዲስ ኪዳን',
+  'chapters': "ምዕራፍ",
+  'search': 'ፍልግ',
+  'every_word': 'ሁሉንም ቃላት',
+  'exactly': 'እንቅጩን',
+  'all': 'በሁሉም',
+  'settings': 'መቼት',
+  'about': "ስለ",
+  'privacy_policy': 'ግለሰባዊነት',
 };

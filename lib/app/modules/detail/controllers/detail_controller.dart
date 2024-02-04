@@ -18,8 +18,8 @@ class DetailController extends GetxController {
   TextEditingController searchController = TextEditingController();
   String selectedBook = "አማርኛ 1954";
   bool isAmharicKeyboardVisible = true;
-  String selectedSearchTypeOptions = 'ሁሉንም ቃላት';
-  String selectedSearchPlaceOptions = 'በሁሉም';
+  String selectedSearchTypeOptions = 'every_word'.tr;
+  String selectedSearchPlaceOptions = 'all'.tr;
   String selectedBookTypeOptions = 'አማርኛ 1954';
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
@@ -29,14 +29,14 @@ class DetailController extends GetxController {
   final ScrollController readerScrollController = ScrollController();
 
   List<String> searchPlaceOptions = [
-    'ብሉይ ኪዳን',
-    'አዲስ ኪዳን',
-    'በሁሉም',
+    'ot'.tr,
+    'nt'.tr,
+    'all'.tr,
   ];
 
   List<String> searchTypeOptions = [
-    'ሁሉንም ቃላት',
-    'እንቅጩን',
+    'every_word'.tr,
+    'exactly'.tr,
   ];
 
   List<String> bookTypeOptions = [
@@ -152,22 +152,22 @@ class DetailController extends GetxController {
     required String query,
   }) async {
     List<Verses> emptyVerses = [];
-    if (searchType == 'ሁሉንም ቃላት') {
-      if (searchPlace == 'ብሉይ ኪዳን') {
+    if (searchType == 'every_word'.tr) {
+      if (searchPlace == 'ot'.tr) {
         return await handleSearch("OT", query, 'contains', BibleType);
-      } else if (searchPlace == 'አዲስ ኪዳን') {
+      } else if (searchPlace == 'nt'.tr) {
         return await handleSearch("NT", query, 'contains', BibleType);
-      } else if (searchPlace == 'በሁሉም') {
+      } else if (searchPlace == 'all'.tr) {
         return await handleSearch("", query, 'contains', BibleType);
       } else {
         return emptyVerses;
       }
-    } else if (searchType == 'እንቅጩን') {
-      if (searchPlace == 'ብሉይ ኪዳን') {
+    } else if (searchType == 'exactly'.tr) {
+      if (searchPlace == 'ot'.tr) {
         return await handleSearch("OT", query, 'exact', BibleType);
-      } else if (searchPlace == 'አዲስ ኪዳን') {
+      } else if (searchPlace == 'nt'.tr) {
         return await handleSearch("NT", query, 'exact', BibleType);
-      } else if (searchPlace == 'በሁሉም') {
+      } else if (searchPlace == 'all'.tr) {
         return await handleSearch("", query, 'exact', BibleType);
       } else {
         return emptyVerses;
@@ -254,5 +254,14 @@ class DetailController extends GetxController {
             .titleGeez;
       }
     }
+  }
+
+  navigateToSpecificBookDetailView(int bookId, int chapterId) {
+    // int indexOfBook = 0;
+    // for (int i = 0; i < allVerses.length; i++) {
+    //   indexOfBook = allVerses[i].indexWhere(
+    //       (element) => element.book == bookId && element.chapter == chapterId);
+    // }
+    // pageController.jumpToPage(indexOfBook);
   }
 }

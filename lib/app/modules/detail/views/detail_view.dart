@@ -2,6 +2,7 @@ import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
+import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
@@ -40,7 +41,7 @@ class DetailView extends GetView<DetailController> {
                 ),
                 Container(
                   padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 50, bottom: 8),
+                      left: 5, right: 5, top: 45, bottom: 8),
                   color: Theme.of(context).primaryColor,
                   child: Row(
                     children: [
@@ -69,7 +70,7 @@ class DetailView extends GetView<DetailController> {
                                 }
                               },
                               decoration: InputDecoration(
-                                hintText: 'ፍልግ',
+                                hintText: 'search'.tr,
                                 hintStyle:
                                     TextStyle(color: themeData?.primaryColor),
                                 labelStyle:
@@ -201,7 +202,7 @@ class DetailView extends GetView<DetailController> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'የተገኙ ዉጤትዎች ብዛት: ',
+                              text: 'searchResult'.tr,
                               style: TextStyle(
                                 fontSize: 13,
                                 color: themeData?.blackColor,
@@ -347,6 +348,35 @@ class DetailView extends GetView<DetailController> {
               ),
             ),
             actions: [
+              GestureDetector(
+                  onTap: () {
+                    if (Get.locale.toString() == "amh_ET") {
+                      Get.updateLocale(const Locale('en', 'US'));
+                      Get.snackbar(
+                        'Info',
+                        'App Language Changed To English',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      Get.updateLocale(const Locale('amh', 'ET'));
+                      Get.snackbar(
+                        'መረጃ',
+                        'የመተግበሪያ ቋንቋ ወደ አማርኛ ተቀይሯል።',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        Get.locale.toString() == "amh_ET" ? "EN" : "ET",
+                        style: TextStyle(
+                            color: themeData?.primaryColor, fontSize: 12.5.sp),
+                      ),
+                    ],
+                  )),
               IconButton(
                   onPressed: () {
                     _scaffoldKey.currentState?.openEndDrawer();
@@ -372,17 +402,17 @@ class DetailView extends GetView<DetailController> {
                 },
                 itemBuilder: (BuildContext context) {
                   return [
-                    const PopupMenuItem<String>(
-                      value: 'option1',
-                      child: Text('Settings'),
+                    PopupMenuItem<String>(
+                      value: 'settings',
+                      child: Text('settings'.tr),
                     ),
-                    const PopupMenuItem<String>(
-                      value: 'option2',
-                      child: Text('About'),
+                    PopupMenuItem<String>(
+                      value: 'about',
+                      child: Text('about'.tr),
                     ),
-                    const PopupMenuItem<String>(
-                      value: 'option3',
-                      child: Text('Privacy Policy'),
+                    PopupMenuItem<String>(
+                      value: 'privacy_policy',
+                      child: Text('privacy_policy'.tr),
                     ),
                   ];
                 },
@@ -405,6 +435,8 @@ class DetailView extends GetView<DetailController> {
               itemCount: controller.allVerses.length,
               animationCurve: Curves.easeIn,
               itemBuilder: (context, i) {
+                List<Verses> verses = [];
+                for (int j = 0; j < controller.allVerses[i].length; j++) {}
                 return Container(
                   color: Colors.white,
                   child: Column(
@@ -530,11 +562,11 @@ class DetailView extends GetView<DetailController> {
                                                   text:
                                                       '${controller.allVerses[i][index].verseText}',
                                                   style: TextStyle(
-                                                    fontFamily: "Abyssinica",
-                                                    fontSize: 12.5.sp,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.normal
-                                                  ),
+                                                      fontFamily: "Abyssinica",
+                                                      fontSize: 12.5.sp,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.normal),
                                                 ),
                                               ],
                                             ),
