@@ -25,7 +25,9 @@ class DetailController extends GetxController {
   List<Book> books = [];
   List<Book> booksList = [];
   bool hidePageNavigators = false;
-  PageController pageController = PageController();
+  int previousOpenedBookPageNumber = 0;
+  PageController? pageController;
+
   final ScrollController readerScrollController = ScrollController();
 
   List<String> searchPlaceOptions = [
@@ -50,6 +52,7 @@ class DetailController extends GetxController {
   void onInit() {
     super.onInit();
     loadData();
+    getPreviousPageNumber();
     allVerses.addAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
     getBooks();
@@ -60,6 +63,8 @@ class DetailController extends GetxController {
 
       update();
     });
+    
+    pageController = PageController(initialPage: previousOpenedBookPageNumber);
     update();
   }
 
@@ -71,6 +76,25 @@ class DetailController extends GetxController {
     if (bookName != null) {
       selectedBookTypeOptions = bookName;
     }
+  }
+
+  setPreviousPageNumber(int pageNumber) async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    await sharedPreferencesStorage.saveIntData(
+        Keys.previousPageNumber, pageNumber);
+  }
+
+  getPreviousPageNumber() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    int? pageNo =
+        await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
+    if (pageNo != null) {
+      previousOpenedBookPageNumber = pageNo;
+    }
+    
+    update();
   }
 
   Future<String> loadBook(String fileName) async {
@@ -235,7 +259,8 @@ class DetailController extends GetxController {
   }
 
   clearSearchBar() {
-    searchController.text = "";
+    searchController.clear();
+    update();
   }
 
   getBooks() async {

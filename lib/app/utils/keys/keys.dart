@@ -3,4 +3,5 @@ class Keys {
   static String biblesCacheKey = "Bibles Cache Key";
   static String configsCacheKey = "Configs Cache Key";
   static String selectedBookKey = "Selected Book Key";
+  static String previousPageNumber = "Previous Page Number";
 }

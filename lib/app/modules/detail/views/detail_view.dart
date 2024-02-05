@@ -5,6 +5,7 @@ import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
+import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +112,6 @@ class DetailView extends GetView<DetailController> {
                                               ),
                                               onPressed: () async {
                                                 controller.clearSearchBar();
-                                                controller.update();
                                               },
                                             ),
                                           )
@@ -433,15 +433,13 @@ class DetailView extends GetView<DetailController> {
               itemCount: controller.allVerses.length,
               animationCurve: Curves.easeIn,
               itemBuilder: (context, i) {
-                List<Verses> verses = [];
-                for (int j = 0; j < controller.allVerses[i].length; j++) {}
+                controller.setPreviousPageNumber(i);
                 return Container(
                   color: Colors.white,
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const HomeAD(),
+                      const SizedBox(height: 5),
                       Column(
                         children: [
                           Text(
@@ -595,7 +593,7 @@ class DetailView extends GetView<DetailController> {
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: FloatingActionButton(
                         onPressed: () {
-                          controller.pageController.previousPage(
+                          controller.pageController?.previousPage(
                               duration: const Duration(milliseconds: 1),
                               curve: Curves.linear);
                         },
@@ -611,7 +609,7 @@ class DetailView extends GetView<DetailController> {
                     ),
                     FloatingActionButton(
                       onPressed: () {
-                        controller.pageController.nextPage(
+                        controller.pageController?.nextPage(
                             duration: const Duration(milliseconds: 1),
                             curve: Curves.linear);
                       },

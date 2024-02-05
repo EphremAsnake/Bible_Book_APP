@@ -25,7 +25,7 @@ class _MySplashScreenPageState extends State<SplashScreenPage> {
     final HomeController homeController = Get.find();
     await homeController.readBibleData();
     // navigate to home
-    Get.toNamed("/home");
+    Get.toNamed("/detail");
   }
 
   @override
