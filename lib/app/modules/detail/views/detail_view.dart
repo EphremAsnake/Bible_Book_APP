@@ -2,7 +2,6 @@ import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
-import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
@@ -28,6 +27,11 @@ class DetailView extends GetView<DetailController> {
     return GetBuilder<DetailController>(
       builder: (_) {
         controller.getSelectedBookName();
+        var page = controller.previousOpenedBookPageNumber;
+        var currentPage = controller.currentPageNumber;
+        controller.pageController = PageController(
+            initialPage: controller.previousOpenedBookPageNumber);
+        // pageController?.jumpToPage(controller.currentPageNumber);
         return Scaffold(
           key: _scaffoldKey,
           endDrawer: Drawer(
@@ -434,6 +438,7 @@ class DetailView extends GetView<DetailController> {
               animationCurve: Curves.easeIn,
               itemBuilder: (context, i) {
                 controller.setPreviousPageNumber(i);
+               
                 return Container(
                   color: Colors.white,
                   child: Column(
@@ -455,7 +460,7 @@ class DetailView extends GetView<DetailController> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.85,
+                              height: 80.h,
                               child: ListView.builder(
                                 //physics: const NeverScrollableScrollPhysics(),
                                 controller: controller.readerScrollController,

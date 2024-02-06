@@ -26,9 +26,9 @@ class DetailController extends GetxController {
   List<Book> booksList = [];
   bool hidePageNavigators = false;
   int previousOpenedBookPageNumber = 0;
-  PageController? pageController;
-
+  int currentPageNumber = 0;
   final ScrollController readerScrollController = ScrollController();
+  PageController? pageController;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -60,11 +60,7 @@ class DetailController extends GetxController {
       // Check if the scroll controller is actively scrolling
       hidePageNavigators =
           readerScrollController.position.activity?.isScrolling ?? false;
-
-      update();
     });
-    
-    pageController = PageController(initialPage: previousOpenedBookPageNumber);
     update();
   }
 
@@ -93,7 +89,6 @@ class DetailController extends GetxController {
     if (pageNo != null) {
       previousOpenedBookPageNumber = pageNo;
     }
-    
     update();
   }
 
@@ -282,11 +277,11 @@ class DetailController extends GetxController {
   }
 
   navigateToSpecificBookDetailView(int bookId, int chapterId) {
-    // int indexOfBook = 0;
-    // for (int i = 0; i < allVerses.length; i++) {
-    //   indexOfBook = allVerses[i].indexWhere(
-    //       (element) => element.book == bookId && element.chapter == chapterId);
-    // }
-    // pageController.jumpToPage(indexOfBook);
+    int indexOfBook = 0;
+    for (int i = 0; i < allVerses.length; i++) {
+      indexOfBook = allVerses[i].indexWhere(
+          (element) => element.book == bookId && element.chapter == chapterId);
+    }
+    return indexOfBook;
   }
 }

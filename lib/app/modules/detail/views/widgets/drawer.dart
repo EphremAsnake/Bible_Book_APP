@@ -1,4 +1,5 @@
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
+import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
@@ -9,7 +10,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({
+  CustomDrawer({
     super.key,
     required this.themeData,
     required this.getterAndSetterController,
@@ -17,6 +18,7 @@ class CustomDrawer extends StatelessWidget {
 
   final ThemeDataModel? themeData;
   final DataGetterAndSetter getterAndSetterController;
+  final DetailController detailController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class CustomDrawer extends StatelessWidget {
                 } else if (controller.cacheStateHandler.apiState ==
                     ApiState.success) {
                   return SizedBox(
-                    height: 80.h,
+                    height: 75.h,
                     width: 200,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -399,6 +401,21 @@ class CustomDrawer extends StatelessWidget {
                                                                 chapters[index],
                                                                 controller
                                                                     .versesAMH));
+
+                                                        int page = detailController
+                                                            .navigateToSpecificBookDetailView(
+                                                                controller
+                                                                    .newTestamentBook[
+                                                                        controller
+                                                                            .selectedNewTestamentBookIndex]
+                                                                    .id!,
+                                                                chapters[
+                                                                    index]);
+                                                        detailController
+                                                            .pageController
+                                                            ?.jumpToPage(page);
+                                                        detailController
+                                                            .update();
                                                       } else if (controller
                                                               .selectedOldTestamentBookIndex !=
                                                           -1) {
@@ -417,6 +434,18 @@ class CustomDrawer extends StatelessWidget {
                                                                 controller
                                                                     .versesAMH));
                                                       }
+                                                      int page = detailController
+                                                          .navigateToSpecificBookDetailView(
+                                                              controller
+                                                                  .oldTestamentBook[
+                                                                      controller
+                                                                          .selectedOldTestamentBookIndex]
+                                                                  .id!,
+                                                              chapters[index]);
+                                                      detailController
+                                                          .pageController
+                                                          ?.jumpToPage(page);
+                                                      detailController.update();
                                                       Get.toNamed("/detail");
                                                     },
                                                   );
