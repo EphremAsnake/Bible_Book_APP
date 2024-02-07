@@ -61,7 +61,27 @@ class DetailController extends GetxController {
       hidePageNavigators =
           readerScrollController.position.activity?.isScrolling ?? false;
     });
+    loadInitialPage();
     update();
+  }
+
+  Future<void> loadInitialPage() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    int? pageNo =
+        await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageNo != null) {
+        // Check if the widget is still mounted before creating PageController
+        if (Get.isRegistered<DetailController>()) {
+          if (pageController!.hasClients) {
+            pageController = PageController(initialPage: pageNo);
+            pageController?.jumpToPage(pageNo);
+            update();
+          }
+        }
+      }
+    });
   }
 
   setInitialSelectedBookTypeOptions() async {
