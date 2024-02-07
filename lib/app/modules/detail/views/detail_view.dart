@@ -18,8 +18,6 @@ class DetailView extends GetView<DetailController> {
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
-
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -27,13 +25,9 @@ class DetailView extends GetView<DetailController> {
     return GetBuilder<DetailController>(
       builder: (_) {
         controller.getSelectedBookName();
-        var page = controller.previousOpenedBookPageNumber;
-        var currentPage = controller.currentPageNumber;
-        controller.pageController = PageController(
-            initialPage: controller.previousOpenedBookPageNumber);
-        // pageController?.jumpToPage(controller.currentPageNumber);
+
         return Scaffold(
-          key: _scaffoldKey,
+          key: controller.scaffoldKey,
           endDrawer: Drawer(
             width: 90.w,
             child: Column(
@@ -269,24 +263,34 @@ class DetailView extends GetView<DetailController> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 4),
-                            child: Card(
-                              elevation: 0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
-                                      style: TextStyle(
-                                          color: themeData!.primaryColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13),
-                                    ),
-                                    RichText(
-                                      text: TextSpan(children: textSpans),
-                                    ),
-                                  ],
+                            child: GestureDetector(
+                              onTap: () {
+                                detailController
+                                    .navigateToSpecificBookDetailView(
+                                        controller.searchResultVerses[i].book!,
+                                        controller
+                                            .searchResultVerses[i].chapter!);
+                              },
+                              child: Card(
+                                elevation: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
+                                        style: TextStyle(
+                                            color: themeData!.primaryColor,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(children: textSpans),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -308,7 +312,7 @@ class DetailView extends GetView<DetailController> {
             backgroundColor: Colors.white,
             leading: IconButton(
               onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
+                controller.scaffoldKey.currentState?.openDrawer();
               },
               icon: Icon(
                 Icons.menu,
@@ -381,7 +385,7 @@ class DetailView extends GetView<DetailController> {
                   )),
               IconButton(
                   onPressed: () {
-                    _scaffoldKey.currentState?.openEndDrawer();
+                    controller.scaffoldKey.currentState?.openEndDrawer();
                   },
                   icon: Icon(
                     Icons.search,
@@ -466,8 +470,8 @@ class DetailView extends GetView<DetailController> {
                                     height: 80.h,
                                     child: ListView.builder(
                                       //physics: const NeverScrollableScrollPhysics(),
-                                      // controller:
-                                      //     controller.readerScrollController,
+                                      controller:
+                                          controller.readerScrollController,
                                       itemCount: controller.allVerses[i].length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {

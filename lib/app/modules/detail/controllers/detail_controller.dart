@@ -28,6 +28,7 @@ class DetailController extends GetxController {
   int previousOpenedBookPageNumber = 0;
   int currentPageNumber = 0;
   final ScrollController readerScrollController = ScrollController();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   PageController? pageController;
 
   List<String> searchPlaceOptions = [
@@ -70,14 +71,18 @@ class DetailController extends GetxController {
         SharedPreferencesStorage();
     int? pageNo =
         await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (pageNo != null) {
         // Check if the widget is still mounted before creating PageController
         if (Get.isRegistered<DetailController>()) {
-          if (pageController!.hasClients) {
+          if (pageController == null || !pageController!.hasClients) {
             pageController = PageController(initialPage: pageNo);
-            pageController?.jumpToPage(pageNo);
             update();
+          } else {
+            // If the controller already has clients, use animateToPage to navigate
+            pageController!.animateToPage(pageNo,
+                duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
           }
         }
       }
@@ -301,7 +306,35 @@ class DetailController extends GetxController {
     for (int i = 0; i < allVerses.length; i++) {
       indexOfBook = allVerses[i].indexWhere(
           (element) => element.book == bookId && element.chapter == chapterId);
+      if (indexOfBook != -1) {
+        indexOfBook = i;
+        break;
+      }
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (indexOfBook != -1) {
+        // Check if the widget is still mounted before creating PageController
+        if (Get.isRegistered<DetailController>()) {
+          if (pageController == null || !pageController!.hasClients) {
+            pageController = PageController(initialPage: indexOfBook);
+            update();
+          } else {
+            // If the controller already has clients, use animateToPage to navigate
+            pageController!.animateToPage(indexOfBook,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+            scaffoldKey.currentState?.closeDrawer();
+            scaffoldKey.currentState?.closeEndDrawer();
+            readerScrollController.animateTo(
+              0.0, // Scroll to the top
+              duration: const Duration(
+                  milliseconds: 500), // Adjust the duration as needed
+              curve: Curves.easeInOut, // Use a different curve if desired
+            );
+          }
+        }
+      }
+    });
     return indexOfBook;
   }
 }
