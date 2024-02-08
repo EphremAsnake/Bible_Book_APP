@@ -109,20 +109,21 @@ class AmharicKeyboard extends StatelessWidget {
                           } else if (key.basicForm == '←') {
                             detailController.onBackSpaceKeyPressed();
                           } else if (key.basicForm == '🔎') {
-                            detailController
-                                    .searchResultVerses =
-                                await detailController.search(
-                                    BibleType: detailController
-                                        .selectedBookTypeOptions,
-                                    searchType:
-                                        detailController
-                                            .selectedSearchTypeOptions,
-                                    searchPlace: detailController
-                                        .selectedSearchPlaceOptions,
-                                    query:
-                                        detailController.searchController.text);
-                            detailController.isAmharicKeyboardVisible = false;
-                            detailController.update();
+                            if (detailController
+                                .searchController.text.isNotEmpty) {
+                              detailController.searchResultVerses =
+                                  await detailController.search(
+                                      BibleType: detailController
+                                          .selectedBookTypeOptions,
+                                      searchType: detailController
+                                          .selectedSearchTypeOptions,
+                                      searchPlace: detailController
+                                          .selectedSearchPlaceOptions,
+                                      query: detailController
+                                          .searchController.text);
+                              detailController.isAmharicKeyboardVisible = false;
+                              detailController.update();
+                            }
                           } else if (key.basicForm == '↓') {
                             detailController.makeAmharicKeyboardInVisible();
                           } else if (key.basicForm == '―') {

@@ -77,10 +77,10 @@ class DataGetterAndSetter extends GetxController {
         await sharedPreferencesStorage.readStringData(Keys.selectedBookKey);
     if (bookName != null) {
       if (bookName == "አማርኛ 1954") {
-        selectedBook = "AMHNIV";
+        selectedBook = "AMHKJV";
       }
       else if (bookName == "አዲሱ መደበኛ ትርጉም") {
-        selectedBook = "AMHKJV";
+        selectedBook = "AMHNIV";
       }
       else if (bookName == "English NIV") {
         selectedBook = "ENGNIV";

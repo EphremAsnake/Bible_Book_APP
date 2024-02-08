@@ -82,7 +82,20 @@ class DetailController extends GetxController {
           } else {
             // If the controller already has clients, use animateToPage to navigate
             pageController!.animateToPage(pageNo,
-                duration: Duration(milliseconds: 500), curve: Curves.easeInOut);
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+          }
+        }
+      } else {
+        if (Get.isRegistered<DetailController>()) {
+          if (pageController == null || !pageController!.hasClients) {
+            pageController = PageController(initialPage: 0);
+            update();
+          } else {
+            // If the controller already has clients, use animateToPage to navigate
+            pageController!.animateToPage(0,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
           }
         }
       }
@@ -228,9 +241,9 @@ class DetailController extends GetxController {
     String BibleType,
   ) async {
     if (BibleType == 'አማርኛ 1954') {
-      BibleType = "AMHNIV";
-    } else if (BibleType == 'አዲሱ መደበኛ ትርጉም') {
       BibleType = "AMHKJV";
+    } else if (BibleType == 'አዲሱ መደበኛ ትርጉም') {
+      BibleType = "AMHNIV";
     } else if (BibleType == 'English NIV') {
       BibleType = "ENGNIV";
     } else if (BibleType == 'English KJV') {
