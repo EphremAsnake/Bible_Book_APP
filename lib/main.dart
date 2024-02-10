@@ -6,6 +6,7 @@ import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -41,9 +42,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color(0xff7B5533), // Set your desired status bar color
-  ));
+  FlutterStatusbarcolor.setStatusBarColor(const Color(0xff7B5533));
+  FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
 
   runApp(
     Sizer(builder: (context, orientation, deviceType) {

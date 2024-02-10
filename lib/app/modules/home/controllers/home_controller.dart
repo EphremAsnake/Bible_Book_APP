@@ -7,7 +7,9 @@ import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/master_data_http_attribuites.dart';
+import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -18,10 +20,12 @@ class HomeController extends GetxController {
   var httpService = Get.find<HttpService>();
   List<Book> oldTestamentBook = [];
   List<Book> newTestamentBook = [];
+  String selectedTestament = "OT";
   List<Verses> versesAMH = [];
   List<Verses> selectedVersesAMH = [];
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
+
   @override
   void onInit() {
     readBibleData();
@@ -37,12 +41,42 @@ class HomeController extends GetxController {
   void updateOldTestamentSelectedBookIndex(int index) {
     selectedOldTestamentBookIndex = index;
     selectedNewTestamentBookIndex = -1;
+    final DetailController detailController = Get.find<DetailController>();
+    detailController.drawerScrollController.animateTo(
+      0.0, // Scroll to the top
+      duration:
+          const Duration(milliseconds: 500), // Adjust the duration as needed
+      curve: Curves.easeInOut, // Use a different curve if desired
+    );
+    selectedIndex = -1;
     update();
   }
 
   void updateNewTestamentSelectedBookIndex(int index) {
     selectedNewTestamentBookIndex = index;
     selectedOldTestamentBookIndex = -1;
+    final DetailController detailController = Get.find<DetailController>();
+    detailController.drawerScrollController.animateTo(
+      0.0, // Scroll to the top
+      duration:
+          const Duration(milliseconds: 500), // Adjust the duration as needed
+      curve: Curves.easeInOut, // Use a different curve if desired
+    );
+    selectedIndex = -1;
+    update();
+  }
+
+  void setSelectedBookAndChapterForDrawer(
+      int bookId, int chapterNumber, String testament) {
+    if (testament == "OT") {
+      selectedNewTestamentBookIndex = bookId;
+      selectedIndex = chapterNumber;
+      selectedTestament = testament;
+    } else if (testament == "NT") {
+      selectedNewTestamentBookIndex = bookId;
+      selectedIndex = chapterNumber;
+      selectedTestament = testament;
+    }
     update();
   }
 

@@ -27,9 +27,11 @@ class DetailController extends GetxController {
   bool hidePageNavigators = false;
   int previousOpenedBookPageNumber = 0;
   int currentPageNumber = 0;
-  final ScrollController readerScrollController = ScrollController();
+  ScrollController readerScrollController = ScrollController();
+  ScrollController drawerScrollController = ScrollController();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   PageController? pageController;
+  final GlobalKey pageKey = GlobalKey();
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -349,5 +351,9 @@ class DetailController extends GetxController {
       }
     });
     return indexOfBook;
+  }
+
+  void detachScrollController() {
+    readerScrollController = ScrollController();
   }
 }

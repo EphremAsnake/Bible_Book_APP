@@ -4,10 +4,12 @@ import 'package:bible_book_app/app/core/shared_controllers/database_service.dart
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
+import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../controllers/detail_controller.dart';
@@ -18,6 +20,7 @@ class DetailView extends GetView<DetailController> {
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
+  //final HomeController homeController = Get.find<HomeController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -312,6 +315,9 @@ class DetailView extends GetView<DetailController> {
             ),
           ),
           appBar: AppBar(
+            systemOverlayStyle: const SystemUiOverlayStyle(
+                statusBarColor: Color(0xff7B5533),
+                statusBarIconBrightness: Brightness.light),
             elevation: 0,
             backgroundColor: Colors.white,
             leading: IconButton(
@@ -446,7 +452,6 @@ class DetailView extends GetView<DetailController> {
                       const SizedBox(height: 5),
                       Expanded(
                         child: ExpandablePageView.builder(
-                          key: const PageStorageKey<String>('myPageKey'),
                           controller: controller.pageController,
                           physics: const ClampingScrollPhysics(),
                           itemCount: controller.allVerses.length,
@@ -464,9 +469,12 @@ class DetailView extends GetView<DetailController> {
                                     .easeInOut, // Use a different curve if desired
                               );
                             });
+                            //detach the scroll controller and re initialize
+                            controller.detachScrollController();
                           },
                           itemBuilder: (context, i) {
                             controller.setPreviousPageNumber(i);
+
                             return Container(
                               color: Colors.white,
                               child: Column(
@@ -492,13 +500,21 @@ class DetailView extends GetView<DetailController> {
                                         child: SizedBox(
                                           height: 80.h,
                                           child: ListView.builder(
-                                            //physics: const NeverScrollableScrollPhysics(),
                                             controller: controller
                                                 .readerScrollController,
                                             itemCount:
                                                 controller.allVerses[i].length,
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
+                                              // homeController
+                                              //     .setSelectedBookAndChapterForDrawer(
+                                              //         controller
+                                              //             .allVerses[i][index]
+                                              //             .book!,
+                                              //         controller
+                                              //             .allVerses[i][index]
+                                              //             .chapter!,
+                                              //         "OT");
                                               return Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
@@ -752,7 +768,6 @@ class DetailView extends GetView<DetailController> {
                           curve: Curves
                               .easeInOut, // Use a different curve if desired
                         );
-
                         controller.update();
                         Get.back();
                       },

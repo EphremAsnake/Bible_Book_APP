@@ -23,21 +23,23 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 0, right: 0, bottom: 37, top: 0),
-        child: ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            const DrawerHeader(
-              padding: EdgeInsets.all(0),
-              child: Image(
-                image: AssetImage(
-                  "assets/images/banner.jpeg",
-                ),
-                fit: BoxFit.fill,
+      width: 90.w,
+      child: Column(
+        //physics: const NeverScrollableScrollPhysics(),
+        children: [
+          Container(
+            height: 25.h,
+            width: 90.w,
+            padding: const EdgeInsets.all(0),
+            child: const Image(
+              image: AssetImage(
+                "assets/images/banner.jpeg",
               ),
+              fit: BoxFit.fill,
             ),
-            GetBuilder<HomeController>(
+          ),
+          Expanded(
+            child: GetBuilder<HomeController>(
               init: HomeController(),
               initState: (_) {},
               builder: (controller) {
@@ -68,8 +70,6 @@ class CustomDrawer extends StatelessWidget {
                 } else if (controller.cacheStateHandler.apiState ==
                     ApiState.success) {
                   return SizedBox(
-                    height: 75.h,
-                    width: 200,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -78,7 +78,7 @@ class CustomDrawer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: SizedBox(
-                                width: 54.w,
+                                width: 68.w,
                                 child: DefaultTabController(
                                   length: 2, // Number of tabs
                                   child: Column(
@@ -94,7 +94,7 @@ class CustomDrawer extends StatelessWidget {
                                               child: Text(
                                                 'ot'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 10.sp,
+                                                  fontSize: 11.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class CustomDrawer extends StatelessWidget {
                                               child: Text(
                                                 'nt'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 10.sp,
+                                                  fontSize: 11.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,
@@ -120,10 +120,10 @@ class CustomDrawer extends StatelessWidget {
                                       ),
                                       Expanded(
                                         child: SizedBox(
-                                          width: 300,
+                                          width: 80.w,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 0, left: 3, bottom: 10),
+                                                top: 3, left: 3, bottom: 0),
                                             child: TabBarView(
                                               children: [
                                                 GetBuilder<HomeController>(
@@ -139,12 +139,19 @@ class CustomDrawer extends StatelessWidget {
                                                         return Container(
                                                           decoration:
                                                               BoxDecoration(
+                                                            color: index ==
+                                                                    controller
+                                                                        .selectedOldTestamentBookIndex
+                                                                ? const Color(
+                                                                    0xffB8A696)
+                                                                : null,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
                                                                         10),
                                                           ),
                                                           child: ListTile(
+                                                            dense: true,
                                                             visualDensity:
                                                                 const VisualDensity(
                                                               vertical: -3,
@@ -159,7 +166,7 @@ class CustomDrawer extends StatelessWidget {
                                                                         controller
                                                                             .selectedOldTestamentBookIndex
                                                                     ? themeData
-                                                                        ?.primaryColor
+                                                                        ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
                                                                 fontSize: 16,
@@ -182,7 +189,7 @@ class CustomDrawer extends StatelessWidget {
                                                                         controller
                                                                             .selectedOldTestamentBookIndex
                                                                     ? themeData
-                                                                        ?.primaryColor
+                                                                        ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
                                                                 fontSize: 14,
@@ -219,12 +226,19 @@ class CustomDrawer extends StatelessWidget {
                                                         return Container(
                                                           decoration:
                                                               BoxDecoration(
+                                                            color: index ==
+                                                                    controller
+                                                                        .selectedNewTestamentBookIndex
+                                                                ? const Color(
+                                                                    0xffB8A696)
+                                                                : null,
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
                                                                         10),
                                                           ),
                                                           child: ListTile(
+                                                            dense: true,
                                                             visualDensity:
                                                                 const VisualDensity(
                                                                     vertical:
@@ -239,7 +253,7 @@ class CustomDrawer extends StatelessWidget {
                                                                         controller
                                                                             .selectedNewTestamentBookIndex
                                                                     ? themeData
-                                                                        ?.primaryColor
+                                                                        ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
                                                                 fontSize: 16,
@@ -262,7 +276,7 @@ class CustomDrawer extends StatelessWidget {
                                                                         controller
                                                                             .selectedNewTestamentBookIndex
                                                                     ? themeData
-                                                                        ?.primaryColor
+                                                                        ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
                                                                 fontSize: 14,
@@ -291,9 +305,6 @@ class CustomDrawer extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 7.h,
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -305,8 +316,20 @@ class CustomDrawer extends StatelessWidget {
                           visible: controller.selectedOldTestamentBookIndex !=
                                   -1 ||
                               controller.selectedNewTestamentBookIndex != -1,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 0.sp, horizontal: 0),
+                            child: VerticalDivider(
+                              color: themeData?.primaryColor,
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: controller.selectedOldTestamentBookIndex !=
+                                  -1 ||
+                              controller.selectedNewTestamentBookIndex != -1,
                           child: SizedBox(
-                            width: 80,
+                            width: 17.w,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -337,77 +360,124 @@ class CustomDrawer extends StatelessWidget {
                                         bookChapters, (index) => index + 1);
                                     return Expanded(
                                       child: SizedBox(
-                                        width: 80,
+                                        width: 15.w,
                                         child: ListView.builder(
+                                          controller: detailController
+                                              .drawerScrollController,
                                           shrinkWrap: true,
                                           itemCount: chapters.length,
                                           itemBuilder: (context, index) {
-                                            return Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: ListTile(
-                                                dense: true,
-                                                visualDensity:
-                                                    const VisualDensity(
-                                                        vertical: -4),
-                                                title: Center(
-                                                  child: Text(
-                                                    chapters[index].toString(),
-                                                    style: TextStyle(
-                                                        color: index ==
-                                                                controller
-                                                                    .selectedIndex
-                                                            ? themeData
-                                                                ?.primaryColor
-                                                            : themeData
-                                                                ?.blackColor,
-                                                        fontSize: index ==
-                                                                controller
-                                                                    .selectedIndex
-                                                            ? 20
-                                                            : 18,
-                                                        fontWeight: index ==
-                                                                controller
-                                                                    .selectedIndex
-                                                            ? FontWeight.bold
-                                                            : FontWeight
-                                                                .normal),
-                                                  ),
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 2),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: index ==
+                                                          controller
+                                                              .selectedIndex
+                                                      ? const Color(0xffB8A696)
+                                                      : null,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
-                                                onTap: () {
-                                                  controller
-                                                      .updateSelectedIndex(
-                                                          index);
-                                                  Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 100),
-                                                    () {
-                                                      if (controller
-                                                              .selectedNewTestamentBookIndex !=
-                                                          -1) {
-                                                        getterAndSetterController
-                                                            .selectedVersesAMH
-                                                            .clear();
-                                                        getterAndSetterController
-                                                            .selectedVersesAMH
-                                                            .addAll(getterAndSetterController.getAMHBookChapters(
-                                                                controller
-                                                                    .newTestamentBook[
-                                                                        controller
-                                                                            .selectedNewTestamentBookIndex]
-                                                                    .id!,
-                                                                chapters[index],
-                                                                controller
-                                                                    .versesAMH));
+                                                child: ListTile(
+                                                  dense: false,
+                                                  visualDensity:
+                                                      const VisualDensity(
+                                                          vertical: -4),
+                                                  title: Center(
+                                                    child: Text(
+                                                      chapters[index]
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          color: index ==
+                                                                  controller
+                                                                      .selectedIndex
+                                                              ? themeData
+                                                                  ?.whiteColor
+                                                              : themeData
+                                                                  ?.blackColor,
+                                                          fontSize: index ==
+                                                                  controller
+                                                                      .selectedIndex
+                                                              ? 18
+                                                              : 18,
+                                                          fontWeight: index ==
+                                                                  controller
+                                                                      .selectedIndex
+                                                              ? FontWeight.bold
+                                                              : FontWeight
+                                                                  .normal),
+                                                    ),
+                                                  ),
+                                                  onTap: () {
+                                                    controller
+                                                        .updateSelectedIndex(
+                                                            index);
+                                                    Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 100),
+                                                      () {
+                                                        if (controller
+                                                                .selectedNewTestamentBookIndex !=
+                                                            -1) {
+                                                          getterAndSetterController
+                                                              .selectedVersesAMH
+                                                              .clear();
+                                                          getterAndSetterController
+                                                              .selectedVersesAMH
+                                                              .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                  controller
+                                                                      .newTestamentBook[
+                                                                          controller
+                                                                              .selectedNewTestamentBookIndex]
+                                                                      .id!,
+                                                                  chapters[
+                                                                      index],
+                                                                  controller
+                                                                      .versesAMH));
 
+                                                          int page = detailController
+                                                              .navigateToSpecificBookDetailView(
+                                                                  controller
+                                                                      .newTestamentBook[
+                                                                          controller
+                                                                              .selectedNewTestamentBookIndex]
+                                                                      .id!,
+                                                                  chapters[
+                                                                      index]);
+                                                          detailController
+                                                              .pageController
+                                                              ?.jumpToPage(
+                                                                  page);
+                                                          detailController
+                                                              .update();
+                                                        } else if (controller
+                                                                .selectedOldTestamentBookIndex !=
+                                                            -1) {
+                                                          getterAndSetterController
+                                                              .selectedVersesAMH
+                                                              .clear();
+                                                          getterAndSetterController
+                                                              .selectedVersesAMH
+                                                              .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                  controller
+                                                                      .oldTestamentBook[
+                                                                          controller
+                                                                              .selectedOldTestamentBookIndex]
+                                                                      .id!,
+                                                                  chapters[
+                                                                      index],
+                                                                  controller
+                                                                      .versesAMH));
+                                                        }
                                                         int page = detailController
                                                             .navigateToSpecificBookDetailView(
                                                                 controller
-                                                                    .newTestamentBook[
+                                                                    .oldTestamentBook[
                                                                         controller
-                                                                            .selectedNewTestamentBookIndex]
+                                                                            .selectedOldTestamentBookIndex]
                                                                     .id!,
                                                                 chapters[
                                                                     index]);
@@ -416,40 +486,11 @@ class CustomDrawer extends StatelessWidget {
                                                             ?.jumpToPage(page);
                                                         detailController
                                                             .update();
-                                                      } else if (controller
-                                                              .selectedOldTestamentBookIndex !=
-                                                          -1) {
-                                                        getterAndSetterController
-                                                            .selectedVersesAMH
-                                                            .clear();
-                                                        getterAndSetterController
-                                                            .selectedVersesAMH
-                                                            .addAll(getterAndSetterController.getAMHBookChapters(
-                                                                controller
-                                                                    .oldTestamentBook[
-                                                                        controller
-                                                                            .selectedOldTestamentBookIndex]
-                                                                    .id!,
-                                                                chapters[index],
-                                                                controller
-                                                                    .versesAMH));
-                                                      }
-                                                      int page = detailController
-                                                          .navigateToSpecificBookDetailView(
-                                                              controller
-                                                                  .oldTestamentBook[
-                                                                      controller
-                                                                          .selectedOldTestamentBookIndex]
-                                                                  .id!,
-                                                              chapters[index]);
-                                                      detailController
-                                                          .pageController
-                                                          ?.jumpToPage(page);
-                                                      detailController.update();
-                                                      Get.toNamed("/detail");
-                                                    },
-                                                  );
-                                                },
+                                                        Get.toNamed("/detail");
+                                                      },
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             );
                                           },
@@ -457,9 +498,6 @@ class CustomDrawer extends StatelessWidget {
                                       ),
                                     );
                                   },
-                                ),
-                                SizedBox(
-                                  height: 7.h,
                                 ),
                               ],
                             ),
@@ -494,8 +532,8 @@ class CustomDrawer extends StatelessWidget {
                 }
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
