@@ -42,12 +42,14 @@ class HomeController extends GetxController {
     selectedOldTestamentBookIndex = index;
     selectedNewTestamentBookIndex = -1;
     final DetailController detailController = Get.find<DetailController>();
-    detailController.drawerScrollController.animateTo(
-      0.0, // Scroll to the top
-      duration:
-          const Duration(milliseconds: 500), // Adjust the duration as needed
-      curve: Curves.easeInOut, // Use a different curve if desired
-    );
+    if (detailController.drawerScrollController.hasClients) {
+      detailController.drawerScrollController.animateTo(
+        0.0, // Scroll to the top
+        duration:
+            const Duration(milliseconds: 500), // Adjust the duration as needed
+        curve: Curves.easeInOut, // Use a different curve if desired
+      );
+    }
     selectedIndex = -1;
     update();
   }
@@ -56,12 +58,14 @@ class HomeController extends GetxController {
     selectedNewTestamentBookIndex = index;
     selectedOldTestamentBookIndex = -1;
     final DetailController detailController = Get.find<DetailController>();
-    detailController.drawerScrollController.animateTo(
-      0.0, // Scroll to the top
-      duration:
-          const Duration(milliseconds: 500), // Adjust the duration as needed
-      curve: Curves.easeInOut, // Use a different curve if desired
-    );
+    if (detailController.drawerScrollController.hasClients) {
+      detailController.drawerScrollController.animateTo(
+        0.0, // Scroll to the top
+        duration:
+            const Duration(milliseconds: 500), // Adjust the duration as needed
+        curve: Curves.easeInOut, // Use a different curve if desired
+      );
+    }
     selectedIndex = -1;
     update();
   }
