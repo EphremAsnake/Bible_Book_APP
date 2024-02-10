@@ -4,7 +4,6 @@ import 'package:bible_book_app/app/core/shared_controllers/database_service.dart
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
-import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -364,35 +363,6 @@ class DetailView extends GetView<DetailController> {
               ),
             ),
             actions: [
-              GestureDetector(
-                  onTap: () {
-                    if (Get.locale.toString() == "amh_ET") {
-                      Get.updateLocale(const Locale('en', 'US'));
-                      Get.snackbar(
-                        'Info',
-                        'App Language Changed To English',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    } else {
-                      Get.updateLocale(const Locale('amh', 'ET'));
-                      Get.snackbar(
-                        'መረጃ',
-                        'የመተግበሪያ ቋንቋ ወደ አማርኛ ተቀይሯል።',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                    }
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        Get.locale.toString() == "amh_ET" ? "EN" : "ET",
-                        style: TextStyle(
-                            color: themeData?.primaryColor, fontSize: 12.5.sp),
-                      ),
-                    ],
-                  )),
               IconButton(
                   onPressed: () {
                     controller.scaffoldKey.currentState?.openEndDrawer();
@@ -408,13 +378,10 @@ class DetailView extends GetView<DetailController> {
                 ),
                 onSelected: (value) {
                   // Handle menu item selection
-                  if (value == 'option1') {
-                    // Perform action for option 1
-                  } else if (value == 'option2') {
-                    // Perform action for option 2
-                  } else if (value == 'option3') {
-                    // Perform action for option 3
-                  }
+                  if (value == 'settings') {
+                    Get.toNamed("/settings");
+                  } else if (value == 'about') {
+                  } else if (value == 'privacy_policy') {}
                 },
                 itemBuilder: (BuildContext context) {
                   return [

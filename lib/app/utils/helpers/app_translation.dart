@@ -21,6 +21,7 @@ final Map<String, String> en = {
   'all': 'All',
   'every_word': 'Every Word',
   'exactly': 'Exactly',
+  "change_language": "Change Language To Amharic",
 };
 
 final Map<String, String> amh = {
@@ -36,4 +37,5 @@ final Map<String, String> amh = {
   'settings': 'መቼት',
   'about': "ስለ",
   'privacy_policy': 'ግለሰባዊነት',
+  "change_language": "ቋንቋ ወደ እንግሊዝኛ ቀይር"
 };
