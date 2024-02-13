@@ -4,6 +4,7 @@ import 'package:bible_book_app/app/core/shared_controllers/database_service.dart
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
+import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
@@ -19,7 +20,7 @@ class DetailView extends GetView<DetailController> {
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
-  //final HomeController homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -411,61 +412,66 @@ class DetailView extends GetView<DetailController> {
           drawer: CustomDrawer(
               themeData: themeData,
               getterAndSetterController: getterAndSetterController),
-          body: SafeArea(
-            child: controller.pageController != null
-                ? Column(
-                    children: [
-                      const HomeAD(),
-                      const SizedBox(height: 5),
-                      Expanded(
-                        child: ExpandablePageView.builder(
-                          controller: controller.pageController,
-                          physics: const ClampingScrollPhysics(),
-                          itemCount: controller.allVerses.length,
-                          animationCurve: Curves.easeIn,
-                          onPageChanged: (value) {
-                            Future.delayed(const Duration(milliseconds: 500),
-                                () {
-                              //scroll to top
-                              controller.readerScrollController.animateTo(
-                                0.0, // Scroll to the top
-                                duration: const Duration(
-                                    milliseconds:
-                                        500), // Adjust the duration as needed
-                                curve: Curves
-                                    .easeInOut, // Use a different curve if desired
-                              );
-                            });
-                            //detach the scroll controller and re initialize
-                            controller.detachScrollController();
-                          },
-                          itemBuilder: (context, i) {
-                            controller.setPreviousPageNumber(i);
-
-                            return Container(
-                              color: Colors.white,
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 20),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        controller.selectedBook
-                                                .contains("English")
-                                            ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}'
-                                            : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
-                                        style: TextStyle(
-                                          fontSize: 12.5.sp,
-                                          fontFamily: "Abyssinica",
-                                          fontWeight: FontWeight.bold,
-                                        ),
+          body: controller.pageController != null
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const HomeAD(),
+                    const SizedBox(height: 5),
+                    Expanded(
+                      child: ExpandablePageView.builder(
+                        controller: controller.pageController,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: controller.allVerses.length,
+                        animationCurve: Curves.easeIn,
+                        onPageChanged: (value) {
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            //scroll to top
+                            controller.readerScrollController.animateTo(
+                              0.0, // Scroll to the top
+                              duration: const Duration(
+                                  milliseconds:
+                                      500), // Adjust the duration as needed
+                              curve: Curves
+                                  .easeInOut, // Use a different curve if desired
+                            );
+                          });
+                          //detach the scroll controller and re initialize
+                          controller.detachScrollController();
+                        },
+                        itemBuilder: (context, i) {
+                          controller.setPreviousPageNumber(i);
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            homeController.setSelectedBookAndChapterForDrawer(
+                                controller.allVerses[i][0].book!,
+                                controller.allVerses[i][0].chapter!,
+                                "OT");
+                          });
+                          return Container(
+                            color: Colors.white,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 20),
+                                Column(
+                                  children: [
+                                    Text(
+                                      controller.selectedBook
+                                              .contains("English")
+                                          ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}'
+                                          : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
+                                      style: TextStyle(
+                                        fontSize: 12.5.sp,
+                                        fontFamily: "Abyssinica",
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      const SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5),
-                                        child: SizedBox(
-                                          height: 80.h,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5),
+                                      child: SizedBox(
+                                        height: 100.h,
+                                        child: SingleChildScrollView(
                                           child: ListView.builder(
                                             controller: controller
                                                 .readerScrollController,
@@ -473,15 +479,6 @@ class DetailView extends GetView<DetailController> {
                                                 controller.allVerses[i].length,
                                             shrinkWrap: true,
                                             itemBuilder: (context, index) {
-                                              // homeController
-                                              //     .setSelectedBookAndChapterForDrawer(
-                                              //         controller
-                                              //             .allVerses[i][index]
-                                              //             .book!,
-                                              //         controller
-                                              //             .allVerses[i][index]
-                                              //             .chapter!,
-                                              //         "OT");
                                               return Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
@@ -610,21 +607,18 @@ class DetailView extends GetView<DetailController> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                    ],
-                  )
-                : Container(),
-          ),
+                    ),
+                  ],
+                )
+              : Container(),
           floatingActionButton: controller.hidePageNavigators == false
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -26,13 +26,6 @@ class HomeController extends GetxController {
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
 
-  @override
-  void onInit() {
-    readBibleData();
-
-    super.onInit();
-  }
-
   void updateSelectedIndex(int index) {
     selectedIndex = index;
     update();
@@ -73,15 +66,16 @@ class HomeController extends GetxController {
   void setSelectedBookAndChapterForDrawer(
       int bookId, int chapterNumber, String testament) {
     if (testament == "OT") {
-      selectedNewTestamentBookIndex = bookId;
-      selectedIndex = chapterNumber;
+      selectedOldTestamentBookIndex = bookId-1;
+      selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
+      update();
     } else if (testament == "NT") {
-      selectedNewTestamentBookIndex = bookId;
-      selectedIndex = chapterNumber;
+      selectedNewTestamentBookIndex = bookId-1;
+      selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
+      update();
     }
-    update();
   }
 
   Future<void> updateJsonFile() async {
