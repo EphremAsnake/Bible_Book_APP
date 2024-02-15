@@ -32,6 +32,7 @@ class DetailController extends GetxController {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   PageController? pageController;
   final GlobalKey pageKey = GlobalKey();
+  bool callbackExecuted = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,

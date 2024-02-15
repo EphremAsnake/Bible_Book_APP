@@ -58,11 +58,40 @@ class DataGetterAndSetter extends GetxController {
     return previousVerseForBook;
   }
 
-  groupedBookList() {
+  List<List<Verses>> groupedBookList() {
     versesAMH.removeWhere((e) => e.para == "mt1");
+
     var groupedVerses =
         groupBy(versesAMH, (Verses verse) => '${verse.book}-${verse.chapter}');
-    List<List<Verses>> groupedVerseList = groupedVerses.values.toList();
+
+    List<List<Verses>> groupedVerseList = [];
+
+    groupedVerses.forEach((key, versesList) {
+      // Sort the verses within the group based on verse number
+      versesList.sort((a, b) => a.verseNumber!.compareTo(b.verseNumber!));
+
+      // Merge verses with the same verse number within the same chapter
+      List<Verses> mergedVerses = [];
+      int currentChapter = -1;
+      int currentVerseNumber = -1;
+
+      for (var verse in versesList) {
+        if (verse.chapter != currentChapter ||
+            verse.verseNumber != currentVerseNumber) {
+          // Add the verse if it's a new chapter or verse number
+          mergedVerses.add(verse);
+          currentChapter = verse.chapter!;
+          currentVerseNumber = verse.verseNumber!;
+        } else {
+          // Merge verses with the same verse number within the same chapter
+          mergedVerses.last.verseText =
+              '${mergedVerses.last.verseText}${verse.verseText!}';
+        }
+      }
+
+      groupedVerseList.add(mergedVerses);
+    });
+
     return groupedVerseList;
   }
 
@@ -78,14 +107,11 @@ class DataGetterAndSetter extends GetxController {
     if (bookName != null) {
       if (bookName == "አማርኛ 1954") {
         selectedBook = "AMHKJV";
-      }
-      else if (bookName == "አዲሱ መደበኛ ትርጉም") {
+      } else if (bookName == "አዲሱ መደበኛ ትርጉም") {
         selectedBook = "AMHNIV";
-      }
-      else if (bookName == "English NIV") {
+      } else if (bookName == "English NIV") {
         selectedBook = "ENGNIV";
-      }
-      else if (bookName == "English KJV") {
+      } else if (bookName == "English KJV") {
         selectedBook = "ENGKJV";
       }
     } else {

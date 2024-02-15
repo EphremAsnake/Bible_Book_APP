@@ -15,15 +15,12 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../controllers/detail_controller.dart';
 
-
 // ignore: must_be_immutable
 class DetailView extends GetView<DetailController> {
   DetailView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
-      
-   
   final HomeController homeController = Get.find<HomeController>();
   final ScrollController _scrollController = ScrollController();
 
@@ -462,12 +459,13 @@ class DetailView extends GetView<DetailController> {
                           },
                           itemBuilder: (context, i) {
                             controller.setPreviousPageNumber(i);
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              homeController.setSelectedBookAndChapterForDrawer(
-                                  controller.allVerses[i][0].book!,
-                                  controller.allVerses[i][0].chapter!,
-                                  "OT");
-                            });
+                            // WidgetsBinding.instance.addPostFrameCallback((_) {
+                            //   homeController.setSelectedBookAndChapterForDrawer(
+                            //       controller.allVerses[i][0].book!,
+                            //       controller.allVerses[i][0].chapter!,
+                            //       "OT");
+                            //   controller.callbackExecuted = true;
+                            // });
                             return Container(
                               color: Colors.white,
                               child: Column(
