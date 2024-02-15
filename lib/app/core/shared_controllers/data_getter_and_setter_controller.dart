@@ -84,8 +84,8 @@ class DataGetterAndSetter extends GetxController {
           currentVerseNumber = verse.verseNumber!;
         } else {
           // Merge verses with the same verse number within the same chapter
-          mergedVerses.last.verseText =
-              '${mergedVerses.last.verseText}${verse.verseText!}';
+          mergedVerses.last.verseText = (mergedVerses.last.verseText ?? '').trim() +
+              (verse.verseText ?? '').trim();
         }
       }
 
