@@ -399,6 +399,7 @@ class DetailView extends GetView<DetailController> {
                     if (value == 'settings') {
                       Get.toNamed("/settings");
                     } else if (value == 'about') {
+                       Get.toNamed("/about");
                     } else if (value == 'privacy_policy') {}
                   },
                   itemBuilder: (BuildContext context) {
@@ -433,7 +434,7 @@ class DetailView extends GetView<DetailController> {
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const HomeAD(),
+                      HomeAD(),
                       const SizedBox(height: 5),
                       Expanded(
                         child: ExpandablePageView.builder(

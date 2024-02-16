@@ -10,25 +10,17 @@ class ThemeController extends GetxController {
 
   void getThemeData() {
     final theme = ThemeDataModel(
-      whiteColor: HexColor(
-          controller.configs?.appConfig.appColors.whiteColor ?? "#ffffff"),
-      backgroundColor: HexColor(
-          controller.configs?.appConfig.appColors.backgroundColor ?? "#FEFEFE"),
-      primaryColor: HexColor(
-          controller.configs?.appConfig.appColors.primaryColor ?? "#7B5533"),
-      blackColor: HexColor(
-          controller.configs?.appConfig.appColors.blackColor ?? "#000000"),
+      whiteColor: HexColor("#ffffff"),
+      backgroundColor: HexColor("#FEFEFE"),
+      primaryColor: HexColor("#7B5533"),
+      blackColor: HexColor("#000000"),
       grayTextColor: HexColor(
-        controller.configs?.appConfig.appColors.grayTextColor ?? "#747475",
+        "#747475",
       ),
-      shadowColor: HexColor(
-          controller.configs?.appConfig.appColors.shadowColor ?? "#EEEDED"),
-      splashColor: HexColor(
-          controller.configs?.appConfig.appColors.splashColor ?? "#AF703A"),
-      errorColor: HexColor(
-          controller.configs?.appConfig.appColors.errorColor ?? "#FF1100"),
-      lightGrey: HexColor(
-          controller.configs?.appConfig.appColors.lightGrey ?? "#cccbc8"),
+      shadowColor: HexColor("#EEEDED"),
+      splashColor: HexColor("#AF703A"),
+      errorColor: HexColor("#FF1100"),
+      lightGrey: HexColor("#cccbc8"),
     );
     themeData.value = theme;
     setAppTheme(theme);

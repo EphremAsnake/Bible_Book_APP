@@ -36,12 +36,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SETTINGS,
-      page: () =>  SettingsView(),
+      page: () => SettingsView(),
       binding: SettingsBinding(),
     ),
     GetPage(
       name: _Paths.ABOUT,
-      page: () => const AboutView(),
+      page: () => AboutView(),
       binding: AboutBinding(),
     ),
     GetPage(

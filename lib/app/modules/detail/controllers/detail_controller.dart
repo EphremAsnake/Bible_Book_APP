@@ -1,13 +1,21 @@
+import 'dart:convert';
+
 import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
+import 'package:bible_book_app/app/core/http_client/http_service.dart';
+import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
+import 'package:bible_book_app/app/data/models/configs/configs.dart';
+import 'package:bible_book_app/app/modules/detail/controllers/configs_http_attribs.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
+import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailController extends GetxController {
   final DataGetterAndSetter getterAndSetterController =
@@ -33,6 +41,9 @@ class DetailController extends GetxController {
   PageController? pageController;
   final GlobalKey pageKey = GlobalKey();
   bool callbackExecuted = false;
+  final apiStateHandler = ApiStateHandler<Configs>();
+  var httpService = Get.find<HttpService>();
+  Configs? configs;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -66,6 +77,7 @@ class DetailController extends GetxController {
           readerScrollController.position.activity?.isScrolling ?? false;
     });
     loadInitialPage();
+    fetchConfigsData();
     update();
   }
 
@@ -356,5 +368,31 @@ class DetailController extends GetxController {
 
   void detachScrollController() {
     readerScrollController = ScrollController();
+  }
+
+  //fetching data from api
+  void fetchConfigsData() async {
+    apiStateHandler.setLoading();
+    try {
+      dynamic response =
+          await httpService.sendHttpRequest(ConfigsHttpAttributes());
+
+      final result = jsonDecode(response.body);
+      configs = Configs.fromJson(result);
+      // Update state with success and response data
+      apiStateHandler.setSuccess(configs!);
+      update();
+    } catch (ex) {
+      // Update state with error message
+      String errorMessage = await HandleHttpException().getExceptionString(ex);
+      apiStateHandler.setError(errorMessage);
+      update();
+    }
+  }
+
+  void openWebBrowser(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    }
   }
 }

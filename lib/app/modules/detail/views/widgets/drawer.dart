@@ -3,6 +3,7 @@ import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
+import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/refresh_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,16 +28,87 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         //physics: const NeverScrollableScrollPhysics(),
         children: [
-          Container(
-            height: 25.h,
-            width: 90.w,
-            padding: const EdgeInsets.all(0),
-            child: const Image(
-              image: AssetImage(
-                "assets/images/banner.jpeg",
-              ),
-              fit: BoxFit.fill,
-            ),
+          GetBuilder<DetailController>(
+            init: DetailController(),
+            initState: (_) {},
+            builder: (_) {
+              if (detailController.apiStateHandler.apiState ==
+                  ApiState.loading) {
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 10),
+                    child: Container(
+                      width: double.infinity,
+                      height: 80,
+                      color: themeData!.whiteColor,
+                    ),
+                  ),
+                );
+              } else if (detailController.apiStateHandler.apiState ==
+                  ApiState.success) {
+                if (detailController
+                        .apiStateHandler.data!.houseAds[0].houseAd1!.show ==
+                    true) {
+                  return GestureDetector(
+                    onTap: () {
+                      if (detailController.apiStateHandler.data!.houseAds[0]
+                              .houseAd1!.openInAppBrowser ==
+                          true) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => InAppWebViewer(
+                                url: detailController.apiStateHandler.data!
+                                    .houseAds[0].houseAd1!.url),
+                          ),
+                        );
+                      } else {
+                        detailController.openWebBrowser(detailController
+                            .apiStateHandler.data!.houseAds[0].houseAd1!.url);
+                      }
+                    },
+                    child: Container(
+                      height: 25.h,
+                      width: 90.w,
+                      padding: const EdgeInsets.all(0),
+                      child: Image(
+                        image: NetworkImage(
+                          detailController.apiStateHandler.data!.houseAds[0]
+                              .houseAd1!.image,
+                        ),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(
+                    height: 25.h,
+                    width: 90.w,
+                    padding: const EdgeInsets.all(0),
+                    child: const Image(
+                      image: AssetImage(
+                        "assets/images/banner.jpeg",
+                      ),
+                      fit: BoxFit.fill,
+                    ),
+                  );
+                }
+              } else {
+                return Container(
+                  height: 25.h,
+                  width: 90.w,
+                  padding: const EdgeInsets.all(0),
+                  child: const Image(
+                    image: AssetImage(
+                      "assets/images/banner.jpeg",
+                    ),
+                    fit: BoxFit.fill,
+                  ),
+                );
+              }
+            },
           ),
           Expanded(
             child: GetBuilder<HomeController>(
