@@ -25,6 +25,7 @@ dependencies:
   flutter_statusbarcolor_ns: ^0.5.0
   flutter_inappwebview: ^6.0.0
   url_launcher: ^6.2.4
+  loading_overlay: ^0.3.0
 
 
 

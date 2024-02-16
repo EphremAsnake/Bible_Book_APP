@@ -44,6 +44,7 @@ class DetailController extends GetxController {
   final apiStateHandler = ApiStateHandler<Configs>();
   var httpService = Get.find<HttpService>();
   Configs? configs;
+  bool isChangingBook = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
