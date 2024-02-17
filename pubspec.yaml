@@ -26,9 +26,8 @@ dependencies:
   flutter_inappwebview: ^6.0.0
   url_launcher: ^6.2.4
   loading_overlay: ^0.3.0
-
-
-
+  flutter_easyloading: ^3.0.5
+  lottie: ^2.7.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -42,6 +41,7 @@ flutter:
     - assets/books/exodus/
     - assets/images/
     - assets/db/
+    - assets/lotties/
   fonts:
     - family: Abyssinica
       fonts:

@@ -4,8 +4,10 @@ import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart
 import 'package:bible_book_app/app/utils/helpers/app_translation.dart';
 import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
+import 'package:bible_book_app/app/utils/shared_widgets/custom_easy_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 
 import 'package:get/get.dart';
@@ -22,6 +24,8 @@ void main() async {
   //initializing Hive
   await Hive.initFlutter();
   await Hive.openBox('bible_app');
+
+  await initApp();
 
   //injecting http dependency
   CoreDependencyCreator.init();
@@ -48,6 +52,7 @@ void main() async {
   runApp(
     Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
+        builder: EasyLoading.init(),
         translations: AppTranslation(),
         locale: Get.deviceLocale,
         fallbackLocale: const Locale('amh', 'ET'),
@@ -61,6 +66,10 @@ void main() async {
       );
     }),
   );
+}
+
+Future initApp() async {
+  CustomEasyLoading.initEasyLoading();
 }
 
 MaterialColor customSwatch = MaterialColor(0xff7B5533, {
