@@ -86,6 +86,47 @@ class SettingsView extends GetView<SettingsController> {
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xffEEEDED),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 8), // horizontal, vertical offset
+                    ),
+                    BoxShadow(
+                      color: Color(0xffEEEDED),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, -8), // horizontal, vertical offset
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  onTap: () {},
+                  leading: const Icon(
+                    Icons.font_download,
+                    color: Colors.grey,
+                  ),
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: Colors.grey,
+                    size: 30,
+                  ),
+                  title: Text(
+                    "font_size".tr,
+                    style: TextStyle(color: Colors.black, fontSize: 12.5.sp),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

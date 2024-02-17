@@ -45,6 +45,7 @@ class DetailController extends GetxController {
   var httpService = Get.find<HttpService>();
   Configs? configs;
   bool isLoading = false;
+  bool isSelectingBook = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -171,6 +172,8 @@ class DetailController extends GetxController {
         await sharedPreferencesStorage.readStringData(Keys.selectedBookKey);
     if (bookName != null) {
       selectedBook = bookName;
+    } else {
+      selectedBook = 'አዲሱ መደበኛ ትርጉም';
     }
 
     update();
@@ -321,7 +324,7 @@ class DetailController extends GetxController {
       List<Verses> emptyVerses = [];
       return emptyVerses;
     }
-  } 
+  }
 
   getBookName(int bookId) {
     return books.where((element) => element.id == bookId).first.titleGeez;

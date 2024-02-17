@@ -477,13 +477,17 @@ class DetailView extends GetView<DetailController> {
                           },
                           itemBuilder: (context, i) {
                             controller.setPreviousPageNumber(i);
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              homeController.setSelectedBookAndChapterForDrawer(
-                                  controller.allVerses[i][0].book!,
-                                  controller.allVerses[i][0].chapter!,
-                                  "OT");
-                              controller.callbackExecuted = true;
-                            });
+                            if (controller.isSelectingBook == false) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                homeController
+                                    .setSelectedBookAndChapterForDrawer(
+                                        controller.allVerses[i][0].book!,
+                                        controller.allVerses[i][0].chapter!,
+                                        "OT");
+                                controller.callbackExecuted = true;
+                              });
+                            }
+
                             return Container(
                               color: Colors.white,
                               child: Column(
@@ -555,89 +559,97 @@ class DetailView extends GetView<DetailController> {
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
-                                                                Expanded(
-                                                                  child:
-                                                                      RichText(
-                                                                    text:
-                                                                        TextSpan(
-                                                                      children: [
-                                                                        TextSpan(
-                                                                          text: controller.selectedBook.contains("1954")
-                                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                              : controller.selectedBook.contains("አዲሱ")
-                                                                                  ? '${controller.allVerses[i][index].verseNumber}'
-                                                                                  : '${controller.allVerses[i][index].verseNumber}  ',
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                10.0.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                            color: const Color.fromARGB(
-                                                                                255,
-                                                                                146,
-                                                                                45,
-                                                                                38),
+                                                                if (controller
+                                                                        .allVerses[
+                                                                            i][
+                                                                            index]
+                                                                        .verseText !=
+                                                                    "፤")
+                                                                  Expanded(
+                                                                    child:
+                                                                        RichText(
+                                                                      text:
+                                                                          TextSpan(
+                                                                        children: [
+                                                                          TextSpan(
+                                                                            text: controller.selectedBook.contains("አዲሱ")
+                                                                                ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                                : controller.selectedBook.contains("1954")
+                                                                                    ? '${controller.allVerses[i][index].verseNumber} '
+                                                                                    : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 10.0.sp,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              color: const Color.fromARGB(255, 146, 45, 38),
+                                                                            ),
                                                                           ),
-                                                                        ),
-                                                                        TextSpan(
-                                                                          text: controller
-                                                                              .allVerses[i][index]
-                                                                              .verseText,
-                                                                          style: TextStyle(
-                                                                              fontSize: 12.5.sp,
-                                                                              color: Colors.black,
-                                                                              fontFamily: "Abyssinica"),
-                                                                        ),
-                                                                      ],
+                                                                          TextSpan(
+                                                                            text:
+                                                                                controller.allVerses[i][index].verseText,
+                                                                            style: TextStyle(
+                                                                                fontSize: 12.5.sp,
+                                                                                color: Colors.black,
+                                                                                fontFamily: "Abyssinica"),
+                                                                          ),
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ),
                                                               ],
                                                             )
                                                           : const SizedBox
                                                               .shrink(),
                                                       if (index != 0)
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: controller
-                                                                    .selectedBook
-                                                                    .contains(
-                                                                        "1954")
-                                                                ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                : controller
-                                                                        .selectedBook
-                                                                        .contains(
-                                                                            "አዲሱ")
-                                                                    ? '${controller.allVerses[i][index].verseNumber}'
-                                                                    : '${controller.allVerses[i][index].verseNumber}  ',
-                                                            style: TextStyle(
-                                                              fontSize: 10.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: const Color
-                                                                  .fromARGB(255,
-                                                                  146, 45, 38),
-                                                            ),
-                                                            children: <InlineSpan>[
-                                                              TextSpan(
-                                                                text:
-                                                                    '${controller.allVerses[i][index].verseText}',
-                                                                style: TextStyle(
-                                                                    fontFamily:
-                                                                        "Abyssinica",
-                                                                    fontSize:
-                                                                        12.5.sp,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal),
+                                                        if (controller
+                                                                .allVerses[i]
+                                                                    [index]
+                                                                .verseText !=
+                                                            " ፤")
+                                                          RichText(
+                                                            text: TextSpan(
+                                                              text: controller
+                                                                      .selectedBook
+                                                                      .contains(
+                                                                          "አዲሱ")
+                                                                  ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                  : controller
+                                                                          .selectedBook
+                                                                          .contains(
+                                                                              "1954")
+                                                                      ? '${controller.allVerses[i][index].verseNumber}'
+                                                                      : '${controller.allVerses[i][index].verseNumber}  ',
+                                                              style: TextStyle(
+                                                                fontSize: 10.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: const Color
+                                                                    .fromARGB(
+                                                                    255,
+                                                                    146,
+                                                                    45,
+                                                                    38),
                                                               ),
-                                                            ],
+                                                              children: <InlineSpan>[
+                                                                TextSpan(
+                                                                  text:
+                                                                      '${controller.allVerses[i][index].verseText?.trimRight()}',
+                                                                  style: TextStyle(
+                                                                      fontFamily:
+                                                                          "Abyssinica",
+                                                                      fontSize:
+                                                                          12.5
+                                                                              .sp,
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal),
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
                                                     ],
                                                   ),
                                                 );
@@ -775,14 +787,6 @@ class DetailView extends GetView<DetailController> {
                         );
                         EasyLoading.dismiss();
                         controller.isLoading = false;
-
-                        Get.snackbar(
-                          'info'.tr,
-                          'changed_to_amh_1954'.tr,
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: const Duration(seconds: 2),
-                        );
-
                         controller.update();
                       },
                       title: const Text('አማርኛ 1954'),
@@ -826,12 +830,7 @@ class DetailView extends GetView<DetailController> {
                         );
                         EasyLoading.dismiss();
                         controller.isLoading = false;
-                        Get.snackbar(
-                          'info'.tr,
-                          'changed_to_amh_new'.tr,
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: const Duration(seconds: 2),
-                        );
+
                         controller.update();
                       },
                       title: const Text('አዲሱ መደበኛ ትርጉም'),
@@ -876,12 +875,7 @@ class DetailView extends GetView<DetailController> {
                         );
                         EasyLoading.dismiss();
                         controller.isLoading = false;
-                        Get.snackbar(
-                          'info'.tr,
-                          'changed_to_eng_niv'.tr,
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: const Duration(seconds: 2),
-                        );
+
                         controller.update();
                       },
                       title: const Text('English NIV'),
@@ -928,12 +922,7 @@ class DetailView extends GetView<DetailController> {
 
                         EasyLoading.dismiss();
                         controller.isLoading = false;
-                        Get.snackbar(
-                          'info'.tr,
-                          'changed_to_eng_kjv'.tr,
-                          snackPosition: SnackPosition.BOTTOM,
-                          duration: const Duration(seconds: 2),
-                        );
+
                         controller.update();
                       },
                       title: const Text('English KJV'),

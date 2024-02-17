@@ -44,6 +44,8 @@ class HomeController extends GetxController {
       );
     }
     selectedIndex = -1;
+    detailController.isSelectingBook = false;
+    detailController.update();
     update();
   }
 
@@ -60,18 +62,20 @@ class HomeController extends GetxController {
       );
     }
     selectedIndex = -1;
+    detailController.isSelectingBook = false;
+    detailController.update();
     update();
   }
 
   void setSelectedBookAndChapterForDrawer(
       int bookId, int chapterNumber, String testament) {
     if (testament == "OT") {
-      selectedOldTestamentBookIndex = bookId-1;
+      selectedOldTestamentBookIndex = bookId - 1;
       selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
       update();
     } else if (testament == "NT") {
-      selectedNewTestamentBookIndex = bookId-1;
+      selectedNewTestamentBookIndex = bookId - 1;
       selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
       update();

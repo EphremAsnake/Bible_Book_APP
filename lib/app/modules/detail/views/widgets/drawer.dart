@@ -1,5 +1,6 @@
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
+import 'package:bible_book_app/app/modules/detail/helpers/detail_helpers.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
@@ -65,8 +66,9 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         );
                       } else {
-                        detailController.openWebBrowser(detailController
-                            .apiStateHandler.data!.houseAds[0].houseAd1!.url);
+                        DetailHelpers().openStores(
+                            androidAppId: detailController.apiStateHandler.data!
+                                .houseAds[0].houseAd1!.url);
                       }
                     },
                     child: Container(
@@ -278,6 +280,12 @@ class CustomDrawer extends StatelessWidget {
                                                               controller
                                                                   .updateOldTestamentSelectedBookIndex(
                                                                       index);
+                                                              detailController
+                                                                      .isSelectingBook =
+                                                                  true;
+
+                                                              detailController
+                                                                  .update();
                                                             },
                                                           ),
                                                         );
@@ -365,6 +373,11 @@ class CustomDrawer extends StatelessWidget {
                                                               controller
                                                                   .updateNewTestamentSelectedBookIndex(
                                                                       index);
+                                                              detailController
+                                                                      .isSelectingBook =
+                                                                  true;
+                                                              detailController
+                                                                  .update();
                                                             },
                                                           ),
                                                         );
@@ -473,8 +486,8 @@ class CustomDrawer extends StatelessWidget {
                                                           fontSize: index ==
                                                                   controller
                                                                       .selectedIndex
-                                                              ? 18
-                                                              : 18,
+                                                              ? 12.sp
+                                                              : 12.sp,
                                                           fontWeight: index ==
                                                                   controller
                                                                       .selectedIndex
