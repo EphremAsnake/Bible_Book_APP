@@ -19,140 +19,143 @@ class AmharicKeyboard extends StatelessWidget {
       init: DetailController(),
       initState: (_) {},
       builder: (_) {
-        return Container(
-          color: Colors.grey[200],
-          padding: const EdgeInsets.all(0.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Visibility(
-                visible:
-                    detailController.selectedAmharicLetter?.forms.isNotEmpty ??
-                        false,
-                child: SizedBox(
-                  height: 55,
-                  child: GridView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        detailController.selectedAmharicLetter?.forms.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          detailController.selectedAmharicLetter?.basicForm ==
-                                  '0'
-                              ? 10
-                              : 7,
-                      mainAxisSpacing: 4.0, // Adjust the spacing here
-                      crossAxisSpacing: 4.0, // Adjust the spacing here
-                    ),
-                    itemBuilder: (context, index) {
-                      final key =
-                          detailController.selectedAmharicLetter?.forms[index];
-                      return InkWell(
-                        onTap: () {
-                          bool isFirstForm = false;
-                          int currentlySelectedKeyIndex = _keyboardRows
-                              .indexOf(detailController.selectedAmharicLetter!);
-                          AmharicLetter letter =
-                              _keyboardRows[currentlySelectedKeyIndex];
-                          List<String> inputValues =
-                              detailController.searchController.text.split('');
-                          if (inputValues.isNotEmpty) {
-                            if (letter.basicForm ==
-                                inputValues[inputValues.length - 1]) {
-                              isFirstForm = true;
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Container(
+            color: Colors.grey[200],
+            padding: const EdgeInsets.all(0.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Visibility(
+                  visible:
+                      detailController.selectedAmharicLetter?.forms.isNotEmpty ??
+                          false,
+                  child: SizedBox(
+                    height: 55,
+                    child: GridView.builder(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          detailController.selectedAmharicLetter?.forms.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            detailController.selectedAmharicLetter?.basicForm ==
+                                    '0'
+                                ? 10
+                                : 7,
+                        mainAxisSpacing: 4.0, // Adjust the spacing here
+                        crossAxisSpacing: 4.0, // Adjust the spacing here
+                      ),
+                      itemBuilder: (context, index) {
+                        final key =
+                            detailController.selectedAmharicLetter?.forms[index];
+                        return InkWell(
+                          onTap: () {
+                            bool isFirstForm = false;
+                            int currentlySelectedKeyIndex = _keyboardRows
+                                .indexOf(detailController.selectedAmharicLetter!);
+                            AmharicLetter letter =
+                                _keyboardRows[currentlySelectedKeyIndex];
+                            List<String> inputValues =
+                                detailController.searchController.text.split('');
+                            if (inputValues.isNotEmpty) {
+                              if (letter.basicForm ==
+                                  inputValues[inputValues.length - 1]) {
+                                isFirstForm = true;
+                              }
+        
+                              if (isFirstForm == true) {
+                                inputValues[inputValues.length - 1] = key!;
+                                String inputValue = inputValues.join();
+                                detailController.searchController.text =
+                                    inputValue;
+                                detailController.update();
+                              } else {
+                                detailController.onKeyPressed(key!);
+                              }
                             }
-
-                            if (isFirstForm == true) {
-                              inputValues[inputValues.length - 1] = key!;
-                              String inputValue = inputValues.join();
-                              detailController.searchController.text =
-                                  inputValue;
-                              detailController.update();
-                            } else {
-                              detailController.onKeyPressed(key!);
-                            }
-                          }
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4.0),
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              key ?? "",
+                              style: const TextStyle(fontSize: 18.0),
+                            ),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            key ?? "",
-                            style: const TextStyle(fontSize: 18.0),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 26.h,
+                  child: Wrap(
+                    spacing: 4.0, // Adjust the spacing here
+                    runSpacing: 4.0, // Adjust the run spacing here
+                    children: _keyboardRows.map((key) {
+                      return SizedBox(
+                        width: key.basicForm == '―' ? 98.sp : 31.sp,
+                        height: 40,
+                        child: InkWell(
+                          onTap: () async {
+                            if (key.basicForm == "AB") {
+                              FocusScope.of(context)
+                                  .requestFocus(detailController.focusNode);
+                            } else if (key.basicForm == '←') {
+                              detailController.onBackSpaceKeyPressed();
+                            } else if (key.basicForm == '🔎') {
+                              if (detailController
+                                  .searchController.text.isNotEmpty) {
+                                detailController.searchResultVerses =
+                                    await detailController.search(
+                                        BibleType: detailController
+                                            .selectedBookTypeOptions,
+                                        searchType: detailController
+                                            .selectedSearchTypeOptions,
+                                        searchPlace: detailController
+                                            .selectedSearchPlaceOptions,
+                                        query: detailController
+                                            .searchController.text);
+                                detailController.isAmharicKeyboardVisible = false;
+                                detailController.update();
+                              }
+                            } else if (key.basicForm == '↓') {
+                              detailController.makeAmharicKeyboardInVisible();
+                            } else if (key.basicForm == '―') {
+                              detailController.onKeyPressed(" ");
+                            } else if (key.basicForm == '@') {
+                              detailController.onKeyPressed(key.basicForm);
+                            } else {
+                              detailController.setSelectedAmharicLetter(key);
+                              detailController.onKeyPressed(key.basicForm);
+                            }
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              key.basicForm,
+                              style: const TextStyle(fontSize: 18.0),
+                            ),
                           ),
                         ),
                       );
-                    },
+                    }).toList(),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 26.h,
-                child: Wrap(
-                  spacing: 4.0, // Adjust the spacing here
-                  runSpacing: 4.0, // Adjust the run spacing here
-                  children: _keyboardRows.map((key) {
-                    return SizedBox(
-                      width: key.basicForm == '―' ? 98.sp : 31.sp,
-                      height: 40,
-                      child: InkWell(
-                        onTap: () async {
-                          if (key.basicForm == "AB") {
-                            FocusScope.of(context)
-                                .requestFocus(detailController.focusNode);
-                          } else if (key.basicForm == '←') {
-                            detailController.onBackSpaceKeyPressed();
-                          } else if (key.basicForm == '🔎') {
-                            if (detailController
-                                .searchController.text.isNotEmpty) {
-                              detailController.searchResultVerses =
-                                  await detailController.search(
-                                      BibleType: detailController
-                                          .selectedBookTypeOptions,
-                                      searchType: detailController
-                                          .selectedSearchTypeOptions,
-                                      searchPlace: detailController
-                                          .selectedSearchPlaceOptions,
-                                      query: detailController
-                                          .searchController.text);
-                              detailController.isAmharicKeyboardVisible = false;
-                              detailController.update();
-                            }
-                          } else if (key.basicForm == '↓') {
-                            detailController.makeAmharicKeyboardInVisible();
-                          } else if (key.basicForm == '―') {
-                            detailController.onKeyPressed(" ");
-                          } else if (key.basicForm == '@') {
-                            detailController.onKeyPressed(key.basicForm);
-                          } else {
-                            detailController.setSelectedAmharicLetter(key);
-                            detailController.onKeyPressed(key.basicForm);
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            key.basicForm,
-                            style: const TextStyle(fontSize: 18.0),
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

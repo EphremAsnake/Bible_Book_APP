@@ -44,7 +44,7 @@ class DetailController extends GetxController {
   final apiStateHandler = ApiStateHandler<Configs>();
   var httpService = Get.find<HttpService>();
   Configs? configs;
-  bool isChangingBook = false;
+  bool isLoading = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -224,28 +224,48 @@ class DetailController extends GetxController {
     required String searchPlace,
     required String query,
   }) async {
+    isLoading = true;
+    update();
     List<Verses> emptyVerses = [];
     if (searchType == 'every_word'.tr) {
       if (searchPlace == 'ot'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("OT", query, 'contains', BibleType);
       } else if (searchPlace == 'nt'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("NT", query, 'contains', BibleType);
       } else if (searchPlace == 'all'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("", query, 'contains', BibleType);
       } else {
+        isLoading = false;
+        update();
         return emptyVerses;
       }
     } else if (searchType == 'exactly'.tr) {
       if (searchPlace == 'ot'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("OT", query, 'exact', BibleType);
       } else if (searchPlace == 'nt'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("NT", query, 'exact', BibleType);
       } else if (searchPlace == 'all'.tr) {
+        isLoading = false;
+        update();
         return await handleSearch("", query, 'exact', BibleType);
       } else {
+        isLoading = false;
+        update();
         return emptyVerses;
       }
     } else {
+      isLoading = false;
+      update();
       return emptyVerses;
     }
   }

@@ -39,7 +39,7 @@ class DetailView extends GetView<DetailController> {
           },
           child: GetBuilder<DetailController>(builder: (ctrl) {
             return LoadingOverlay(
-              isLoading: ctrl.isChangingBook,
+              isLoading: ctrl.isLoading,
               progressIndicator: const CustomProgressIndicator(),
               child: Scaffold(
                 key: controller.scaffoldKey,
@@ -104,6 +104,8 @@ class DetailView extends GetView<DetailController> {
                                           onPressed: () async {
                                             if (controller.searchController.text
                                                 .isNotEmpty) {
+                                              controller.isLoading = true;
+                                              controller.update();
                                               controller.searchResultVerses =
                                                   await controller.search(
                                                       BibleType: controller
@@ -118,6 +120,16 @@ class DetailView extends GetView<DetailController> {
                                               controller
                                                       .isAmharicKeyboardVisible =
                                                   false;
+
+                                              if (controller
+                                                  .searchResultVerses.isEmpty) {
+                                                Get.snackbar(
+                                                  'info'.tr,
+                                                  'no_search_results'.tr,
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                );
+                                              }
                                               controller.update();
                                             }
                                           },
@@ -737,7 +749,7 @@ class DetailView extends GetView<DetailController> {
                     child: ListTile(
                       onTap: () async {
                         Get.back();
-                        controller.isChangingBook = true;
+                        controller.isLoading = true;
                         controller.update();
                         SharedPreferencesStorage sharedPreferencesStorage =
                             SharedPreferencesStorage();
@@ -763,7 +775,15 @@ class DetailView extends GetView<DetailController> {
                           curve: Curves
                               .easeInOut, // Use a different curve if desired
                         );
-                        controller.isChangingBook = false;
+                        controller.isLoading = false;
+
+                        Get.snackbar(
+                          'info'.tr,
+                          'changed_to_amh_1954'.tr,
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2),
+                        );
+
                         controller.update();
                       },
                       title: const Text('አማርኛ 1954'),
@@ -779,7 +799,7 @@ class DetailView extends GetView<DetailController> {
                     child: ListTile(
                       onTap: () async {
                         Get.back();
-                        controller.isChangingBook = true;
+                        controller.isLoading = true;
                         controller.update();
                         SharedPreferencesStorage sharedPreferencesStorage =
                             SharedPreferencesStorage();
@@ -803,7 +823,13 @@ class DetailView extends GetView<DetailController> {
                           curve: Curves
                               .easeInOut, // Use a different curve if desired
                         );
-                        controller.isChangingBook = false;
+                        controller.isLoading = false;
+                        Get.snackbar(
+                          'info'.tr,
+                          'changed_to_amh_new'.tr,
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2),
+                        );
                         controller.update();
                       },
                       title: const Text('አዲሱ መደበኛ ትርጉም'),
@@ -819,7 +845,7 @@ class DetailView extends GetView<DetailController> {
                     child: ListTile(
                       onTap: () async {
                         Get.back();
-                        controller.isChangingBook = true;
+                        controller.isLoading = true;
                         controller.update();
                         SharedPreferencesStorage sharedPreferencesStorage =
                             SharedPreferencesStorage();
@@ -844,7 +870,13 @@ class DetailView extends GetView<DetailController> {
                           curve: Curves
                               .easeInOut, // Use a different curve if desired
                         );
-                        controller.isChangingBook = false;
+                        controller.isLoading = false;
+                        Get.snackbar(
+                          'info'.tr,
+                          'changed_to_eng_niv'.tr,
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2),
+                        );
                         controller.update();
                       },
                       title: const Text('English NIV'),
@@ -860,7 +892,7 @@ class DetailView extends GetView<DetailController> {
                     child: ListTile(
                       onTap: () async {
                         Get.back();
-                        controller.isChangingBook = true;
+                        controller.isLoading = true;
                         controller.update();
                         SharedPreferencesStorage sharedPreferencesStorage =
                             SharedPreferencesStorage();
@@ -885,7 +917,13 @@ class DetailView extends GetView<DetailController> {
                           curve: Curves
                               .easeInOut, // Use a different curve if desired
                         );
-                        controller.isChangingBook = false;
+                        controller.isLoading = false;
+                        Get.snackbar(
+                          'info'.tr,
+                          'changed_to_eng_kjv'.tr,
+                          snackPosition: SnackPosition.BOTTOM,
+                          duration: const Duration(seconds: 2),
+                        );
                         controller.update();
                       },
                       title: const Text('English KJV'),
