@@ -28,6 +28,7 @@ dependencies:
   loading_overlay: ^0.3.0
   flutter_easyloading: ^3.0.5
   lottie: ^2.7.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -46,5 +47,19 @@ flutter:
     - family: Abyssinica
       fonts:
         - asset: assets/fonts/AbyssinicaSIL-Regular.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/bible_icon.png"
+  min_sdk_android: 21 
+  remove_alpha_ios: true
+  windows:
+    generate: true
+    image_path: "assets/images/bible_icon.png"
+    icon_size: 48 
+  macos:
+    generate: true
+    image_path: "assets/images/bible_icon.png"
 
 

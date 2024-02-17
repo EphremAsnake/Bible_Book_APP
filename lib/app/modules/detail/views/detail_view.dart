@@ -477,13 +477,13 @@ class DetailView extends GetView<DetailController> {
                           },
                           itemBuilder: (context, i) {
                             controller.setPreviousPageNumber(i);
-                            // WidgetsBinding.instance.addPostFrameCallback((_) {
-                            //   homeController.setSelectedBookAndChapterForDrawer(
-                            //       controller.allVerses[i][0].book!,
-                            //       controller.allVerses[i][0].chapter!,
-                            //       "OT");
-                            //   controller.callbackExecuted = true;
-                            // });
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              homeController.setSelectedBookAndChapterForDrawer(
+                                  controller.allVerses[i][0].book!,
+                                  controller.allVerses[i][0].chapter!,
+                                  "OT");
+                              controller.callbackExecuted = true;
+                            });
                             return Container(
                               color: Colors.white,
                               child: Column(
