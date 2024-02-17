@@ -1,5 +1,6 @@
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,14 +29,14 @@ class AmharicKeyboard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Visibility(
-                  visible:
-                      detailController.selectedAmharicLetter?.forms.isNotEmpty ??
-                          false,
+                  visible: detailController
+                          .selectedAmharicLetter?.forms.isNotEmpty ??
+                      false,
                   child: SizedBox(
                     height: 55,
                     child: GridView.builder(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 2, horizontal: 3),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 3),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount:
@@ -50,23 +51,25 @@ class AmharicKeyboard extends StatelessWidget {
                         crossAxisSpacing: 4.0, // Adjust the spacing here
                       ),
                       itemBuilder: (context, index) {
-                        final key =
-                            detailController.selectedAmharicLetter?.forms[index];
+                        final key = detailController
+                            .selectedAmharicLetter?.forms[index];
                         return InkWell(
                           onTap: () {
                             bool isFirstForm = false;
-                            int currentlySelectedKeyIndex = _keyboardRows
-                                .indexOf(detailController.selectedAmharicLetter!);
+                            int currentlySelectedKeyIndex =
+                                _keyboardRows.indexOf(
+                                    detailController.selectedAmharicLetter!);
                             AmharicLetter letter =
                                 _keyboardRows[currentlySelectedKeyIndex];
-                            List<String> inputValues =
-                                detailController.searchController.text.split('');
+                            List<String> inputValues = detailController
+                                .searchController.text
+                                .split('');
                             if (inputValues.isNotEmpty) {
                               if (letter.basicForm ==
                                   inputValues[inputValues.length - 1]) {
                                 isFirstForm = true;
                               }
-        
+
                               if (isFirstForm == true) {
                                 inputValues[inputValues.length - 1] = key!;
                                 String inputValue = inputValues.join();
@@ -92,6 +95,7 @@ class AmharicKeyboard extends StatelessWidget {
                         );
                       },
                     ),
+                    
                   ),
                 ),
                 SizedBox(
@@ -113,6 +117,8 @@ class AmharicKeyboard extends StatelessWidget {
                             } else if (key.basicForm == '🔎') {
                               if (detailController
                                   .searchController.text.isNotEmpty) {
+                                await EasyLoading.show(
+                                    status: 'Searching Please Wait...');
                                 detailController.searchResultVerses =
                                     await detailController.search(
                                         BibleType: detailController
@@ -123,7 +129,10 @@ class AmharicKeyboard extends StatelessWidget {
                                             .selectedSearchPlaceOptions,
                                         query: detailController
                                             .searchController.text);
-                                detailController.isAmharicKeyboardVisible = false;
+                                detailController.isAmharicKeyboardVisible =
+                                    false;
+
+                                EasyLoading.dismiss();
                                 detailController.update();
                               }
                             } else if (key.basicForm == '↓') {

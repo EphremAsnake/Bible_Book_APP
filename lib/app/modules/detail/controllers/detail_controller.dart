@@ -321,7 +321,7 @@ class DetailController extends GetxController {
       List<Verses> emptyVerses = [];
       return emptyVerses;
     }
-  }
+  } 
 
   getBookName(int bookId) {
     return books.where((element) => element.id == bookId).first.titleGeez;
@@ -329,6 +329,8 @@ class DetailController extends GetxController {
 
   clearSearchBar() {
     searchController.clear();
+    searchResultVerses.clear();
+    selectedAmharicLetter = null;
     update();
   }
 
