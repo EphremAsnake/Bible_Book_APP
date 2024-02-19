@@ -38,7 +38,8 @@ class HomeAD extends StatelessWidget {
                   .apiStateHandler.data!.houseAds[1].houseAd2!.show ==
               true) {
             return Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(
+                  left: 10.0, right: 10.0, top: 10.0, bottom: 15.0),
               child: GestureDetector(
                 onTap: () {
                   if (detailController.apiStateHandler.data!.houseAds[1]
@@ -124,10 +125,18 @@ class HomeAD extends StatelessWidget {
               ),
             );
           } else {
-            return const SizedBox();
+            return Container(
+              padding: const EdgeInsets.all(0),
+              height: 25,
+              decoration: BoxDecoration(color: themeData!.whiteColor),
+            );
           }
         } else {
-          return const SizedBox();
+          return Container(
+            padding: const EdgeInsets.all(0),
+            height: 25,
+            decoration: BoxDecoration(color: themeData!.whiteColor),
+          );
         }
       },
     );

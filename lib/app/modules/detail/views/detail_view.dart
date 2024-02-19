@@ -452,7 +452,6 @@ class DetailView extends GetView<DetailController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       HomeAD(),
-                      const SizedBox(height: 5),
                       Expanded(
                         child: ExpandablePageView.builder(
                           controller: controller.pageController,
@@ -487,7 +486,6 @@ class DetailView extends GetView<DetailController> {
                                 controller.callbackExecuted = true;
                               });
                             }
-
                             return Container(
                               color: Colors.white,
                               child: Column(
@@ -511,7 +509,7 @@ class DetailView extends GetView<DetailController> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5),
                                         child: SizedBox(
-                                          height: 70.h,
+                                          height: 78.5.h,
                                           child: SingleChildScrollView(
                                             child: ListView.builder(
                                               controller: controller
@@ -606,8 +604,8 @@ class DetailView extends GetView<DetailController> {
                                                                     [index]
                                                                 .verseText !=
                                                             " ፤")
-                                                          RichText(
-                                                            text: TextSpan(
+                                                          SelectableText.rich(
+                                                            TextSpan(
                                                               text: controller
                                                                       .selectedBook
                                                                       .contains(

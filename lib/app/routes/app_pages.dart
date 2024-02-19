@@ -4,8 +4,6 @@ import '../modules/about/bindings/about_binding.dart';
 import '../modules/about/views/about_view.dart';
 import '../modules/detail/bindings/detail_binding.dart';
 import '../modules/detail/views/detail_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
 import '../modules/privacy_policy/bindings/privacy_policy_binding.dart';
 import '../modules/privacy_policy/views/privacy_policy_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
@@ -20,11 +18,11 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.HOME,
+    //   page: () => HomeView(),
+    //   binding: HomeBinding(),
+    // ),
     GetPage(
       name: _Paths.DETAIL,
       page: () => DetailView(),

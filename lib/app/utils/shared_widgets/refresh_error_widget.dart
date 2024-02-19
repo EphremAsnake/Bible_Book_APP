@@ -68,9 +68,9 @@ class RefreshErrorWidget extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () {
                     Get.offAllNamed(
-                      "/home",
+                      "/detail",
                       // Remove routes until reaching the /home route
-                      predicate: (route) => route.settings.name == "/home",
+                      predicate: (route) => route.settings.name == "/detail",
                     );
                   },
                   child: Container(
