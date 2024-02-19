@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class InAppWebViewer extends StatefulWidget {
@@ -20,10 +21,17 @@ class _InAppWebViewerState extends State<InAppWebViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xff7B5533),
+            statusBarIconBrightness: Brightness.light),
+        elevation: 0,
+        backgroundColor: const Color(0xff7B5533),
+      ),
       body: Column(
         children: <Widget>[
           const SizedBox(
-            height: 5,
+            height: 8,
           ),
           Container(
               padding: const EdgeInsets.all(10.0),

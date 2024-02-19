@@ -124,10 +124,10 @@ class HomeAD extends StatelessWidget {
               ),
             );
           } else {
-            return const SizedBox.shrink();
+            return const SizedBox();
           }
         } else {
-          return const SizedBox.shrink();
+          return const SizedBox();
         }
       },
     );

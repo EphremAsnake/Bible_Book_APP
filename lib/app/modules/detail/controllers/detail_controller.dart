@@ -273,6 +273,31 @@ class DetailController extends GetxController {
     }
   }
 
+  changeBibleFromSearch(String bibleType) async {
+    String saveName = "";
+    if (bibleType == 'AMHKJV') {
+      saveName = "አማርኛ 1954";
+    } else if (bibleType == 'AMHNIV') {
+      saveName = "አዲሱ መደበኛ ትርጉም";
+    } else if (bibleType == 'ENGNIV') {
+      saveName = "English NIV";
+    } else if (bibleType == 'ENGKJV') {
+      saveName = "English KJV";
+    }
+    //changing book type
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    getterAndSetterController.versesAMH =
+        await DatabaseService().changeBibleType(bibleType);
+    getterAndSetterController.update();
+    allVerses.assignAll(getterAndSetterController.groupedBookList());
+    //saving selected book to local storage
+    sharedPreferencesStorage.saveStringData(Keys.selectedBookKey, saveName);
+    //set selected book Name
+    setSelectedBook(saveName);
+    update();
+  }
+
   Future<List<Verses>> handleSearch(
     String testament,
     String query,
@@ -310,6 +335,9 @@ class DetailController extends GetxController {
       oldTestamentBookVerses = oldTestamentBookVerses
           .where((verse) => verse.verseText!.contains(query))
           .toList();
+      if (oldTestamentBookVerses.isNotEmpty) {
+        await changeBibleFromSearch(BibleType);
+      }
       return oldTestamentBookVerses;
     } else if (searchOption == 'exact') {
       List<Verses> searchResults = [];
@@ -319,6 +347,9 @@ class DetailController extends GetxController {
           searchResults.add(item);
         }
       }
+      if (searchResults.isNotEmpty) {
+        await changeBibleFromSearch(BibleType);
+      }
       return searchResults;
     } else {
       List<Verses> emptyVerses = [];
@@ -327,7 +358,12 @@ class DetailController extends GetxController {
   }
 
   getBookName(int bookId) {
-    return books.where((element) => element.id == bookId).first.titleGeez;
+    //check if current book is amharic or english
+    if (selectedBookTypeOptions.contains("አ")) {
+      return books.where((element) => element.id == bookId).first.titleGeez;
+    } else {
+      return books.where((element) => element.id == bookId).first.title;
+    }
   }
 
   clearSearchBar() {
@@ -375,7 +411,7 @@ class DetailController extends GetxController {
           } else {
             // If the controller already has clients, use animateToPage to navigate
             pageController!.animateToPage(indexOfBook,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 1),
                 curve: Curves.easeInOut);
             scaffoldKey.currentState?.closeDrawer();
             scaffoldKey.currentState?.closeEndDrawer();
