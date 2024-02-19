@@ -1,4 +1,6 @@
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
+import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
+import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,6 +58,7 @@ class SettingsView extends GetView<SettingsController> {
               child: ListTile(
                 onTap: () {
                   if (Get.locale.toString() == "amh_ET") {
+                    detailController.saveLocale('en_US');
                     Get.updateLocale(const Locale('en', 'US'));
                     Get.snackbar(
                       'Info',
@@ -64,6 +67,7 @@ class SettingsView extends GetView<SettingsController> {
                     );
                   } else {
                     Get.updateLocale(const Locale('amh', 'ET'));
+                    detailController.saveLocale('amh_ET');
                     Get.snackbar(
                       'መረጃ',
                       'የመተግበሪያ ቋንቋ ወደ አማርኛ ተቀይሯል።',
@@ -110,7 +114,9 @@ class SettingsView extends GetView<SettingsController> {
                   ],
                 ),
                 child: ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    showFontSizeBottomSheet(context);
+                  },
                   leading: const Icon(
                     Icons.font_download,
                     color: Colors.grey,
@@ -130,6 +136,42 @@ class SettingsView extends GetView<SettingsController> {
           ],
         ),
       ),
+    );
+  }
+
+  void showFontSizeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return GetBuilder<DetailController>(
+          init: DetailController(),
+          initState: (_) {},
+          builder: (_) {
+            return Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "font_size".tr,
+                    style: TextStyle(fontSize: 12.5.sp),
+                  ),
+                  Slider(
+                    value: detailController.fontSize,
+                    onChanged: (value) async {
+                      await detailController.updateFontSize(value);
+                      detailController.update();
+                    },
+                    min: 10.0,
+                    max: 15,
+                    label: detailController.fontSize.toString(),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -1,9 +1,11 @@
+import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/core_dependency.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/app_translation.dart';
 import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
+import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/custom_easy_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +42,16 @@ void main() async {
   final themeController = Get.put(ThemeController());
   themeController.getThemeData();
 
+  SharedPreferencesStorage sharedPreferencesStorage =
+      SharedPreferencesStorage();
+
+  String selectedLocale =
+      await sharedPreferencesStorage.readStringData(Keys.selectedLocale) ?? "";
+  List<String> selectedLocales = [];
+  if (selectedLocale != "") {
+    selectedLocales = selectedLocale.split("_");
+  }
+
   // Set the app to be in portrait mode only
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -54,7 +66,9 @@ void main() async {
       return GetMaterialApp(
         builder: EasyLoading.init(),
         translations: AppTranslation(),
-        locale: Get.deviceLocale,
+        locale: selectedLocales.isNotEmpty
+            ? Locale(selectedLocales[0], selectedLocales[1])
+            : const Locale('amh', 'ET'),
         fallbackLocale: const Locale('amh', 'ET'),
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

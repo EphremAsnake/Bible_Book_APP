@@ -21,7 +21,7 @@ final Map<String, String> en = {
   'all': 'All',
   'every_word': 'Every Word',
   'exactly': 'Exactly',
-  "change_language": "Change Language To Amharic",
+  "change_language": "ቋንቋ ወደ አማርኛ ቀይር",
   'no_search_results': "No search result found",
   'info': 'Info',
   'changed_to_amh_1954': "Bible Type Changed To Amharic 1954",
@@ -44,12 +44,12 @@ final Map<String, String> amh = {
   'settings': 'መቼት',
   'about': "ስለ",
   'privacy_policy': 'ግለሰባዊነት',
-  "change_language": "ቋንቋ ወደ እንግሊዝኛ ቀይር",
+  "change_language": "Change Language To English",
   'no_search_results': "ምንም የፍለጋ ውጤት አልተገኘም።",
   'info': 'መረጃ',
   'changed_to_amh_1954': "የመጽሐፍ ቅዱስ ዓይነት ወደ አማርኛ 1954 ተለወጠ።",
   'changed_to_amh_new': "የመጽሐፍ ቅዱስ ዓይነት ወደ አማርኛ አዲስ ትርጉም ተለወጠ።",
   'changed_to_eng_niv': "የመጽሐፍ ቅዱስ ዓይነት ወደ እንግሊዝኛ NIV ተለወጠ።",
   'changed_to_eng_kjv': "የመጽሐፍ ቅዱስ ዓይነት ወደ እንግሊዝኛ ኪጄቪ ተለወጠ።",
-  'font_size':"የቅርጸ ቁምፊ መጠን"
+  'font_size':"የፊደል መጠን"
 };

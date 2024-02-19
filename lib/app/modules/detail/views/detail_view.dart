@@ -439,10 +439,10 @@ class DetailView extends GetView<DetailController> {
               ],
             ),
             onEndDrawerChanged: (isOpen) {
-              if (isOpen == false) {
-                controller.searchController.clear();
-                controller.searchResultVerses.clear();
-              }
+              // if (isOpen == false) {
+              //   controller.searchController.clear();
+              //   controller.searchResultVerses.clear();
+              // }
             },
             drawer: CustomDrawer(
                 themeData: themeData,
@@ -499,7 +499,7 @@ class DetailView extends GetView<DetailController> {
                                             ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}'
                                             : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
                                         style: TextStyle(
-                                          fontSize: 12.5.sp,
+                                          fontSize: controller.fontSize.sp,
                                           fontFamily: "Abyssinica",
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -509,7 +509,7 @@ class DetailView extends GetView<DetailController> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5),
                                         child: SizedBox(
-                                          height: 78.5.h,
+                                          height: 76.h,
                                           child: SingleChildScrollView(
                                             child: ListView.builder(
                                               controller: controller
@@ -546,7 +546,8 @@ class DetailView extends GetView<DetailController> {
                                                                     fontFamily:
                                                                         "Abyssinica",
                                                                     fontSize:
-                                                                        50.0,
+                                                                        controller.fontSize +
+                                                                            40,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .normal,
@@ -577,7 +578,7 @@ class DetailView extends GetView<DetailController> {
                                                                                     : '${controller.allVerses[i][index].verseNumber}  ',
                                                                             style:
                                                                                 TextStyle(
-                                                                              fontSize: 10.0.sp,
+                                                                              fontSize: controller.fontSize.sp,
                                                                               fontWeight: FontWeight.bold,
                                                                               color: const Color.fromARGB(255, 146, 45, 38),
                                                                             ),
@@ -586,7 +587,7 @@ class DetailView extends GetView<DetailController> {
                                                                             text:
                                                                                 controller.allVerses[i][index].verseText,
                                                                             style: TextStyle(
-                                                                                fontSize: 12.5.sp,
+                                                                                fontSize: controller.fontSize.sp + 1.5.sp,
                                                                                 color: Colors.black,
                                                                                 fontFamily: "Abyssinica"),
                                                                           ),
@@ -618,7 +619,10 @@ class DetailView extends GetView<DetailController> {
                                                                       ? '${controller.allVerses[i][index].verseNumber}'
                                                                       : '${controller.allVerses[i][index].verseNumber}  ',
                                                               style: TextStyle(
-                                                                fontSize: 10.sp,
+                                                                fontSize:
+                                                                    controller
+                                                                        .fontSize
+                                                                        .sp,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
@@ -636,9 +640,9 @@ class DetailView extends GetView<DetailController> {
                                                                   style: TextStyle(
                                                                       fontFamily:
                                                                           "Abyssinica",
-                                                                      fontSize:
-                                                                          12.5
-                                                                              .sp,
+                                                                      fontSize: controller
+                                                                          .fontSize
+                                                                          .sp,
                                                                       color: Colors
                                                                           .black,
                                                                       fontWeight:

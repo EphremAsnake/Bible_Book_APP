@@ -15,6 +15,7 @@ import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailController extends GetxController {
@@ -46,6 +47,7 @@ class DetailController extends GetxController {
   Configs? configs;
   bool isLoading = false;
   bool isSelectingBook = false;
+  double fontSize = 12.5;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -76,10 +78,11 @@ class DetailController extends GetxController {
     readerScrollController.addListener(() {
       // Check if the scroll controller is actively scrolling
       hidePageNavigators =
-          readerScrollController.position.activity?.isScrolling ?? false;
+          readerScrollController.position.isScrollingNotifier.value;
     });
     loadInitialPage();
     fetchConfigsData();
+    getFontSize();
     update();
   }
 
@@ -455,6 +458,31 @@ class DetailController extends GetxController {
   void openWebBrowser(String url) async {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
+    }
+  }
+
+  saveLocale(String locale) async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    await sharedPreferencesStorage.saveStringData(Keys.selectedLocale, locale);
+  }
+
+  updateFontSize(double newFontSize) async {
+    fontSize = newFontSize;
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    await sharedPreferencesStorage.saveIntData(Keys.fontSize, fontSize.toInt());
+    update();
+  }
+
+  getFontSize() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    int? localFontSize =
+        await sharedPreferencesStorage.readIntData(Keys.fontSize);
+    if (localFontSize != null) {
+      fontSize = localFontSize.toDouble();
+      update();
     }
   }
 }

@@ -206,7 +206,7 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('ፀ', ['ፀ', 'ፁ', 'ፂ', 'ፃ', 'ፄ', 'ፅ', 'ፆ']),
   AmharicLetter('ፈ', ['ፈ', 'ፉ', 'ፊ', 'ፋ', 'ፌ', 'ፍ', 'ፎ']),
   AmharicLetter('ፐ', ['ፐ', 'ፑ', 'ፒ', 'ፓ', 'ፔ', 'ፕ', 'ፖ']),
-  AmharicLetter('AB', []),
+  AmharicLetter('EN', []),
   AmharicLetter('―', []),
   AmharicLetter('←', []),
   AmharicLetter('↓', []),

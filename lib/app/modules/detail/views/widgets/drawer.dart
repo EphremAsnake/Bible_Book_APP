@@ -143,7 +143,8 @@ class CustomDrawer extends StatelessWidget {
                   );
                 } else if (controller.cacheStateHandler.apiState ==
                     ApiState.success) {
-                  return SizedBox(
+                  return Container(
+                    color: themeData?.whiteColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -152,7 +153,7 @@ class CustomDrawer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: SizedBox(
-                                width: 68.w,
+                                width: 60.w,
                                 child: DefaultTabController(
                                   length: 2, // Number of tabs
                                   child: Column(
@@ -216,8 +217,8 @@ class CustomDrawer extends StatelessWidget {
                                                             color: index ==
                                                                     controller
                                                                         .selectedOldTestamentBookIndex
-                                                                ? const Color(
-                                                                    0xffB8A696)
+                                                                ? themeData
+                                                                    ?.primaryColor
                                                                 : null,
                                                             borderRadius:
                                                                 BorderRadius
@@ -309,8 +310,8 @@ class CustomDrawer extends StatelessWidget {
                                                             color: index ==
                                                                     controller
                                                                         .selectedNewTestamentBookIndex
-                                                                ? const Color(
-                                                                    0xffB8A696)
+                                                                ? themeData
+                                                                    ?.primaryColor
                                                                 : null,
                                                             borderRadius:
                                                                 BorderRadius
@@ -405,6 +406,7 @@ class CustomDrawer extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 vertical: 0.sp, horizontal: 0),
                             child: VerticalDivider(
+                              width: 1,
                               color: themeData?.primaryColor,
                             ),
                           ),
@@ -414,7 +416,7 @@ class CustomDrawer extends StatelessWidget {
                                   -1 ||
                               controller.selectedNewTestamentBookIndex != -1,
                           child: SizedBox(
-                            width: 17.w,
+                            width: 22.w,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -445,7 +447,7 @@ class CustomDrawer extends StatelessWidget {
                                         bookChapters, (index) => index + 1);
                                     return Expanded(
                                       child: SizedBox(
-                                        width: 15.w,
+                                        width: 17.w,
                                         child: ListView.builder(
                                           controller: detailController
                                               .drawerScrollController,
@@ -455,13 +457,13 @@ class CustomDrawer extends StatelessWidget {
                                             return Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 2),
+                                                      horizontal: 0),
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   color: index ==
                                                           controller
                                                               .selectedIndex
-                                                      ? const Color(0xffB8A696)
+                                                      ? themeData?.primaryColor
                                                       : null,
                                                   borderRadius:
                                                       BorderRadius.circular(10),
