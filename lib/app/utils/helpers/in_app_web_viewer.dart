@@ -29,6 +29,7 @@ class _InAppWebViewerState extends State<InAppWebViewer> {
             statusBarIconBrightness: Brightness.light),
         elevation: 0,
         backgroundColor: const Color(0xff7B5533),
+        automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: themeData!.whiteColor),
           onPressed: () {
@@ -39,7 +40,7 @@ class _InAppWebViewerState extends State<InAppWebViewer> {
       body: Column(
         children: <Widget>[
           Container(
-              padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
               child: progress < 1.0
                   ? LinearProgressIndicator(value: progress)
                   : Container()),

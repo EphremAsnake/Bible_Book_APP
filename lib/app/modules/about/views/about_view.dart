@@ -28,14 +28,20 @@ class AboutView extends GetView<AboutController> {
           'about'.tr,
           style: const TextStyle(color: Colors.white),
         ),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: themeData!.whiteColor),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ),
       body: SafeArea(
         child: GetBuilder<DetailController>(
           init: DetailController(),
           initState: (_) {},
           builder: (_) {
-            if (detailController.apiStateHandler.apiState ==
-                ApiState.loading) {
+            if (detailController.apiStateHandler.apiState == ApiState.loading) {
               return const Center(
                 child: CustomProgressIndicator(),
               );

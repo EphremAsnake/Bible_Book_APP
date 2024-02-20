@@ -109,7 +109,7 @@ class AmharicKeyboard extends StatelessWidget {
                         height: 40,
                         child: InkWell(
                           onTap: () async {
-                            if (key.basicForm == "AB") {
+                            if (key.basicForm == "EN") {
                               FocusScope.of(context)
                                   .requestFocus(detailController.focusNode);
                             } else if (key.basicForm == '←') {

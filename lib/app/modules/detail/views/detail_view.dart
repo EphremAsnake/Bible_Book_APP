@@ -68,6 +68,8 @@ class DetailView extends GetView<DetailController> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: TextField(
+                                keyboardType: TextInputType.none,
+                                autofocus: true,
                                 style: TextStyle(
                                     color: themeData?.primaryColor,
                                     fontSize: 13),
@@ -515,7 +517,7 @@ class DetailView extends GetView<DetailController> {
                                             vertical: 5),
                                         child: SizedBox(
                                           width: 100.w,
-                                          height: 76.h,
+                                          height: 79.h,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 30),
@@ -589,12 +591,17 @@ class DetailView extends GetView<DetailController> {
                                                                               : '',
                                                                           textAlign:
                                                                               TextAlign.left,
-                                                                          style: TextStyle(
-                                                                              fontFamily: "Abyssinica",
-                                                                              fontSize: controller.fontSize + 40,
-                                                                              fontWeight: FontWeight.normal,
-                                                                              color: themeData?.primaryColor,
-                                                                              backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!)),
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontFamily:
+                                                                                "Abyssinica",
+                                                                            fontSize:
+                                                                                controller.fontSize + 40,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            color:
+                                                                                themeData?.primaryColor,
+                                                                          ),
                                                                         ),
                                                                         const SizedBox(
                                                                           width:
@@ -606,9 +613,6 @@ class DetailView extends GetView<DetailController> {
                                                                             child:
                                                                                 RichText(
                                                                               text: TextSpan(
-                                                                                style: TextStyle(
-                                                                                  backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
-                                                                                ),
                                                                                 children: [
                                                                                   TextSpan(
                                                                                     text: controller.selectedBook.contains("አዲሱ")
@@ -658,10 +662,6 @@ class DetailView extends GetView<DetailController> {
                                                                               : '${controller.allVerses[i][index].verseNumber}  ',
                                                                       style:
                                                                           TextStyle(
-                                                                        backgroundColor: controller.selectedRowIndex ==
-                                                                                index
-                                                                            ? themeData?.primaryColor.withOpacity(0.5)
-                                                                            : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                         fontSize: controller
                                                                             .fontSize
                                                                             .sp,
@@ -676,14 +676,25 @@ class DetailView extends GetView<DetailController> {
                                                                       ),
                                                                       children: <InlineSpan>[
                                                                         TextSpan(
+                                                                          
                                                                           text:
                                                                               '${controller.allVerses[i][index].verseText?.trimRight()}',
-                                                                          style: TextStyle(
-                                                                              backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
-                                                                              fontFamily: "Abyssinica",
-                                                                              fontSize: controller.fontSize.sp,
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.normal),
+                                                                          style:
+                                                                              TextStyle(
+
+                                                                            backgroundColor: controller.selectedRowIndex == index
+                                                                                ? themeData?.primaryColor.withOpacity(0.5)
+                                                                                : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                            fontFamily:
+                                                                                "Abyssinica",
+                                                                            fontSize:
+                                                                                controller.fontSize.sp,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            
+                                                                          ),
                                                                         ),
                                                                       ],
                                                                     ),

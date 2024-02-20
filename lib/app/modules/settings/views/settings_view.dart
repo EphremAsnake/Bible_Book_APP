@@ -24,6 +24,13 @@ class SettingsView extends GetView<SettingsController> {
           'settings'.tr,
           style: const TextStyle(color: Colors.white),
         ),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: themeData!.whiteColor),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
