@@ -130,20 +130,28 @@ class DatabaseService {
     return verses;
   }
 
-  Future<void> updateHighlight(
-      int id, int newHighlight, String tableName) async {
+  Future<void> updateHighlight(int book, int chapter, int verseNumber,
+      int newHighlight, String tableName) async {
     // Get the path to the database file
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'bible.db');
 
     // Open the database
     Database database = await openDatabase(path);
-
+    if (tableName == 'አማርኛ 1954') {
+      tableName = "AMHKJV";
+    } else if (tableName == 'አዲሱ መደበኛ ትርጉም') {
+      tableName = "AMHNIV";
+    } else if (tableName == 'English NIV') {
+      tableName = "ENGNIV";
+    } else if (tableName == 'English KJV') {
+      tableName = "ENGKJV";
+    }
     await database.update(
       tableName,
       {'highlight': newHighlight},
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'book = ? AND chapter = ? AND verseNumber = ?',
+      whereArgs: [book, chapter, verseNumber],
     );
     await database.close();
   }

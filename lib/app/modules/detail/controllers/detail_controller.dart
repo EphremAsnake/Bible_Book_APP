@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
@@ -15,7 +14,6 @@ import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailController extends GetxController {
@@ -48,7 +46,7 @@ class DetailController extends GetxController {
   bool isLoading = false;
   bool isSelectingBook = false;
   double fontSize = 12.5;
-  bool isRowSelected = false;
+  int selectedRowIndex = -1;
 
   
   List<String> searchPlaceOptions = [
@@ -85,6 +83,7 @@ class DetailController extends GetxController {
     loadInitialPage();
     fetchConfigsData();
     getFontSize();
+    
     update();
   }
 
@@ -94,6 +93,7 @@ class DetailController extends GetxController {
     int? pageNo =
         await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
 
+    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (pageNo != null) {
         // Check if the widget is still mounted before creating PageController
@@ -152,12 +152,10 @@ class DetailController extends GetxController {
     update();
   }
 
-  Future<String> loadBook(String fileName) async {
-    return await rootBundle.loadString('assets/books/exodus/$fileName');
-  }
 
   loadData() async {
     getterAndSetterController.readData();
+
   }
 
   setSelectedAmharicLetter(AmharicLetter selectedAmharicLetterType) {
@@ -362,9 +360,14 @@ class DetailController extends GetxController {
     }
   }
 
-  getBookName(int bookId) {
+  getBookName(int bookId) async{
+    if(books.isEmpty){
+        
+    }
     //check if current book is amharic or english
-    if (selectedBookTypeOptions.contains("አ")) {
+    if (selectedBookTypeOptions.contains("አ")) { // books = await DatabaseService().readBookDatabase();
+      List<Book> bookss = books; 
+      String vers =  books.where((element) => element.id == bookId).first.titleGeez!;
       return books.where((element) => element.id == bookId).first.titleGeez;
     } else {
       return books.where((element) => element.id == bookId).first.title;

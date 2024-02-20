@@ -10,8 +10,8 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
-void textSelectionOptions(
-    BuildContext context, int id, String tableName, Verses? verse) {
+void textSelectionOptions(BuildContext context, int book, int chapter,
+    int verseNumber, String tableName, Verses? verse) {
   final DetailController detailController = Get.find<DetailController>();
   showModalBottomSheet(
     shape: const RoundedRectangleBorder(
@@ -69,8 +69,15 @@ void textSelectionOptions(
                       children: [
                         IconButton(
                             onPressed: () async {
-                              await share(
-                                  "test share", "test subject", context);
+                              String textToCopy = "";
+                              if (tableName.contains("English")) {
+                                textToCopy =
+                                    "\"${verse!.verseText!}\" — ${detailController.getBookTitle(verse.book!)} ${verse.chapter}:${verse.verseNumber}";
+                              } else {
+                                textToCopy =
+                                    "\"${verse!.verseText!}\" — ${detailController.getBookTitle(verse.book!)} ${verse.chapter}፥${verse.verseNumber}";
+                              }
+                              await share(textToCopy, "Share", context);
                             },
                             icon: const Icon(Icons.share)),
                         const Text("Share")
@@ -82,7 +89,16 @@ void textSelectionOptions(
                       children: [
                         IconButton(
                             onPressed: () {
-                              copyToClipboard('Text to Copy');
+                              String textToCopy = "";
+                              if (tableName.contains("English")) {
+                                textToCopy =
+                                    "\"${verse!.verseText!}\" — ${detailController.getBookTitle(verse.book!)} ${verse.chapter}:${verse.verseNumber}";
+                              } else {
+                                textToCopy =
+                                    "\"${verse!.verseText!}\" — ${detailController.getBookTitle(verse.book!)} ${verse.chapter}፥${verse.verseNumber}";
+                              }
+
+                              copyToClipboard(textToCopy);
                             },
                             icon: const Icon(Icons.copy)),
                         const Text("Copy")
@@ -91,7 +107,8 @@ void textSelectionOptions(
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30, left: 10, right: 10,bottom: 10),
+                  padding: const EdgeInsets.only(
+                      top: 30, left: 10, right: 10, bottom: 10),
                   child: Text(
                     "Highlight Options",
                     style: TextStyle(
@@ -108,19 +125,42 @@ void textSelectionOptions(
                       const SizedBox(
                         width: 2,
                       ),
+                      Visibility(
+                        visible: verse?.highlight != 0,
+                        child: GestureDetector(
+                          onTap: () async {
+                            await DatabaseService().updateHighlight(
+                                book, chapter, verseNumber, 0, tableName);
+                            detailController.selectedRowIndex = -1;
+                            verse?.highlight = 0;
+                            detailController.update();
+                          },
+                          child: const CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 184, 184, 184),
+                              radius: 25,
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.white,
+                              )),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       GestureDetector(
                         onTap: () async {
                           int color =
                               setHighlightColor(HighlightColors.highlightGreen);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
                         child: const CircleAvatar(
                           backgroundColor: HighlightColors.highlightGreen,
-                           radius: 25,
+                          radius: 25,
                         ),
                       ),
                       const SizedBox(
@@ -130,81 +170,81 @@ void textSelectionOptions(
                         onTap: () async {
                           int color = setHighlightColor(
                               HighlightColors.highlightYellow);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
                         child: const CircleAvatar(
                           backgroundColor: HighlightColors.highlightYellow,
-                           radius: 25,
+                          radius: 25,
                         ),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
                         onTap: () async {
                           int color = setHighlightColor(
                               HighlightColors.highlightOrange);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
                         child: const CircleAvatar(
                           backgroundColor: HighlightColors.highlightOrange,
-                           radius: 25,
+                          radius: 25,
                         ),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
                         onTap: () async {
                           int color =
                               setHighlightColor(HighlightColors.highlightRed);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
                         child: const CircleAvatar(
                           backgroundColor: HighlightColors.highlightRed,
-                           radius: 25,
+                          radius: 25,
                         ),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
                         onTap: () async {
                           int color =
                               setHighlightColor(HighlightColors.highlightBlue);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
                         child: const CircleAvatar(
                           backgroundColor: HighlightColors.highlightBlue,
-                           radius: 25,
+                          radius: 25,
                         ),
                       ),
-                       const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       GestureDetector(
                         onTap: () async {
                           int color =
                               setHighlightColor(HighlightColors.highlightPink);
-                          await DatabaseService()
-                              .updateHighlight(id, color, tableName);
-                          detailController.isRowSelected = false;
+                          await DatabaseService().updateHighlight(
+                              book, chapter, verseNumber, color, tableName);
+                          detailController.selectedRowIndex = -1;
                           verse?.highlight = color;
                           detailController.update();
                         },
