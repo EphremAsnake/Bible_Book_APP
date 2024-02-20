@@ -129,4 +129,22 @@ class DatabaseService {
     //return result
     return verses;
   }
+
+  Future<void> updateHighlight(
+      int id, int newHighlight, String tableName) async {
+    // Get the path to the database file
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'bible.db');
+
+    // Open the database
+    Database database = await openDatabase(path);
+
+    await database.update(
+      tableName,
+      {'highlight': newHighlight},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    await database.close();
+  }
 }

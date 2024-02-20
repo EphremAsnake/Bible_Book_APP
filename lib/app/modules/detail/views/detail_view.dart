@@ -4,9 +4,11 @@ import 'package:bible_book_app/app/core/shared_controllers/database_service.dart
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
+import 'package:bible_book_app/app/modules/detail/views/widgets/text_selection_widget.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/exit_confirmation_dialogue.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
+import 'package:bible_book_app/app/utils/helpers/get_and_set_highlight_color.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:zoom_widget/zoom_widget.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
@@ -509,153 +512,189 @@ class DetailView extends GetView<DetailController> {
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 5),
                                         child: SizedBox(
+                                          width: 100.w,
                                           height: 76.h,
-                                          child: SingleChildScrollView(
-                                            child: ListView.builder(
-                                              controller: controller
-                                                  .readerScrollController,
-                                              itemCount: controller
-                                                  .allVerses[i].length,
-                                              shrinkWrap: true,
-                                              itemBuilder: (context, index) {
-                                                return Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 14.0,
-                                                      vertical: 3),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      index == 0
-                                                          ? Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: <Widget>[
-                                                                Text(
-                                                                  index == 0
-                                                                      ? '${controller.allVerses[i][index].chapter}'
-                                                                      : '',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontFamily:
-                                                                        "Abyssinica",
-                                                                    fontSize:
-                                                                        controller.fontSize +
-                                                                            40,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                    color: themeData
-                                                                        ?.primaryColor,
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                if (controller
-                                                                        .allVerses[
-                                                                            i][
-                                                                            index]
-                                                                        .verseText !=
-                                                                    "፤")
-                                                                  Expanded(
-                                                                    child:
-                                                                        RichText(
-                                                                      text:
-                                                                          TextSpan(
-                                                                        children: [
-                                                                          TextSpan(
-                                                                            text: controller.selectedBook.contains("አዲሱ")
-                                                                                ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                                : controller.selectedBook.contains("1954")
-                                                                                    ? '${controller.allVerses[i][index].verseNumber} '
-                                                                                    : '${controller.allVerses[i][index].verseNumber}  ',
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: controller.fontSize.sp,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              color: const Color.fromARGB(255, 146, 45, 38),
+                                          child: Zoom(
+                                            initTotalZoomOut: true,
+                                            backgroundColor:
+                                                themeData!.whiteColor,
+                                            opacityScrollBars: 0.0,
+                                            centerOnScale: true,
+                                            doubleTapZoom: true,
+                                            enableScroll: true,
+                                            child: SingleChildScrollView(
+                                              child: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                child: ListView.builder(
+                                                  controller: controller
+                                                      .readerScrollController,
+                                                  itemCount: controller
+                                                      .allVerses[i].length,
+                                                  shrinkWrap: true,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return GestureDetector(
+                                                      onTap: () async {
+                                                        controller
+                                                                .isRowSelected =
+                                                            true;
+                                                        controller.update();
+                                                        textSelectionOptions(
+                                                            context,
+                                                            1,
+                                                            "ENGLISHNIV",
+                                                            controller
+                                                                    .allVerses[
+                                                                i][index]);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                    14.0,
+                                                                vertical: 3),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            index == 0
+                                                                ? Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    children: <Widget>[
+                                                                      Text(
+                                                                        index ==
+                                                                                0
+                                                                            ? '${controller.allVerses[i][index].chapter}'
+                                                                            : '',
+                                                                        textAlign:
+                                                                            TextAlign.left,
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                "Abyssinica",
+                                                                            fontSize: controller.fontSize +
+                                                                                40,
+                                                                            fontWeight: FontWeight
+                                                                                .normal,
+                                                                            color: themeData
+                                                                                ?.primaryColor,
+                                                                            backgroundColor: controller.isRowSelected
+                                                                                ? themeData?.primaryColor.withOpacity(0.5)
+                                                                                : getHighlightColor(controller.allVerses[i][index].highlight!)),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        width:
+                                                                            10,
+                                                                      ),
+                                                                      if (controller
+                                                                              .allVerses[i][index]
+                                                                              .verseText !=
+                                                                          "፤")
+                                                                        Expanded(
+                                                                          child:
+                                                                              RichText(
+                                                                            text:
+                                                                                TextSpan(
+                                                                              style: TextStyle(
+                                                                                backgroundColor: controller.isRowSelected ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                              ),
+                                                                              children: [
+                                                                                TextSpan(
+                                                                                  text: controller.selectedBook.contains("አዲሱ")
+                                                                                      ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                                      : controller.selectedBook.contains("1954")
+                                                                                          ? '${controller.allVerses[i][index].verseNumber} '
+                                                                                          : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                                  style: TextStyle(
+                                                                                    fontSize: controller.fontSize.sp,
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    color: const Color.fromARGB(255, 146, 45, 38),
+                                                                                  ),
+                                                                                ),
+                                                                                TextSpan(
+                                                                                  text: controller.allVerses[i][index].verseText,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: controller.fontSize.sp + 1.5.sp,
+                                                                                    color: Colors.black,
+                                                                                    fontFamily: "Abyssinica",
+                                                                                    backgroundColor: controller.isRowSelected ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
                                                                             ),
                                                                           ),
-                                                                          TextSpan(
-                                                                            text:
-                                                                                controller.allVerses[i][index].verseText,
-                                                                            style: TextStyle(
-                                                                                fontSize: controller.fontSize.sp + 1.5.sp,
-                                                                                color: Colors.black,
-                                                                                fontFamily: "Abyssinica"),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                              ],
-                                                            )
-                                                          : const SizedBox
-                                                              .shrink(),
-                                                      if (index != 0)
-                                                        if (controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .verseText !=
-                                                            " ፤")
-                                                          SelectableText.rich(
-                                                            TextSpan(
-                                                              text: controller
-                                                                      .selectedBook
-                                                                      .contains(
-                                                                          "አዲሱ")
-                                                                  ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                  : controller
-                                                                          .selectedBook
-                                                                          .contains(
-                                                                              "1954")
-                                                                      ? '${controller.allVerses[i][index].verseNumber}'
-                                                                      : '${controller.allVerses[i][index].verseNumber}  ',
-                                                              style: TextStyle(
-                                                                fontSize:
-                                                                    controller
-                                                                        .fontSize
-                                                                        .sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: const Color
-                                                                    .fromARGB(
-                                                                    255,
-                                                                    146,
-                                                                    45,
-                                                                    38),
-                                                              ),
-                                                              children: <InlineSpan>[
-                                                                TextSpan(
-                                                                  text:
-                                                                      '${controller.allVerses[i][index].verseText?.trimRight()}',
-                                                                  style: TextStyle(
-                                                                      fontFamily:
-                                                                          "Abyssinica",
+                                                                        ),
+                                                                    ],
+                                                                  )
+                                                                : const SizedBox
+                                                                    .shrink(),
+                                                            if (index != 0)
+                                                              if (controller
+                                                                      .allVerses[
+                                                                          i][
+                                                                          index]
+                                                                      .verseText !=
+                                                                  " ፤")
+                                                                SelectableText
+                                                                    .rich(
+                                                                  TextSpan(
+                                                                    text: controller
+                                                                            .selectedBook
+                                                                            .contains("አዲሱ")
+                                                                        ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                        : controller.selectedBook.contains("1954")
+                                                                            ? '${controller.allVerses[i][index].verseNumber}'
+                                                                            : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      backgroundColor: controller
+                                                                              .isRowSelected
+                                                                          ? themeData?.primaryColor.withOpacity(
+                                                                              0.5)
+                                                                          : getHighlightColor(controller
+                                                                              .allVerses[i][index]
+                                                                              .highlight!),
                                                                       fontSize: controller
                                                                           .fontSize
                                                                           .sp,
-                                                                      color: Colors
-                                                                          .black,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .normal),
+                                                                              .bold,
+                                                                      color: const Color
+                                                                          .fromARGB(
+                                                                          255,
+                                                                          146,
+                                                                          45,
+                                                                          38),
+                                                                    ),
+                                                                    children: <InlineSpan>[
+                                                                      TextSpan(
+                                                                        text:
+                                                                            '${controller.allVerses[i][index].verseText?.trimRight()}',
+                                                                        style: TextStyle(
+                                                                            backgroundColor: controller.isRowSelected
+                                                                                ? themeData?.primaryColor.withOpacity(0.5)
+                                                                                : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                            fontFamily: "Abyssinica",
+                                                                            fontSize: controller.fontSize.sp,
+                                                                            color: Colors.black,
+                                                                            fontWeight: FontWeight.normal),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ),

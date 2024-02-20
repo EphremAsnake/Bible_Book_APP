@@ -48,7 +48,9 @@ class DetailController extends GetxController {
   bool isLoading = false;
   bool isSelectingBook = false;
   double fontSize = 12.5;
+  bool isRowSelected = false;
 
+  
   List<String> searchPlaceOptions = [
     'ot'.tr,
     'nt'.tr,

@@ -1,6 +1,6 @@
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
-import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
+import 'package:bible_book_app/app/modules/detail/views/widgets/text_selection_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,6 +12,7 @@ import '../controllers/settings_controller.dart';
 class SettingsView extends GetView<SettingsController> {
   SettingsView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
+  final DetailController detailController = Get.find<DetailController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +116,7 @@ class SettingsView extends GetView<SettingsController> {
                 ),
                 child: ListTile(
                   onTap: () {
-                    showFontSizeBottomSheet(context);
+                    textSelectionOptions(context, 1, "ENGLISHNIV",null);
                   },
                   leading: const Icon(
                     Icons.font_download,
