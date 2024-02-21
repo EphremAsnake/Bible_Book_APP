@@ -14,6 +14,8 @@ int setHighlightColor(Color color) {
     return 5;
   } else if (color == HighlightColors.highlightPink) {
     return 6;
+  } else if (color == HighlightColors.highlightDarkGreen) {
+    return 7;
   } else {
     return 0;
   }
@@ -32,6 +34,8 @@ Color getHighlightColor(int number) {
     return HighlightColors.highlightBlue;
   } else if (number == 6) {
     return HighlightColors.highlightPink;
+  } else if (number == 7) {
+    return HighlightColors.highlightDarkGreen;
   } else {
     return const Color(0xffffffff);
   }

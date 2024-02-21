@@ -16,7 +16,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import 'package:zoom_widget/zoom_widget.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
@@ -521,14 +520,7 @@ class DetailView extends GetView<DetailController> {
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 30),
-                                            child: Zoom(
-                                              backgroundColor:
-                                                  themeData!.whiteColor,
-                                              opacityScrollBars: 0.0,
-                                              centerOnScale: true,
-                                              doubleTapZoom: true,
-                                              enableScroll: true,
-                                              child: SingleChildScrollView(
+                                            child:SingleChildScrollView(
                                                 child: SizedBox(
                                                   width: MediaQuery.of(context)
                                                       .size
@@ -651,6 +643,7 @@ class DetailView extends GetView<DetailController> {
                                                                         .verseText !=
                                                                     " ፤")
                                                                   RichText(
+                                                                    
                                                                     text:
                                                                         TextSpan(
                                                                       text: controller
@@ -681,7 +674,7 @@ class DetailView extends GetView<DetailController> {
                                                                               '${controller.allVerses[i][index].verseText?.trimRight()}',
                                                                           style:
                                                                               TextStyle(
-
+                                                                            
                                                                             backgroundColor: controller.selectedRowIndex == index
                                                                                 ? themeData?.primaryColor.withOpacity(0.5)
                                                                                 : getHighlightColor(controller.allVerses[i][index].highlight!),
@@ -707,7 +700,7 @@ class DetailView extends GetView<DetailController> {
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            
                                           ),
                                         ),
                                       ),
