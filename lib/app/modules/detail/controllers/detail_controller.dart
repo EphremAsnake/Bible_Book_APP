@@ -27,7 +27,7 @@ class DetailController extends GetxController {
   bool isAmharicKeyboardVisible = true;
   String selectedSearchTypeOptions = 'every_word'.tr;
   String selectedSearchPlaceOptions = 'all'.tr;
-  String selectedBookTypeOptions = 'አማርኛ 1954';
+  String selectedBookTypeOptions = 'አዲሱ መደበኛ ትርጉም';
   List<Verses> searchResultVerses = [];
   List<Book> books = [];
   List<Book> booksList = [];
@@ -48,7 +48,6 @@ class DetailController extends GetxController {
   double fontSize = 12.5;
   int selectedRowIndex = -1;
 
-  
   List<String> searchPlaceOptions = [
     'ot'.tr,
     'nt'.tr,
@@ -83,7 +82,7 @@ class DetailController extends GetxController {
     loadInitialPage();
     fetchConfigsData();
     getFontSize();
-    
+
     update();
   }
 
@@ -93,7 +92,6 @@ class DetailController extends GetxController {
     int? pageNo =
         await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
 
-    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (pageNo != null) {
         // Check if the widget is still mounted before creating PageController
@@ -132,6 +130,7 @@ class DetailController extends GetxController {
     if (bookName != null) {
       selectedBookTypeOptions = bookName;
     }
+    update();
   }
 
   setPreviousPageNumber(int pageNumber) async {
@@ -152,10 +151,8 @@ class DetailController extends GetxController {
     update();
   }
 
-
   loadData() async {
     getterAndSetterController.readData();
-
   }
 
   setSelectedAmharicLetter(AmharicLetter selectedAmharicLetterType) {
@@ -360,17 +357,15 @@ class DetailController extends GetxController {
     }
   }
 
-  getBookName(int bookId) async{
-    if(books.isEmpty){
-        
-    }
-    //check if current book is amharic or english
-    if (selectedBookTypeOptions.contains("አ")) { // books = await DatabaseService().readBookDatabase();
-      List<Book> bookss = books; 
-      String vers =  books.where((element) => element.id == bookId).first.titleGeez!;
-      return books.where((element) => element.id == bookId).first.titleGeez;
-    } else {
-      return books.where((element) => element.id == bookId).first.title;
+  getBookName(int bookId) {
+    if (books.isNotEmpty) {
+      //check if current book is amharic or english
+      if (selectedBookTypeOptions.contains("አ")) {
+        // books = await DatabaseService().readBookDatabase();
+        return books.where((element) => element.id == bookId).first.titleGeez;
+      } else {
+        return books.where((element) => element.id == bookId).first.title;
+      }
     }
   }
 

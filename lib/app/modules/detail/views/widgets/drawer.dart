@@ -35,19 +35,7 @@ class CustomDrawer extends StatelessWidget {
             builder: (_) {
               if (detailController.apiStateHandler.apiState ==
                   ApiState.loading) {
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10),
-                    child: Container(
-                      width: double.infinity,
-                      height: 80,
-                      color: themeData!.whiteColor,
-                    ),
-                  ),
-                );
+                return const SizedBox.shrink();
               } else if (detailController.apiStateHandler.apiState ==
                   ApiState.success) {
                 if (detailController
