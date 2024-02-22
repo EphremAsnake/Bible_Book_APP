@@ -12,7 +12,7 @@ import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -74,11 +74,7 @@ class DetailController extends GetxController {
     allVerses.addAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
     getBooks();
-    readerScrollController.addListener(() {
-      // Check if the scroll controller is actively scrolling
-      hidePageNavigators =
-          readerScrollController.position.isScrollingNotifier.value;
-    });
+   
     loadInitialPage();
     fetchConfigsData();
     getFontSize();

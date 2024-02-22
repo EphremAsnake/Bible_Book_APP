@@ -86,17 +86,7 @@ class CustomDrawer extends StatelessWidget {
                   );
                 }
               } else {
-                return Container(
-                  height: 25.h,
-                  width: 90.w,
-                  padding: const EdgeInsets.all(0),
-                  child: const Image(
-                    image: AssetImage(
-                      "assets/images/banner.jpeg",
-                    ),
-                    fit: BoxFit.fill,
-                  ),
-                );
+                return const SizedBox.shrink();
               }
             },
           ),
