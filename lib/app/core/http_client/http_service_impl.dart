@@ -1,34 +1,23 @@
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
-import 'package:bible_book_app/app/core/http_client/http_status_code_worth_retrying.dart';
 import 'package:bible_book_app/app/core/http_client/htttp_attrib_options.dart';
 import 'package:bible_book_app/app/core/http_client/process_http_request.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/snack_bar.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
+import 'package:dio/dio.dart';
 
 class HttpServiceImpl implements HttpService {
   @override
   Future<dynamic> sendHttpRequest(
       HttpClientAttributeOptions httpAttribOptions) async {
     try {
-      // instantiating  http client class
-      final httpClient =
-          RetryClient(http.Client(), retries: httpAttribOptions.retries,
-              when: (http.BaseResponse response) {
-        return HttpStatusWorthRetying.isWorthRetrying(response.statusCode);
-      });
-
       //instantiating response object
-      http.Response? response;
-
+      Response<dynamic>? response;
       //instantiating http processor class
       ProcessHttpRequest processHttpRequest = ProcessHttpRequest();
 
       switch (httpAttribOptions.method) {
         case HttpMethod.GET:
-          response = await processHttpRequest.processGetRequest(
-              httpClient, httpAttribOptions);
+          response = await processHttpRequest.processGetRequest(httpAttribOptions);
           if (response.statusCode == 200) {
             return response;
           }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
 import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_handler.dart';
@@ -12,7 +13,6 @@ import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,6 +47,7 @@ class DetailController extends GetxController {
   bool isSelectingBook = false;
   double fontSize = 12.5;
   int selectedRowIndex = -1;
+  String drawerQuote = "";
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -74,12 +75,9 @@ class DetailController extends GetxController {
     allVerses.addAll(getterAndSetterController.groupedBookList());
     setInitialSelectedBookTypeOptions();
     getBooks();
-   
     loadInitialPage();
     fetchConfigsData();
     getFontSize();
-
-    update();
   }
 
   Future<void> loadInitialPage() async {
@@ -438,11 +436,20 @@ class DetailController extends GetxController {
       dynamic response =
           await httpService.sendHttpRequest(ConfigsHttpAttributes());
 
-      final result = jsonDecode(response.body);
-      configs = Configs.fromJson(result);
-      // Update state with success and response data
-      apiStateHandler.setSuccess(configs!);
-      update();
+      // Ensure response.data is a Map<String, dynamic>
+      if (response.data is Map<String, dynamic>) {
+        String jsonData = jsonEncode(response.data);
+
+        // No need to encode and decode again, just use the data directly
+        configs = configsFromJson(jsonData);
+        // Update state with success and response data
+        apiStateHandler.setSuccess(configs!);
+        update();
+      } else {
+        // Handle the case where response.data is not the expected type
+        apiStateHandler.setError("Invalid Data");
+        update();
+      }
     } catch (ex) {
       // Update state with error message
       String errorMessage = await HandleHttpException().getExceptionString(ex);
@@ -480,5 +487,16 @@ class DetailController extends GetxController {
       fontSize = localFontSize.toDouble();
       update();
     }
+  }
+
+  String generateRandomQuote(String locale) {
+    Random random = Random();
+    // Generate random indices for category and verse
+    int categoryIndex = random.nextInt(allVerses.length);
+    int verseIndex = random.nextInt(allVerses[categoryIndex].length);
+    Verses randomVerse = allVerses[categoryIndex][verseIndex];
+    String randomQuote =
+        "\"${randomVerse.verseText!}\"  ${detailController.getBookTitle(randomVerse.book!)} ${randomVerse.chapter}:${randomVerse.verseNumber}";
+    return randomQuote;
   }
 }

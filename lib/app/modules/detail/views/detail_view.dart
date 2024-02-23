@@ -449,6 +449,12 @@ class DetailView extends GetView<DetailController> {
               //   controller.searchResultVerses.clear();
               // }
             },
+            onDrawerChanged: (isOpen) {
+              if (isOpen == true) {
+                controller.drawerQuote = controller.generateRandomQuote("");
+                controller.update();
+              }
+            },
             drawer: CustomDrawer(
                 themeData: themeData,
                 getterAndSetterController: getterAndSetterController),

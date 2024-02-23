@@ -6,6 +6,7 @@ import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
 import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/refresh_error_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,11 +36,13 @@ class CustomDrawer extends StatelessWidget {
             builder: (_) {
               if (detailController.apiStateHandler.apiState ==
                   ApiState.loading) {
-                return const SizedBox.shrink();
+                return const SizedBox(
+                  height: 40,
+                );
               } else if (detailController.apiStateHandler.apiState ==
                   ApiState.success) {
                 if (detailController
-                        .apiStateHandler.data!.houseAds[0].houseAd1!.show ==
+                        .apiStateHandler.data!.houseAds[0].houseAd1!.show !=
                     true) {
                   return GestureDetector(
                     onTap: () {
@@ -63,12 +66,16 @@ class CustomDrawer extends StatelessWidget {
                       height: 25.h,
                       width: 90.w,
                       padding: const EdgeInsets.all(0),
-                      child: Image(
-                        image: NetworkImage(
-                          detailController.apiStateHandler.data!.houseAds[0]
-                              .houseAd1!.image,
-                        ),
+                      child: CachedNetworkImage(
+                        imageUrl: detailController
+                            .apiStateHandler.data!.houseAds[0].houseAd1!.image,
                         fit: BoxFit.fill,
+                        placeholder: (context, url) => const SizedBox(
+                          height: 40,
+                        ),
+                        errorWidget: (context, url, error) => const SizedBox(
+                          height: 40,
+                        ),
                       ),
                     ),
                   );
@@ -77,16 +84,36 @@ class CustomDrawer extends StatelessWidget {
                     height: 25.h,
                     width: 90.w,
                     padding: const EdgeInsets.all(0),
-                    child: const Image(
-                      image: AssetImage(
-                        "assets/images/banner.jpeg",
-                      ),
-                      fit: BoxFit.fill,
+                    child: Stack(
+                      children: [
+                        Image.asset(
+                          "assets/images/banner.jpeg",
+                          fit: BoxFit.fill,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            color: Colors.black.withOpacity(0.5),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              detailController.drawerQuote,
+                              style: TextStyle(
+                                  color: themeData!.whiteColor,
+                                  fontFamily: "Abyssinica",
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }
               } else {
-                return const SizedBox.shrink();
+                return const SizedBox(
+                  height: 40,
+                );
               }
             },
           ),

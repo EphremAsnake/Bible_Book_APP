@@ -1,19 +1,25 @@
 import 'package:bible_book_app/app/core/http_client/htttp_attrib_options.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 
 class ProcessHttpRequest {
-  Future<http.Response> processGetRequest(RetryClient httpClient,
+  Future<Response> processGetRequest(
       HttpClientAttributeOptions httpAttribOptions) async {
-    Uri uri = Uri.parse( httpAttribOptions.baseUrl + httpAttribOptions.url);
-    return await httpClient
+    String url = httpAttribOptions.baseUrl + httpAttribOptions.url;
+    final Dio dio = Dio();
+    DioCacheManager dioCacheManager = DioCacheManager(CacheConfig());
+    Options catchOptions = buildCacheOptions(
+      const Duration(days: 365),
+      forceRefresh: true,
+    );
+    dio.interceptors.add(dioCacheManager.interceptor);
+    return await dio
         .get(
-          uri,
-          headers: httpAttribOptions.headers,
+          url,
+          options: catchOptions,
         )
         .timeout(
           Duration(seconds: httpAttribOptions.connectionTimeout),
         );
   }
-
 }
