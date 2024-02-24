@@ -42,7 +42,7 @@ class CustomDrawer extends StatelessWidget {
               } else if (detailController.apiStateHandler.apiState ==
                   ApiState.success) {
                 if (detailController
-                        .apiStateHandler.data!.houseAds[0].houseAd1!.show !=
+                        .apiStateHandler.data!.houseAds[0].houseAd1!.show ==
                     true) {
                   return GestureDetector(
                     onTap: () {

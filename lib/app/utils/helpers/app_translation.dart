@@ -28,7 +28,9 @@ final Map<String, String> en = {
   'changed_to_amh_new': "Bible Type Changed To Amharic New  Translation",
   'changed_to_eng_niv': "Bible Type Changed To English NIV",
   'changed_to_eng_kjv': "Bible Type Changed To English KJV",
-  'font_size':"Font Size",
+  'font_size': "Font Size",
+  'share': 'Share',
+  'rate': 'Rate App',
 };
 
 final Map<String, String> amh = {
@@ -51,5 +53,7 @@ final Map<String, String> amh = {
   'changed_to_amh_new': "የመጽሐፍ ቅዱስ ዓይነት ወደ አማርኛ አዲስ ትርጉም ተለወጠ።",
   'changed_to_eng_niv': "የመጽሐፍ ቅዱስ ዓይነት ወደ እንግሊዝኛ NIV ተለወጠ።",
   'changed_to_eng_kjv': "የመጽሐፍ ቅዱስ ዓይነት ወደ እንግሊዝኛ ኪጄቪ ተለወጠ።",
-  'font_size':"የፊደል መጠን"
+  'font_size': "የፊደል መጠን",
+  'share': 'አጋራ',
+  'rate': 'ሬት ያድርጉ'
 };

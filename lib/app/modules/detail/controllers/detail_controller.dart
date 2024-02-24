@@ -50,6 +50,7 @@ class DetailController extends GetxController {
   int selectedRowIndex = -1;
   String drawerQuote = "";
   List<Devotion> devotions = [];
+  Verses? selectedVerse;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -502,5 +503,20 @@ class DetailController extends GetxController {
     Devotion devotion = devotions[devotionIndex];
     String randomQuote = "${devotion.verse}\n${devotion.verseLocation}";
     return randomQuote;
+  }
+
+  // Future<void> shareApp() async {
+  //   // Set the app link and the message to be shared
+  //   final String appLink =
+  //       'Check out this bible app: https://play.google.com/store/apps/details?id=com.example.myapp';
+
+  //   Platform.isAndroid
+  //       ? await Share.share('Share App',subject: appLink)
+  //       : await Share.share();
+  // }
+
+  setCurrentBookAndChapter(Verses verse) {
+    selectedVerse = verse;
+    update();
   }
 }
