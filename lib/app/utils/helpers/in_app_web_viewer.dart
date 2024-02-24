@@ -40,7 +40,7 @@ class _InAppWebViewerState extends State<InAppWebViewer> {
       body: Column(
         children: <Widget>[
           Container(
-              padding: const EdgeInsets.symmetric(vertical: 0,horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
               child: progress < 1.0
                   ? LinearProgressIndicator(value: progress)
                   : Container()),

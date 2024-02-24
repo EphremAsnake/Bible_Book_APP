@@ -143,40 +143,41 @@ class SettingsView extends GetView<SettingsController> {
       ),
     );
   }
+}
 
-  void showFontSizeBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return GetBuilder<DetailController>(
-          init: DetailController(),
-          initState: (_) {},
-          builder: (_) {
-            return Container(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "font_size".tr,
-                    style: TextStyle(fontSize: 12.5.sp),
-                  ),
-                  Slider(
-                    value: detailController.fontSize,
-                    onChanged: (value) async {
-                      await detailController.updateFontSize(value);
-                      detailController.update();
-                    },
-                    min: 10.0,
-                    max: 15,
-                    label: detailController.fontSize.toString(),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+void showFontSizeBottomSheet(BuildContext context) {
+  final DetailController detailController = Get.find<DetailController>();
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return GetBuilder<DetailController>(
+        init: DetailController(),
+        initState: (_) {},
+        builder: (_) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "font_size".tr,
+                  style: TextStyle(fontSize: 12.5.sp),
+                ),
+                Slider(
+                  value: detailController.fontSize,
+                  onChanged: (value) async {
+                    await detailController.updateFontSize(value);
+                    detailController.update();
+                  },
+                  min: 10.0,
+                  max: 20,
+                  label: detailController.fontSize.toString(),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }

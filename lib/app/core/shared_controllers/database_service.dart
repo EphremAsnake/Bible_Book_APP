@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
+import 'package:bible_book_app/app/data/models/bible/devotion.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
@@ -154,5 +155,42 @@ class DatabaseService {
       whereArgs: [book, chapter, verseNumber],
     );
     await database.close();
+  }
+
+  Future<List<Devotion>> readDevotionTable() async {
+    List<Devotion> devotions = [];
+
+    // Get the path to the database file
+    String databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'bible.db');
+
+    // Open the database
+    Database database = await openDatabase(path);
+
+    try {
+      // Query the database
+      List<Map<String, dynamic>> rows =
+          await database.rawQuery('SELECT * FROM AMH_Devotion');
+
+      // Process the retrieved data
+      for (Map<String, dynamic> row in rows) {
+        final devotion = Devotion(
+          id: row["id"],
+          date: row["date"],
+          verse: row["verse"],
+          verseLocation: row["verseLocation"],
+          verseDescription: row["verseDescription"],
+          versePrayer: row["versePrayer"],
+        );
+
+        devotions.add(devotion);
+      }
+    } finally {
+      if (database.isOpen) {
+        await database.close();
+      }
+    }
+
+    return devotions;
   }
 }

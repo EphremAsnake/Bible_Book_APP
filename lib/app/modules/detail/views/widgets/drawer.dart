@@ -81,8 +81,6 @@ class CustomDrawer extends StatelessWidget {
                   );
                 } else {
                   return Container(
-                    height: 25.h,
-                    width: 90.w,
                     padding: const EdgeInsets.all(0),
                     child: Stack(
                       children: [

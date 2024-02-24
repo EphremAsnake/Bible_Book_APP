@@ -10,15 +10,15 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sizer/sizer.dart';
 
 void textSelectionOptions(BuildContext context, int book, int chapter,
     int verseNumber, String tableName, Verses? verse) {
-  final DetailController detailController = Get.find<DetailController>();
+
+      final DetailController detailController = Get.find<DetailController>();
   showModalBottomSheet(
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25), topRight: Radius.circular(25))),
+            topLeft: Radius.circular(2), topRight: Radius.circular(2))),
     context: context,
     builder: (BuildContext context) {
       return GetBuilder<DetailController>(
@@ -33,35 +33,6 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
-                  child: Text(
-                    "Selected Verse Menu",
-                    style: TextStyle(
-                        fontSize: 11.sp,
-                        color: themeData?.grayTextColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 10, right: 10, bottom: 3),
-                  child: Divider(
-                    color: themeData?.grayTextColor.withOpacity(0.5),
-                  ),
-                ),
-
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //       top: 5, left: 10, right: 10, bottom: 10),
-                //   child: Text(
-                //     "Highlight Options",
-                //     style: TextStyle(
-                //         fontSize: 11.sp,
-                //         color: themeData?.grayTextColor,
-                //         fontWeight: FontWeight.bold),
-                //   ),
-                // ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -84,32 +55,51 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                             Get.back();
                           }
                         },
-                        child: const CircleAvatar(
-                            backgroundColor: Color.fromARGB(255, 201, 200, 200),
-                            radius: 20,
-                            child: Icon(
-                              Icons.clear,
-                              color: Colors.white,
-                            )),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          int color =
-                              setHighlightColor(HighlightColors.highlightGreen);
-                          await DatabaseService().updateHighlight(
-                              book, chapter, verseNumber, color, tableName);
-                          detailController.selectedRowIndex = -1;
-                          verse?.highlight = color;
-                          detailController.update();
-                        },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightGreen,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 201, 200, 200),
+                              radius: 20,
+                              child: Icon(
+                                Icons.clear,
+                                color: Colors.white,
+                              )),
                         ),
                       ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      GestureDetector(
+                          onTap: () async {
+                            int color = setHighlightColor(
+                                HighlightColors.highlightGreen);
+                            await DatabaseService().updateHighlight(
+                                book, chapter, verseNumber, color, tableName);
+                            detailController.selectedRowIndex = -1;
+                            verse?.highlight = color;
+                            detailController.update();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color:
+                                    Colors.grey, // Set the color of the border
+                                width: 1.0, // Set the width of the border
+                              ),
+                            ),
+                            child: const CircleAvatar(
+                              backgroundColor: HighlightColors.highlightGreen,
+                              radius: 20,
+                            ),
+                          )),
                       const SizedBox(
                         width: 10,
                       ),
@@ -123,9 +113,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightYellow,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightYellow,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -141,9 +140,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightOrange,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightOrange,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -159,9 +167,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightRed,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightRed,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -177,9 +194,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightBlue,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightBlue,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -195,9 +221,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightPink,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightPink,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -213,9 +248,18 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                           verse?.highlight = color;
                           detailController.update();
                         },
-                        child: const CircleAvatar(
-                          backgroundColor: HighlightColors.highlightDarkGreen,
-                          radius: 20,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.grey, // Set the color of the border
+                              width: 1.0, // Set the width of the border
+                            ),
+                          ),
+                          child: const CircleAvatar(
+                            backgroundColor: HighlightColors.highlightDarkGreen,
+                            radius: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -224,16 +268,13 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                     ],
                   ),
                 ),
-                //    Padding(
-                //   padding: const EdgeInsets.only(top: 15, left: 10, right: 10),
-                //   child: Text(
-                //     "Basic Options",
-                //     style: TextStyle(
-                //         fontSize: 11.sp,
-                //         color: themeData?.grayTextColor,
-                //         fontWeight: FontWeight.bold),
-                //   ),
-                // ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 5, left: 10, right: 10, bottom: 1),
+                  child: Divider(
+                    color: themeData?.grayTextColor.withOpacity(0.5),
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -282,6 +323,9 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                       ],
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 15,
                 ),
               ],
             ),

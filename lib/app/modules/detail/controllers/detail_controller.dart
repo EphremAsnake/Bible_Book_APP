@@ -6,6 +6,7 @@ import 'package:bible_book_app/app/core/http_exeption_handler/http_exception_han
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/book.dart';
+import 'package:bible_book_app/app/data/models/bible/devotion.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/data/models/configs/configs.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/configs_http_attribs.dart';
@@ -48,6 +49,7 @@ class DetailController extends GetxController {
   double fontSize = 12.5;
   int selectedRowIndex = -1;
   String drawerQuote = "";
+  List<Devotion> devotions = [];
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -80,12 +82,16 @@ class DetailController extends GetxController {
     getFontSize();
   }
 
+  Future<void> loadDevotions() async {
+    devotions = await DatabaseService().readDevotionTable();
+    update();
+  }
+
   Future<void> loadInitialPage() async {
     SharedPreferencesStorage sharedPreferencesStorage =
         SharedPreferencesStorage();
     int? pageNo =
         await sharedPreferencesStorage.readIntData(Keys.previousPageNumber);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (pageNo != null) {
         // Check if the widget is still mounted before creating PageController
@@ -146,7 +152,8 @@ class DetailController extends GetxController {
   }
 
   loadData() async {
-    getterAndSetterController.readData();
+    await getterAndSetterController.readData();
+    loadDevotions();
   }
 
   setSelectedAmharicLetter(AmharicLetter selectedAmharicLetterType) {
@@ -491,12 +498,9 @@ class DetailController extends GetxController {
 
   String generateRandomQuote(String locale) {
     Random random = Random();
-    // Generate random indices for category and verse
-    int categoryIndex = random.nextInt(allVerses.length);
-    int verseIndex = random.nextInt(allVerses[categoryIndex].length);
-    Verses randomVerse = allVerses[categoryIndex][verseIndex];
-    String randomQuote =
-        "\"${randomVerse.verseText!}\"  ${detailController.getBookTitle(randomVerse.book!)} ${randomVerse.chapter}:${randomVerse.verseNumber}";
+    int devotionIndex = random.nextInt(devotions.length);
+    Devotion devotion = devotions[devotionIndex];
+    String randomQuote = "${devotion.verse}\n${devotion.verseLocation}";
     return randomQuote;
   }
 }
