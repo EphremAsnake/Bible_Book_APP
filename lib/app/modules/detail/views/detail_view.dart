@@ -711,16 +711,22 @@ class DetailView extends GetView<DetailController> {
                                                                 " ፤")
                                                               RichText(
                                                                 text: TextSpan(
-                                                                  text: controller
-                                                                          .selectedBook
-                                                                          .contains(
-                                                                              "አዲሱ")
-                                                                      ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                      : controller
-                                                                              .selectedBook
-                                                                              .contains("1954")
-                                                                          ? '${controller.allVerses[i][index].verseNumber}'
-                                                                          : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                  text: index <
+                                                                          controller
+                                                                              .allVerses[i]
+                                                                              .length-1
+                                                                      ? controller.allVerses[i][index + 1].verseNumber - controller.allVerses[i][index].verseNumber >= 1
+                                                                          ? controller.selectedBook.contains("አዲሱ")
+                                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                              : controller.selectedBook.contains("1954")
+                                                                                  ? '${controller.allVerses[i][index].verseNumber}'
+                                                                                  : '${controller.allVerses[i][index].verseNumber}  '
+                                                                          : '${controller.allVerses[i][index].verseNumber} -${controller.allVerses[i][index + 1].verseNumber} '
+                                                                      : controller.selectedBook.contains("አዲሱ")
+                                                                          ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                          : controller.selectedBook.contains("1954")
+                                                                              ? '${controller.allVerses[i][index].verseNumber}'
+                                                                              : '${controller.allVerses[i][index].verseNumber}  ',
                                                                   style:
                                                                       TextStyle(
                                                                     fontSize:
@@ -743,10 +749,6 @@ class DetailView extends GetView<DetailController> {
                                                                           '${controller.allVerses[i][index].verseText?.trimRight()}',
                                                                       style:
                                                                           TextStyle(
-                                                                        backgroundColor: controller.selectedRowIndex ==
-                                                                                index
-                                                                            ? themeData?.primaryColor.withOpacity(0.5)
-                                                                            : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                         fontFamily:
                                                                             "Abyssinica",
                                                                         fontSize: controller
@@ -756,6 +758,10 @@ class DetailView extends GetView<DetailController> {
                                                                             .black,
                                                                         fontWeight:
                                                                             FontWeight.normal,
+                                                                        backgroundColor: controller.selectedRowIndex ==
+                                                                                index
+                                                                            ? themeData?.primaryColor.withOpacity(0.5)
+                                                                            : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                       ),
                                                                     ),
                                                                   ],
@@ -1090,5 +1096,34 @@ class DetailView extends GetView<DetailController> {
         );
       },
     );
+  }
+}
+
+class BackgroundPainter extends CustomPainter {
+  final BorderRadius borderRadius;
+  final Color? bgColor;
+
+  BackgroundPainter({required this.borderRadius, required this.bgColor});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = bgColor!
+      ..style = PaintingStyle.fill;
+
+    RRect roundedRect = RRect.fromRectAndCorners(
+      Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height)),
+      topLeft: borderRadius.topLeft,
+      topRight: borderRadius.topRight,
+      bottomLeft: borderRadius.bottomLeft,
+      bottomRight: borderRadius.bottomRight,
+    );
+
+    canvas.drawRRect(roundedRect, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

@@ -4,7 +4,6 @@ import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 class HomeAD extends StatelessWidget {
   HomeAD({
@@ -19,18 +18,10 @@ class HomeAD extends StatelessWidget {
       initState: (_) {},
       builder: (_) {
         if (detailController.apiStateHandler.apiState == ApiState.loading) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-              child: Container(
-                width: double.infinity,
-                height: 35,
-                color: themeData!.whiteColor,
-              ),
-            ),
+          return Container(
+            padding: const EdgeInsets.all(0),
+            height: 25,
+            decoration: BoxDecoration(color: themeData!.whiteColor),
           );
         } else if (detailController.apiStateHandler.apiState ==
             ApiState.success) {

@@ -13,9 +13,10 @@ import 'package:share_plus/share_plus.dart';
 
 void textSelectionOptions(BuildContext context, int book, int chapter,
     int verseNumber, String tableName, Verses? verse) {
-
-      final DetailController detailController = Get.find<DetailController>();
+  final DetailController detailController = Get.find<DetailController>();
   showModalBottomSheet(
+    barrierColor: Colors.transparent,
+    backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(2), topRight: Radius.circular(2))),
@@ -333,7 +334,10 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
         },
       );
     },
-  );
+  ).whenComplete(() {
+    detailController.selectedRowIndex = -1;
+    detailController.update();
+  });
 }
 
 void copyToClipboard(String text) {

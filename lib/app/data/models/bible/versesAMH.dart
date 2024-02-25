@@ -3,7 +3,7 @@ import 'dart:convert';
 class Verses {
   int? book;
   int? chapter;
-  int? verseNumber;
+  dynamic verseNumber;
   String? para;
   String? verseText;
   int? highlight;
