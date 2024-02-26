@@ -9,6 +9,7 @@ class ThemeDataModel {
   final Color splashColor;
   final Color errorColor;
   final Color lightGrey;
+  final Color lightPrimary;
 
   ThemeDataModel({
     required this.whiteColor,
@@ -20,5 +21,6 @@ class ThemeDataModel {
     required this.splashColor,
     required this.errorColor,
     required this.lightGrey,
+    required this.lightPrimary,
   });
 }

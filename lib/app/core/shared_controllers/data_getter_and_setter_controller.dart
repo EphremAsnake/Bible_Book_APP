@@ -80,7 +80,7 @@ class DataGetterAndSetter extends GetxController {
           if (verse.chapter != currentChapter ||
               verse.verseNumber != currentVerseNumber) {
             // Add the verse if it's a new chapter or verse number
-            
+
             mergedVerses.add(verse);
             currentChapter = verse.chapter!;
             currentVerseNumber = verse.verseNumber!;
@@ -89,10 +89,6 @@ class DataGetterAndSetter extends GetxController {
             mergedVerses.last.verseText =
                 (mergedVerses.last.verseText ?? '').trim() +
                     (verse.verseText ?? '').trim();
-            int nextverseNumber = mergedVerses.last.verseNumber + 1;
-            mergedVerses.last.verseNumber =
-                (mergedVerses.last.verseNumber.toString() ?? '').trim() + "-" +
-                    (nextverseNumber.toString() ?? '').trim();
           }
         } else {
           mergedVerses.add(verse);

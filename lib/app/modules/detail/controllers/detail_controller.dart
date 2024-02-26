@@ -51,6 +51,7 @@ class DetailController extends GetxController {
   String drawerQuote = "";
   List<Devotion> devotions = [];
   Verses? selectedVerse;
+  int mergeCounter = 0;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,

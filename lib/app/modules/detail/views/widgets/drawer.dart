@@ -221,7 +221,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     controller
                                                                         .selectedOldTestamentBookIndex
                                                                 ? themeData
-                                                                    ?.primaryColor
+                                                                    ?.lightPrimary
                                                                 : null,
                                                             borderRadius:
                                                                 BorderRadius
@@ -314,7 +314,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     controller
                                                                         .selectedNewTestamentBookIndex
                                                                 ? themeData
-                                                                    ?.primaryColor
+                                                                    ?.lightPrimary
                                                                 : null,
                                                             borderRadius:
                                                                 BorderRadius
@@ -410,7 +410,7 @@ class CustomDrawer extends StatelessWidget {
                                 vertical: 0.sp, horizontal: 0),
                             child: VerticalDivider(
                               width: 1,
-                              color: themeData?.primaryColor,
+                              color: themeData?.lightPrimary,
                             ),
                           ),
                         ),
@@ -419,7 +419,7 @@ class CustomDrawer extends StatelessWidget {
                                   -1 ||
                               controller.selectedNewTestamentBookIndex != -1,
                           child: SizedBox(
-                            width: 22.w,
+                            width: 24.w,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -449,141 +449,144 @@ class CustomDrawer extends StatelessWidget {
                                     List<int> chapters = List.generate(
                                         bookChapters, (index) => index + 1);
                                     return Expanded(
-                                      child: SizedBox(
-                                        width: 17.w,
-                                        child: ListView.builder(
-                                          controller: detailController
-                                              .drawerScrollController,
-                                          shrinkWrap: true,
-                                          itemCount: chapters.length,
-                                          itemBuilder: (context, index) {
-                                            return Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 0),
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  color: index ==
-                                                          controller
-                                                              .selectedIndex
-                                                      ? themeData?.primaryColor
-                                                      : null,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: ListTile(
-                                                  dense: false,
-                                                  visualDensity:
-                                                      const VisualDensity(
-                                                          vertical: -4),
-                                                  title: Center(
-                                                    child: Text(
-                                                      chapters[index]
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: index ==
-                                                                  controller
-                                                                      .selectedIndex
-                                                              ? themeData
-                                                                  ?.whiteColor
-                                                              : themeData
-                                                                  ?.blackColor,
-                                                          fontSize: index ==
-                                                                  controller
-                                                                      .selectedIndex
-                                                              ? 12.sp
-                                                              : 12.sp,
-                                                          fontWeight: index ==
-                                                                  controller
-                                                                      .selectedIndex
-                                                              ? FontWeight.bold
-                                                              : FontWeight
-                                                                  .normal),
-                                                    ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 10),
+                                        child: SizedBox(
+                                          width: 30.w,
+                                          child: ListView.builder(
+                                            controller: detailController
+                                                .drawerScrollController,
+                                            shrinkWrap: true,
+                                            itemCount: chapters.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 0),
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: index ==
+                                                            controller
+                                                                .selectedIndex
+                                                        ? themeData?.lightPrimary
+                                                        : null,
+                                                    borderRadius:
+                                                        BorderRadius.circular(10),
                                                   ),
-                                                  onTap: () {
-                                                    controller
-                                                        .updateSelectedIndex(
-                                                            index);
-                                                    Future.delayed(
-                                                      const Duration(
-                                                          milliseconds: 100),
-                                                      () {
-                                                        if (controller
-                                                                .selectedNewTestamentBookIndex !=
-                                                            -1) {
-                                                          getterAndSetterController
-                                                              .selectedVersesAMH
-                                                              .clear();
-                                                          getterAndSetterController
-                                                              .selectedVersesAMH
-                                                              .addAll(getterAndSetterController.getAMHBookChapters(
-                                                                  controller
-                                                                      .newTestamentBook[
-                                                                          controller
-                                                                              .selectedNewTestamentBookIndex]
-                                                                      .id!,
-                                                                  chapters[
-                                                                      index],
-                                                                  controller
-                                                                      .versesAMH));
-
+                                                  child: ListTile(
+                                                    dense: false,
+                                                    visualDensity:
+                                                        const VisualDensity(
+                                                            vertical: -4),
+                                                    title: Center(
+                                                      child: Text(
+                                                        chapters[index]
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: index ==
+                                                                    controller
+                                                                        .selectedIndex
+                                                                ? themeData
+                                                                    ?.whiteColor
+                                                                : themeData
+                                                                    ?.blackColor,
+                                                            fontSize: index ==
+                                                                    controller
+                                                                        .selectedIndex
+                                                                ? 12.sp
+                                                                : 12.sp,
+                                                            fontWeight: index ==
+                                                                    controller
+                                                                        .selectedIndex
+                                                                ? FontWeight.bold
+                                                                : FontWeight
+                                                                    .normal),
+                                                      ),
+                                                    ),
+                                                    onTap: () {
+                                                      controller
+                                                          .updateSelectedIndex(
+                                                              index);
+                                                      Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 100),
+                                                        () {
+                                                          if (controller
+                                                                  .selectedNewTestamentBookIndex !=
+                                                              -1) {
+                                                            getterAndSetterController
+                                                                .selectedVersesAMH
+                                                                .clear();
+                                                            getterAndSetterController
+                                                                .selectedVersesAMH
+                                                                .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                    controller
+                                                                        .newTestamentBook[
+                                                                            controller
+                                                                                .selectedNewTestamentBookIndex]
+                                                                        .id!,
+                                                                    chapters[
+                                                                        index],
+                                                                    controller
+                                                                        .versesAMH));
+                                      
+                                                            int page = detailController
+                                                                .navigateToSpecificBookDetailView(
+                                                                    controller
+                                                                        .newTestamentBook[
+                                                                            controller
+                                                                                .selectedNewTestamentBookIndex]
+                                                                        .id!,
+                                                                    chapters[
+                                                                        index]);
+                                                            detailController
+                                                                .pageController
+                                                                ?.jumpToPage(
+                                                                    page);
+                                                            detailController
+                                                                .update();
+                                                          } else if (controller
+                                                                  .selectedOldTestamentBookIndex !=
+                                                              -1) {
+                                                            getterAndSetterController
+                                                                .selectedVersesAMH
+                                                                .clear();
+                                                            getterAndSetterController
+                                                                .selectedVersesAMH
+                                                                .addAll(getterAndSetterController.getAMHBookChapters(
+                                                                    controller
+                                                                        .oldTestamentBook[
+                                                                            controller
+                                                                                .selectedOldTestamentBookIndex]
+                                                                        .id!,
+                                                                    chapters[
+                                                                        index],
+                                                                    controller
+                                                                        .versesAMH));
+                                                          }
                                                           int page = detailController
                                                               .navigateToSpecificBookDetailView(
-                                                                  controller
-                                                                      .newTestamentBook[
-                                                                          controller
-                                                                              .selectedNewTestamentBookIndex]
-                                                                      .id!,
-                                                                  chapters[
-                                                                      index]);
-                                                          detailController
-                                                              .pageController
-                                                              ?.jumpToPage(
-                                                                  page);
-                                                          detailController
-                                                              .update();
-                                                        } else if (controller
-                                                                .selectedOldTestamentBookIndex !=
-                                                            -1) {
-                                                          getterAndSetterController
-                                                              .selectedVersesAMH
-                                                              .clear();
-                                                          getterAndSetterController
-                                                              .selectedVersesAMH
-                                                              .addAll(getterAndSetterController.getAMHBookChapters(
                                                                   controller
                                                                       .oldTestamentBook[
                                                                           controller
                                                                               .selectedOldTestamentBookIndex]
                                                                       .id!,
                                                                   chapters[
-                                                                      index],
-                                                                  controller
-                                                                      .versesAMH));
-                                                        }
-                                                        int page = detailController
-                                                            .navigateToSpecificBookDetailView(
-                                                                controller
-                                                                    .oldTestamentBook[
-                                                                        controller
-                                                                            .selectedOldTestamentBookIndex]
-                                                                    .id!,
-                                                                chapters[
-                                                                    index]);
-                                                        detailController
-                                                            .pageController
-                                                            ?.jumpToPage(page);
-                                                        detailController
-                                                            .update();
-                                                        Get.toNamed("/detail");
-                                                      },
-                                                    );
-                                                  },
+                                                                      index]);
+                                                          detailController
+                                                              .pageController
+                                                              ?.jumpToPage(page);
+                                                          detailController
+                                                              .update();
+                                                          Get.toNamed("/detail");
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          },
+                                              );
+                                            },
+                                          ),
                                         ),
                                       ),
                                     );

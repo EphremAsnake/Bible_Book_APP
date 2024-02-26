@@ -571,6 +571,15 @@ class DetailView extends GetView<DetailController> {
                                                     .allVerses[i].length,
                                                 shrinkWrap: true,
                                                 itemBuilder: (context, index) {
+                                                  if (controller
+                                                          .allVerses[i][index]
+                                                          .verseText ==
+                                                      "፤") {
+                                                    controller.mergeCounter =
+                                                        controller
+                                                                .mergeCounter +
+                                                            1;
+                                                  }
                                                   return GestureDetector(
                                                     onTap: () async {
                                                       controller
@@ -709,64 +718,78 @@ class DetailView extends GetView<DetailController> {
                                                                         [index]
                                                                     .verseText !=
                                                                 " ፤")
-                                                              RichText(
-                                                                text: TextSpan(
-                                                                  text: index <
-                                                                          controller
-                                                                              .allVerses[i]
-                                                                              .length-1
-                                                                      ? controller.allVerses[i][index + 1].verseNumber - controller.allVerses[i][index].verseNumber >= 1
-                                                                          ? controller.selectedBook.contains("አዲሱ")
-                                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                              : controller.selectedBook.contains("1954")
-                                                                                  ? '${controller.allVerses[i][index].verseNumber}'
-                                                                                  : '${controller.allVerses[i][index].verseNumber}  '
-                                                                          : '${controller.allVerses[i][index].verseNumber} -${controller.allVerses[i][index + 1].verseNumber} '
-                                                                      : controller.selectedBook.contains("አዲሱ")
-                                                                          ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                          : controller.selectedBook.contains("1954")
-                                                                              ? '${controller.allVerses[i][index].verseNumber}'
-                                                                              : '${controller.allVerses[i][index].verseNumber}  ',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        controller
-                                                                            .fontSize
-                                                                            .sp,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    color: const Color
-                                                                        .fromARGB(
-                                                                        255,
-                                                                        146,
-                                                                        45,
-                                                                        38),
-                                                                  ),
-                                                                  children: <InlineSpan>[
-                                                                    TextSpan(
+                                                              controller
+                                                                          .allVerses[
+                                                                              i]
+                                                                              [
+                                                                              index]
+                                                                          .para ==
+                                                                      "s1"
+                                                                  ? Padding(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
+                                                                          horizontal:
+                                                                              55, vertical: 15),
+                                                                      child:
+                                                                          Text(
+                                                                        '${controller.allVerses[i][index].verseText?.trimRight()}',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              "Abyssinica",
+                                                                          fontSize: controller
+                                                                              .fontSize
+                                                                              .sp,
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontWeight:
+                                                                              FontWeight.normal,
+                                                                          backgroundColor: controller.selectedRowIndex == index
+                                                                              ? themeData?.primaryColor.withOpacity(0.5)
+                                                                              : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  : RichText(
                                                                       text:
-                                                                          '${controller.allVerses[i][index].verseText?.trimRight()}',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontFamily:
-                                                                            "Abyssinica",
-                                                                        fontSize: controller
-                                                                            .fontSize
-                                                                            .sp,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.normal,
-                                                                        backgroundColor: controller.selectedRowIndex ==
-                                                                                index
-                                                                            ? themeData?.primaryColor.withOpacity(0.5)
-                                                                            : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                          TextSpan(
+                                                                        text: controller.selectedBook.contains("አዲሱ")
+                                                                            ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                            : controller.selectedBook.contains("1954")
+                                                                                ? controller.allVerses[i][index - 1].verseText == " ፤"
+                                                                                    ? '${controller.allVerses[i][index - 1].verseNumber} - ${controller.allVerses[i][index].verseNumber} '
+                                                                                    : '${controller.allVerses[i][index].verseNumber}'
+                                                                                : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize: controller
+                                                                              .fontSize
+                                                                              .sp,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          color: const Color
+                                                                              .fromARGB(
+                                                                              255,
+                                                                              146,
+                                                                              45,
+                                                                              38),
+                                                                        ),
+                                                                        children: <InlineSpan>[
+                                                                          TextSpan(
+                                                                            text:
+                                                                                '${controller.allVerses[i][index].verseText?.trimRight()}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: "Abyssinica",
+                                                                              fontSize: controller.fontSize.sp,
+                                                                              color: Colors.black,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
                                                                     ),
-                                                                  ],
-                                                                ),
-                                                              ),
                                                           if (index ==
                                                               controller
                                                                       .allVerses[

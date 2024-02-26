@@ -13,6 +13,7 @@ class ThemeController extends GetxController {
       whiteColor: HexColor("#ffffff"),
       backgroundColor: HexColor("#FEFEFE"),
       primaryColor: HexColor("#7B5533"),
+      lightPrimary:HexColor('#997252'),
       blackColor: HexColor("#000000"),
       grayTextColor: HexColor(
         "#747475",
