@@ -466,16 +466,14 @@ class DetailView extends GetView<DetailController> {
             onDrawerChanged: (isOpen) {
               if (isOpen == true) {
                 controller.drawerQuote = controller.generateRandomQuote("");
-                if (controller.isSelectingBook == false) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    homeController.setSelectedBookAndChapterForDrawer(
-                        controller.selectedVerse!.book!,
-                        controller.selectedVerse!.chapter!,
-                        "OT");
-                    controller.callbackExecuted = true;
-                  });
-                }
-                controller.update();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  homeController.setSelectedBookAndChapterForDrawer(
+                      controller.selectedVerse!.book!,
+                      controller.selectedVerse!.chapter!,
+                      controller.selectedVerse!.book! >= 40 ? "NT" : "OT");
+                  controller.callbackExecuted = true;
+                });
+               controller.update();
               }
             },
             drawer: CustomDrawer(
@@ -516,6 +514,7 @@ class DetailView extends GetView<DetailController> {
                             WidgetsBinding.instance.addPostFrameCallback((_) {
                               controller.setCurrentBookAndChapter(
                                   controller.allVerses[i][0]);
+                              controller.update();
                             });
                             controller.readerScrollController =
                                 ScrollController();
@@ -571,15 +570,6 @@ class DetailView extends GetView<DetailController> {
                                                     .allVerses[i].length,
                                                 shrinkWrap: true,
                                                 itemBuilder: (context, index) {
-                                                  if (controller
-                                                          .allVerses[i][index]
-                                                          .verseText ==
-                                                      "፤") {
-                                                    controller.mergeCounter =
-                                                        controller
-                                                                .mergeCounter +
-                                                            1;
-                                                  }
                                                   return GestureDetector(
                                                     onTap: () async {
                                                       controller
@@ -729,7 +719,9 @@ class DetailView extends GetView<DetailController> {
                                                                       padding: const EdgeInsets
                                                                           .symmetric(
                                                                           horizontal:
-                                                                              55, vertical: 15),
+                                                                              55,
+                                                                          vertical:
+                                                                              15),
                                                                       child:
                                                                           Text(
                                                                         '${controller.allVerses[i][index].verseText?.trimRight()}',

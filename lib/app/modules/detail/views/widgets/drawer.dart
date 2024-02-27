@@ -203,6 +203,7 @@ class CustomDrawer extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 3, left: 3, bottom: 0),
                                             child: TabBarView(
+                                              controller: detailController.tabController,
                                               children: [
                                                 GetBuilder<HomeController>(
                                                   init: HomeController(),

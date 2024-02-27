@@ -14,6 +14,7 @@ import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -52,6 +53,7 @@ class DetailController extends GetxController {
   List<Devotion> devotions = [];
   Verses? selectedVerse;
   int mergeCounter = 0;
+  late TabController tabController;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -82,6 +84,18 @@ class DetailController extends GetxController {
     loadInitialPage();
     fetchConfigsData();
     getFontSize();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      tabController = TabController(length: 2, vsync: ScrollableState());
+    });
+  }
+
+  @override
+  void onClose() {
+    if (tabController.index != -1) {
+      tabController
+          .dispose(); // Dispose the controller when it's no longer needed
+    }
+    super.onClose();
   }
 
   Future<void> loadDevotions() async {

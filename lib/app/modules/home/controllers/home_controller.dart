@@ -74,8 +74,8 @@ class HomeController extends GetxController {
       selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
       update();
-    } else if (testament == "NT") {
-      selectedNewTestamentBookIndex = bookId - 1;
+    } else if (testament == "NT") {  
+      selectedNewTestamentBookIndex = 26 - (66- bookId);
       selectedIndex = chapterNumber - 1;
       selectedTestament = testament;
       update();
