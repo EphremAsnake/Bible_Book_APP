@@ -158,6 +158,8 @@ class CustomDrawer extends StatelessWidget {
                               child: SizedBox(
                                 width: 60.w,
                                 child: DefaultTabController(
+                                  initialIndex: detailController
+                                      .defaultTabBarViewInitialIndex,
                                   length: 2, // Number of tabs
                                   child: Column(
                                     crossAxisAlignment:
@@ -203,7 +205,6 @@ class CustomDrawer extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 3, left: 3, bottom: 0),
                                             child: TabBarView(
-                                              controller: detailController.tabController,
                                               children: [
                                                 GetBuilder<HomeController>(
                                                   init: HomeController(),
@@ -451,7 +452,8 @@ class CustomDrawer extends StatelessWidget {
                                         bookChapters, (index) => index + 1);
                                     return Expanded(
                                       child: Padding(
-                                        padding: const EdgeInsets.only(right: 10),
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
                                         child: SizedBox(
                                           width: 30.w,
                                           child: ListView.builder(
@@ -469,10 +471,12 @@ class CustomDrawer extends StatelessWidget {
                                                     color: index ==
                                                             controller
                                                                 .selectedIndex
-                                                        ? themeData?.lightPrimary
+                                                        ? themeData
+                                                            ?.lightPrimary
                                                         : null,
                                                     borderRadius:
-                                                        BorderRadius.circular(10),
+                                                        BorderRadius.circular(
+                                                            10),
                                                   ),
                                                   child: ListTile(
                                                     dense: false,
@@ -499,7 +503,8 @@ class CustomDrawer extends StatelessWidget {
                                                             fontWeight: index ==
                                                                     controller
                                                                         .selectedIndex
-                                                                ? FontWeight.bold
+                                                                ? FontWeight
+                                                                    .bold
                                                                 : FontWeight
                                                                     .normal),
                                                       ),
@@ -522,21 +527,19 @@ class CustomDrawer extends StatelessWidget {
                                                                 .selectedVersesAMH
                                                                 .addAll(getterAndSetterController.getAMHBookChapters(
                                                                     controller
-                                                                        .newTestamentBook[
-                                                                            controller
-                                                                                .selectedNewTestamentBookIndex]
+                                                                        .newTestamentBook[controller
+                                                                            .selectedNewTestamentBookIndex]
                                                                         .id!,
                                                                     chapters[
                                                                         index],
                                                                     controller
                                                                         .versesAMH));
-                                      
+
                                                             int page = detailController
                                                                 .navigateToSpecificBookDetailView(
                                                                     controller
-                                                                        .newTestamentBook[
-                                                                            controller
-                                                                                .selectedNewTestamentBookIndex]
+                                                                        .newTestamentBook[controller
+                                                                            .selectedNewTestamentBookIndex]
                                                                         .id!,
                                                                     chapters[
                                                                         index]);
@@ -556,9 +559,8 @@ class CustomDrawer extends StatelessWidget {
                                                                 .selectedVersesAMH
                                                                 .addAll(getterAndSetterController.getAMHBookChapters(
                                                                     controller
-                                                                        .oldTestamentBook[
-                                                                            controller
-                                                                                .selectedOldTestamentBookIndex]
+                                                                        .oldTestamentBook[controller
+                                                                            .selectedOldTestamentBookIndex]
                                                                         .id!,
                                                                     chapters[
                                                                         index],
@@ -576,10 +578,12 @@ class CustomDrawer extends StatelessWidget {
                                                                       index]);
                                                           detailController
                                                               .pageController
-                                                              ?.jumpToPage(page);
+                                                              ?.jumpToPage(
+                                                                  page);
                                                           detailController
                                                               .update();
-                                                          Get.toNamed("/detail");
+                                                          Get.toNamed(
+                                                              "/detail");
                                                         },
                                                       );
                                                     },

@@ -473,7 +473,17 @@ class DetailView extends GetView<DetailController> {
                       controller.selectedVerse!.book! >= 40 ? "NT" : "OT");
                   controller.callbackExecuted = true;
                 });
-               controller.update();
+
+                if (controller.selectedVerse!.book! >= 40) {
+                  controller.setTabBarViewInitialIndex(1);
+                  homeController.updateNewTestamentSelectedBookIndex(
+                      26 - (66 - controller.selectedVerse!.book! - 1));
+                } else {
+                  controller.setTabBarViewInitialIndex(0);
+                  homeController.updateOldTestamentSelectedBookIndex(
+                      controller.selectedVerse!.book! - 1);
+                }
+                controller.update();
               }
             },
             drawer: CustomDrawer(
