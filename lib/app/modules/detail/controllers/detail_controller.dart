@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/http_client/http_service.dart';
@@ -10,11 +11,14 @@ import 'package:bible_book_app/app/data/models/bible/devotion.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/data/models/configs/configs.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/configs_http_attribs.dart';
+import 'package:bible_book_app/app/modules/detail/helpers/detail_helpers.dart';
 import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailController extends GetxController {
@@ -90,10 +94,11 @@ class DetailController extends GetxController {
     update();
   }
 
-  setTabBarViewInitialIndex(int index){
+  setTabBarViewInitialIndex(int index) {
     defaultTabBarViewInitialIndex = index;
     update();
   }
+
   Future<void> loadInitialPage() async {
     SharedPreferencesStorage sharedPreferencesStorage =
         SharedPreferencesStorage();
@@ -511,15 +516,26 @@ class DetailController extends GetxController {
     return randomQuote;
   }
 
-  // Future<void> shareApp() async {
-  //   // Set the app link and the message to be shared
-  //   final String appLink =
-  //       'Check out this bible app: https://play.google.com/store/apps/details?id=com.example.myapp';
+  Future<void> shareApp() async {
+    // Set the app link and the message to be shared
+    const String androidAppLink =
+        'Check out this app: https://play.google.com/store/apps/details?id=com.kidssoftwares.learnenglish';
+    const String iosAppLink =
+        'Check out this app: https://apps.apple.com/us/app/amharic-english-dictionary/id1071075334';
 
-  //   Platform.isAndroid
-  //       ? await Share.share('Share App',subject: appLink)
-  //       : await Share.share();
-  // }
+    Platform.isAndroid
+        ? await Share.share('Share App', subject: androidAppLink)
+        : await Share.share('Share App', subject: iosAppLink);
+  }
+
+  Future<void> rateApp() async {
+    if (Platform.isAndroid) {
+      StoreRedirect.redirect(androidAppId: "com.kidssoftwares.learnenglish");
+    } else {
+      DetailHelpers().launchWebUrl(
+          "https://apps.apple.com/app/id1071075334?action=write-review");
+    }
+  }
 
   setCurrentBookAndChapter(Verses verse) {
     selectedVerse = verse;

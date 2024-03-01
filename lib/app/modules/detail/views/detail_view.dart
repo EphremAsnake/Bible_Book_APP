@@ -425,7 +425,9 @@ class DetailView extends GetView<DetailController> {
                     } else if (value == 'about') {
                       Get.toNamed("/about");
                     } else if (value == 'share') {
+                      controller.shareApp();
                     } else if (value == 'rate') {
+                      controller.rateApp();
                     } else if (value == 'font_size') {
                       showFontSizeBottomSheet(context);
                     }
@@ -626,23 +628,25 @@ class DetailView extends GetView<DetailController> {
                                                                             .allVerses[i][index]
                                                                             .para ==
                                                                         "s1")
-                                                                      Text(
-                                                                        index ==
-                                                                                0
-                                                                            ? '${controller.allVerses[i][index].chapter}'
-                                                                            : '',
-                                                                        textAlign:
-                                                                            TextAlign.left,
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontFamily:
-                                                                              "Abyssinica",
-                                                                          fontSize:
-                                                                              controller.fontSize.sp + 40.sp,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          color:
-                                                                              themeData?.primaryColor,
+                                                                      Center(
+                                                                        child:
+                                                                            Text(
+                                                                          index == 0
+                                                                              ? '${controller.allVerses[i][index].chapter}'
+                                                                              : '',
+                                                                          textAlign:
+                                                                              TextAlign.left,
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontFamily:
+                                                                                "Abyssinica",
+                                                                            fontSize:
+                                                                                controller.fontSize.sp + 40.sp,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            color:
+                                                                                themeData?.primaryColor,
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     if (controller
@@ -725,30 +729,29 @@ class DetailView extends GetView<DetailController> {
                                                                               index]
                                                                           .para ==
                                                                       "s1"
-                                                                  ? Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                          horizontal:
-                                                                              55,
-                                                                          vertical:
-                                                                              15),
+                                                                  ? Center(
                                                                       child:
-                                                                          Text(
-                                                                        '${controller.allVerses[i][index].verseText?.trimRight()}',
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontFamily:
-                                                                              "Abyssinica",
-                                                                          fontSize: controller
-                                                                              .fontSize
-                                                                              .sp,
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          backgroundColor: controller.selectedRowIndex == index
-                                                                              ? themeData?.primaryColor.withOpacity(0.5)
-                                                                              : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                          Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .symmetric(
+                                                                            vertical:
+                                                                                15),
+                                                                        child:
+                                                                            Align(
+                                                                          alignment:
+                                                                              Alignment.center,
+                                                                          child:
+                                                                              Text(
+                                                                            '${controller.allVerses[i][index].verseText?.trimRight()}',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: "Abyssinica",
+                                                                              fontSize: controller.fontSize.sp,
+                                                                              color: themeData?.primaryColor,
+                                                                              fontWeight: FontWeight.bold,
+                                                                              backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                            ),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                     )
