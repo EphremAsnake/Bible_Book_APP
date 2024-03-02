@@ -77,18 +77,26 @@ class DataGetterAndSetter extends GetxController {
 
       for (var verse in versesList) {
         if (verse.para != "s1") {
-          if (verse.chapter != currentChapter ||
-              verse.verseNumber != currentVerseNumber) {
-            // Add the verse if it's a new chapter or verse number
+          if (mergedVerses.isNotEmpty) {
+            if (mergedVerses.last.para != "s1") {
+              if (verse.chapter != currentChapter ||
+                  verse.verseNumber != currentVerseNumber) {
+                // Add the verse if it's a new chapter or verse number
 
-            mergedVerses.add(verse);
-            currentChapter = verse.chapter!;
-            currentVerseNumber = verse.verseNumber!;
+                mergedVerses.add(verse);
+                currentChapter = verse.chapter!;
+                currentVerseNumber = verse.verseNumber!;
+              } else {
+                // Merge verses with the same verse number within the same chapter
+                mergedVerses.last.verseText =
+                    (mergedVerses.last.verseText ?? '').trim() +
+                        (verse.verseText ?? '').trim();
+              }
+            } else {
+              mergedVerses.add(verse);
+            }
           } else {
-            // Merge verses with the same verse number within the same chapter
-            mergedVerses.last.verseText =
-                (mergedVerses.last.verseText ?? '').trim() +
-                    (verse.verseText ?? '').trim();
+            mergedVerses.add(verse);
           }
         } else {
           mergedVerses.add(verse);

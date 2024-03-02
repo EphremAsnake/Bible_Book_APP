@@ -18,6 +18,7 @@ import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sizer/sizer.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -50,7 +51,8 @@ class DetailController extends GetxController {
   Configs? configs;
   bool isLoading = false;
   bool isSelectingBook = false;
-  double fontSize = 12.5;
+  double fontSize = SizerUtil.deviceType == DeviceType.mobile ? 12.5 : 8;
+  double chapterFontSize = SizerUtil.deviceType == DeviceType.mobile ? 15 : 15;
   int selectedRowIndex = -1;
   String drawerQuote = "";
   List<Devotion> devotions = [];
@@ -87,6 +89,7 @@ class DetailController extends GetxController {
     loadInitialPage();
     fetchConfigsData();
     getFontSize();
+    getChapterFontSize();
   }
 
   Future<void> loadDevotions() async {
@@ -502,6 +505,26 @@ class DetailController extends GetxController {
         SharedPreferencesStorage();
     int? localFontSize =
         await sharedPreferencesStorage.readIntData(Keys.fontSize);
+    if (localFontSize != null) {
+      fontSize = localFontSize.toDouble();
+      update();
+    }
+  }
+
+  updateChapterFontSize(double newFontSize) async {
+    fontSize = newFontSize;
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    await sharedPreferencesStorage.saveIntData(
+        Keys.chapterFontSize, fontSize.toInt());
+    update();
+  }
+
+  getChapterFontSize() async {
+    SharedPreferencesStorage sharedPreferencesStorage =
+        SharedPreferencesStorage();
+    int? localFontSize =
+        await sharedPreferencesStorage.readIntData(Keys.chapterFontSize);
     if (localFontSize != null) {
       fontSize = localFontSize.toDouble();
       update();

@@ -4,6 +4,7 @@ import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeAD extends StatelessWidget {
   HomeAD({
@@ -78,8 +79,11 @@ class HomeAD extends StatelessWidget {
                           child: Text(
                             detailController.apiStateHandler.data!.houseAds[1]
                                 .houseAd2!.title,
-                            style: const TextStyle(
-                              fontSize: 13,
+                            style: TextStyle(
+                              fontSize:
+                                  SizerUtil.deviceType == DeviceType.mobile
+                                      ? 13
+                                      : 7.sp,
                               color: Colors.black,
                             ),
                           ),
@@ -101,10 +105,13 @@ class HomeAD extends StatelessWidget {
                             child: Text(
                               detailController.apiStateHandler.data!.houseAds[1]
                                   .houseAd2!.buttonText,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 13,
+                                fontSize:
+                                    SizerUtil.deviceType == DeviceType.mobile
+                                        ? 13
+                                        : 7.sp,
                               ),
                             ),
                           ),
@@ -118,14 +125,14 @@ class HomeAD extends StatelessWidget {
           } else {
             return Container(
               padding: const EdgeInsets.all(0),
-              height: 25,
+              height: 5,
               decoration: BoxDecoration(color: themeData!.whiteColor),
             );
           }
         } else {
           return Container(
             padding: const EdgeInsets.all(0),
-            height: 25,
+            height: 5,
             decoration: BoxDecoration(color: themeData!.whiteColor),
           );
         }

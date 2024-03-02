@@ -91,7 +91,11 @@ class SettingsView extends GetView<SettingsController> {
                 ),
                 title: Text(
                   "change_language".tr,
-                  style: TextStyle(color: Colors.black, fontSize: 12.5.sp),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizerUtil.deviceType == DeviceType.mobile
+                          ? 12.5.sp
+                          : 9.sp),
                 ),
               ),
             ),
@@ -133,7 +137,11 @@ class SettingsView extends GetView<SettingsController> {
                   ),
                   title: Text(
                     "font_size".tr,
-                    style: TextStyle(color: Colors.black, fontSize: 12.5.sp),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizerUtil.deviceType == DeviceType.mobile
+                            ? 12.5.sp
+                            : 9.sp),
                   ),
                 ),
               ),
@@ -161,16 +169,20 @@ void showFontSizeBottomSheet(BuildContext context) {
               children: [
                 Text(
                   "font_size".tr,
-                  style: TextStyle(fontSize: 12.5.sp),
+                  style: TextStyle(
+                      fontSize: SizerUtil.deviceType == DeviceType.mobile
+                          ? 12.5.sp
+                          : 9.sp),
                 ),
                 Slider(
                   value: detailController.fontSize,
                   onChanged: (value) async {
                     await detailController.updateFontSize(value);
+                    // await detailController.updateChapterFontSize(value);
                     detailController.update();
                   },
-                  min: 10.0,
-                  max: 20,
+                  min: SizerUtil.deviceType == DeviceType.mobile ? 10.0 : 8,
+                  max: SizerUtil.deviceType == DeviceType.mobile ? 20 : 14,
                   label: detailController.fontSize.toString(),
                 ),
               ],

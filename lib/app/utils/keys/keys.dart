@@ -6,4 +6,5 @@ class Keys {
   static String previousPageNumber = "Previous Page Number";
   static String selectedLocale = "Selected Locale";
   static String fontSize = "Font Size";
+  static String chapterFontSize = "Chapter Font Size";
 }

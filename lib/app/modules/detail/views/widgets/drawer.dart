@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: 90.w,
+      width: SizerUtil.deviceType == DeviceType.mobile ? 90.w : 60.w,
       child: Column(
         //physics: const NeverScrollableScrollPhysics(),
         children: [
@@ -63,8 +63,10 @@ class CustomDrawer extends StatelessWidget {
                       }
                     },
                     child: Container(
-                      height: 25.h,
-                      width: 90.w,
+                      height:  SizerUtil.deviceType == DeviceType.mobile ? 25.h : 20.h,
+                      width: SizerUtil.deviceType == DeviceType.mobile
+                          ? 90.w
+                          : 70.w,
                       padding: const EdgeInsets.all(0),
                       child: CachedNetworkImage(
                         imageUrl: detailController
@@ -156,7 +158,9 @@ class CustomDrawer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: SizedBox(
-                                width: 60.w,
+                                width: SizerUtil.deviceType == DeviceType.mobile
+                                    ? 60.w
+                                    : 40.w,
                                 child: DefaultTabController(
                                   initialIndex: detailController
                                       .defaultTabBarViewInitialIndex,
@@ -174,7 +178,11 @@ class CustomDrawer extends StatelessWidget {
                                               child: Text(
                                                 'ot'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 11.sp,
+                                                  fontSize:
+                                                      SizerUtil.deviceType ==
+                                                              DeviceType.mobile
+                                                          ? 11.sp
+                                                          : 9.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,
@@ -188,7 +196,11 @@ class CustomDrawer extends StatelessWidget {
                                               child: Text(
                                                 'nt'.tr,
                                                 style: TextStyle(
-                                                  fontSize: 11.sp,
+                                                  fontSize:
+                                                      SizerUtil.deviceType ==
+                                                              DeviceType.mobile
+                                                          ? 11.sp
+                                                          : 9.sp,
                                                   color:
                                                       themeData?.primaryColor,
                                                   fontWeight: FontWeight.bold,
@@ -200,7 +212,10 @@ class CustomDrawer extends StatelessWidget {
                                       ),
                                       Expanded(
                                         child: SizedBox(
-                                          width: 80.w,
+                                          width: SizerUtil.deviceType ==
+                                                  DeviceType.mobile
+                                              ? 80.w
+                                              : 60.w,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 3, left: 3, bottom: 0),
@@ -249,7 +264,12 @@ class CustomDrawer extends StatelessWidget {
                                                                         ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
-                                                                fontSize: 16,
+                                                                fontSize: SizerUtil
+                                                                            .deviceType ==
+                                                                        DeviceType
+                                                                            .mobile
+                                                                    ? 12.sp
+                                                                    : 8.5.sp,
                                                                 fontWeight: index ==
                                                                         controller
                                                                             .selectedOldTestamentBookIndex
@@ -272,7 +292,12 @@ class CustomDrawer extends StatelessWidget {
                                                                         ?.whiteColor
                                                                     : themeData
                                                                         ?.blackColor,
-                                                                fontSize: 14,
+                                                                fontSize: SizerUtil
+                                                                            .deviceType ==
+                                                                        DeviceType
+                                                                            .mobile
+                                                                    ? 11.sp
+                                                                    : 7.5.sp,
                                                                 fontWeight: index ==
                                                                         controller
                                                                             .selectedOldTestamentBookIndex
@@ -421,7 +446,9 @@ class CustomDrawer extends StatelessWidget {
                                   -1 ||
                               controller.selectedNewTestamentBookIndex != -1,
                           child: SizedBox(
-                            width: 24.w,
+                            width: SizerUtil.deviceType == DeviceType.mobile
+                                ? 24.w
+                                : 15.w,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -495,11 +522,12 @@ class CustomDrawer extends StatelessWidget {
                                                                     ?.whiteColor
                                                                 : themeData
                                                                     ?.blackColor,
-                                                            fontSize: index ==
-                                                                    controller
-                                                                        .selectedIndex
+                                                            fontSize: SizerUtil
+                                                                        .deviceType ==
+                                                                    DeviceType
+                                                                        .mobile
                                                                 ? 12.sp
-                                                                : 12.sp,
+                                                                : 8.5.sp,
                                                             fontWeight: index ==
                                                                     controller
                                                                         .selectedIndex

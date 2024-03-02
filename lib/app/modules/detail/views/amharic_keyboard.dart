@@ -33,7 +33,8 @@ class AmharicKeyboard extends StatelessWidget {
                           .selectedAmharicLetter?.forms.isNotEmpty ??
                       false,
                   child: SizedBox(
-                    height: 55,
+                    height:
+                        SizerUtil.deviceType == DeviceType.mobile ? 55 : 6.4.h,
                     child: GridView.builder(
                       padding: const EdgeInsets.symmetric(
                           vertical: 2, horizontal: 3),
@@ -95,17 +96,27 @@ class AmharicKeyboard extends StatelessWidget {
                         );
                       },
                     ),
-                    
                   ),
                 ),
                 SizedBox(
-                  height: 26.h,
+                  height:
+                      SizerUtil.deviceType == DeviceType.mobile ? 26.h : 21.h,
                   child: Wrap(
-                    spacing: 4.0, // Adjust the spacing here
-                    runSpacing: 4.0, // Adjust the run spacing here
+                    spacing: SizerUtil.deviceType == DeviceType.mobile
+                        ? 4.0
+                        : 4.0, // Adjust the spacing here
+                    runSpacing: SizerUtil.deviceType == DeviceType.mobile
+                        ? 4.0
+                        : 4.0, // Adjust the run spacing here
                     children: _keyboardRows.map((key) {
                       return SizedBox(
-                        width: key.basicForm == '―' ? 98.sp : 31.sp,
+                        width: SizerUtil.deviceType == DeviceType.mobile
+                            ? key.basicForm == '―'
+                                ? 98.sp
+                                : 31.sp
+                            : key.basicForm == '―'
+                                ? 76.sp
+                                : 24.sp,
                         height: 40,
                         child: InkWell(
                           onTap: () async {
@@ -147,7 +158,7 @@ class AmharicKeyboard extends StatelessWidget {
                             }
                           },
                           child: Container(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(4.0),

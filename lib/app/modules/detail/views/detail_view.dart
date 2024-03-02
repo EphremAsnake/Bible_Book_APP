@@ -44,7 +44,7 @@ class DetailView extends GetView<DetailController> {
           child: Scaffold(
             key: controller.scaffoldKey,
             endDrawer: Drawer(
-              width: 90.w,
+              width: SizerUtil.deviceType == DeviceType.mobile ? 90.w : 70.w,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -436,7 +436,9 @@ class DetailView extends GetView<DetailController> {
                     return [
                       PopupMenuItem<String>(
                         value: 'font_size',
-                        child: Text('font_size'.tr),
+                        child: Text(
+                          'font_size'.tr,
+                        ),
                       ),
                       PopupMenuItem<String>(
                         value: 'settings',
@@ -478,8 +480,13 @@ class DetailView extends GetView<DetailController> {
 
                 if (controller.selectedVerse!.book! >= 40) {
                   controller.setTabBarViewInitialIndex(1);
-                  homeController.updateNewTestamentSelectedBookIndex(
-                      26 - (66 - controller.selectedVerse!.book! - 1));
+                  if (controller.selectedVerse!.book! != 66) {
+                    homeController.updateNewTestamentSelectedBookIndex(
+                        26 - (66 - controller.selectedVerse!.book! - 1));
+                  } else {
+                    homeController.updateNewTestamentSelectedBookIndex(
+                        26 - (66 - controller.selectedVerse!.book!));
+                  }
                 } else {
                   controller.setTabBarViewInitialIndex(0);
                   homeController.updateOldTestamentSelectedBookIndex(
@@ -628,24 +635,25 @@ class DetailView extends GetView<DetailController> {
                                                                             .allVerses[i][index]
                                                                             .para ==
                                                                         "s1")
-                                                                      Center(
+                                                                      Align(
+                                                                        alignment:
+                                                                            Alignment.center,
                                                                         child:
-                                                                            Text(
-                                                                          index == 0
-                                                                              ? '${controller.allVerses[i][index].chapter}'
-                                                                              : '',
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontFamily:
-                                                                                "Abyssinica",
-                                                                            fontSize:
-                                                                                controller.fontSize.sp + 40.sp,
-                                                                            fontWeight:
-                                                                                FontWeight.normal,
-                                                                            color:
-                                                                                themeData?.primaryColor,
+                                                                            Center(
+                                                                          child:
+                                                                              Text(
+                                                                            index == 0
+                                                                                ? '${controller.allVerses[i][index].chapter}'
+                                                                                : '',
+                                                                            textAlign:
+                                                                                TextAlign.left,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontFamily: "Abyssinica",
+                                                                              fontSize: SizerUtil.deviceType == DeviceType.mobile ? (30 + controller.fontSize).sp : (15 + controller.fontSize).sp,
+                                                                              fontWeight: FontWeight.normal,
+                                                                              color: themeData?.primaryColor,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -664,8 +672,9 @@ class DetailView extends GetView<DetailController> {
                                                                             TextStyle(
                                                                           fontFamily:
                                                                               "Abyssinica",
-                                                                          fontSize:
-                                                                              controller.fontSize.sp + 40.sp,
+                                                                          fontSize: SizerUtil.deviceType == DeviceType.mobile
+                                                                              ? (30 + controller.fontSize).sp
+                                                                              : (15 + controller.fontSize).sp,
                                                                           fontWeight:
                                                                               FontWeight.normal,
                                                                           color:
@@ -680,36 +689,43 @@ class DetailView extends GetView<DetailController> {
                                                                             .verseText !=
                                                                         "፤")
                                                                       Expanded(
-                                                                        child:
-                                                                            RichText(
-                                                                          text:
-                                                                              TextSpan(
-                                                                            children: [
-                                                                              if (controller.allVerses[i][index].para != "s1")
-                                                                                TextSpan(
-                                                                                  text: controller.selectedBook.contains("አዲሱ")
-                                                                                      ? '${controller.allVerses[i][index].verseNumber}፤  '
-                                                                                      : controller.selectedBook.contains("1954")
-                                                                                          ? '${controller.allVerses[i][index].verseNumber} '
-                                                                                          : '${controller.allVerses[i][index].verseNumber}  ',
-                                                                                  style: TextStyle(
-                                                                                    fontSize: controller.fontSize.sp,
-                                                                                    fontWeight: FontWeight.bold,
-                                                                                    color: const Color.fromARGB(255, 146, 45, 38),
-                                                                                  ),
-                                                                                ),
-                                                                              TextSpan(
-                                                                                text: controller.allVerses[i][index].verseText,
-                                                                                style: TextStyle(
-                                                                                  fontSize: controller.fontSize.sp,
-                                                                                  color: Colors.black,
-                                                                                  fontFamily: "Abyssinica",
-                                                                                  backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
+                                                                        child: RichText(
+                                                                            text: controller.allVerses[i][index].para != "s1"
+                                                                                ? TextSpan(
+                                                                                    children: [
+                                                                                      TextSpan(
+                                                                                        text: controller.selectedBook.contains("አዲሱ")
+                                                                                            ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                                            : controller.selectedBook.contains("1954")
+                                                                                                ? '${controller.allVerses[i][index].verseNumber} '
+                                                                                                : '${controller.allVerses[i][index].verseNumber}  ',
+                                                                                        style: TextStyle(
+                                                                                          fontSize: controller.fontSize.sp,
+                                                                                          fontWeight: FontWeight.bold,
+                                                                                          color: const Color.fromARGB(255, 146, 45, 38),
+                                                                                        ),
+                                                                                      ),
+                                                                                      TextSpan(
+                                                                                        text: controller.allVerses[i][index].verseText,
+                                                                                        style: TextStyle(
+                                                                                          fontSize: controller.fontSize.sp,
+                                                                                          color: Colors.black,
+                                                                                          fontFamily: "Abyssinica",
+                                                                                          backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
+                                                                                  )
+                                                                                : TextSpan(
+                                                                                    text: controller.allVerses[i][index].verseText,
+                                                                                    style: TextStyle(
+                                                                                      fontSize: controller.fontSize.sp,
+                                                                                      color: themeData?.primaryColor,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontFamily: "Abyssinica",
+                                                                                      backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                    ),
+                                                                                  )),
                                                                       ),
                                                                   ],
                                                                 )
@@ -717,11 +733,17 @@ class DetailView extends GetView<DetailController> {
                                                                   .shrink(),
                                                           if (index != 0)
                                                             if (controller
-                                                                    .allVerses[
-                                                                        i]
-                                                                        [index]
-                                                                    .verseText !=
-                                                                " ፤")
+                                                                        .allVerses[
+                                                                            i][
+                                                                            index]
+                                                                        .verseText !=
+                                                                    " ፤" &&
+                                                                controller
+                                                                        .allVerses[
+                                                                            i][
+                                                                            index]
+                                                                        .verseText !=
+                                                                    " ")
                                                               controller
                                                                           .allVerses[
                                                                               i]
@@ -953,6 +975,9 @@ class DetailView extends GetView<DetailController> {
                         controller.setSelectedBook("አማርኛ 1954");
                         controller.setInitialSelectedBookTypeOptions();
 
+                        controller.navigateToSpecificBookDetailView(
+                            controller.selectedVerse!.book!,
+                            controller.selectedVerse!.chapter!);
                         //scroll to top
                         controller.readerScrollController.animateTo(
                           0.0, // Scroll to the top
@@ -998,6 +1023,9 @@ class DetailView extends GetView<DetailController> {
                         controller.setSelectedBook("አዲሱ መደበኛ ትርጉም");
                         controller.setInitialSelectedBookTypeOptions();
 
+                        controller.navigateToSpecificBookDetailView(
+                            controller.selectedVerse!.book!,
+                            controller.selectedVerse!.chapter!);
                         //scroll to top
                         controller.readerScrollController.animateTo(
                           0.0, // Scroll to the top
@@ -1045,6 +1073,9 @@ class DetailView extends GetView<DetailController> {
                         controller.setSelectedBook("English NIV");
                         controller.setInitialSelectedBookTypeOptions();
 
+                        controller.navigateToSpecificBookDetailView(
+                            controller.selectedVerse!.book!,
+                            controller.selectedVerse!.chapter!);
                         //scroll to top
                         controller.readerScrollController.animateTo(
                           0.0, // Scroll to the top
@@ -1093,6 +1124,9 @@ class DetailView extends GetView<DetailController> {
                         controller.setSelectedBook("English KJV");
                         controller.setInitialSelectedBookTypeOptions();
 
+                        controller.navigateToSpecificBookDetailView(
+                            controller.selectedVerse!.book!,
+                            controller.selectedVerse!.chapter!);
                         //scroll to top
                         controller.readerScrollController.animateTo(
                           0.0, // Scroll to the top
@@ -1124,34 +1158,5 @@ class DetailView extends GetView<DetailController> {
         );
       },
     );
-  }
-}
-
-class BackgroundPainter extends CustomPainter {
-  final BorderRadius borderRadius;
-  final Color? bgColor;
-
-  BackgroundPainter({required this.borderRadius, required this.bgColor});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = bgColor!
-      ..style = PaintingStyle.fill;
-
-    RRect roundedRect = RRect.fromRectAndCorners(
-      Rect.fromPoints(Offset(0, 0), Offset(size.width, size.height)),
-      topLeft: borderRadius.topLeft,
-      topRight: borderRadius.topRight,
-      bottomLeft: borderRadius.bottomLeft,
-      bottomRight: borderRadius.bottomRight,
-    );
-
-    canvas.drawRRect(roundedRect, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }
