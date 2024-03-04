@@ -90,7 +90,7 @@ class AmharicKeyboard extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               key ?? "",
-                              style: const TextStyle(fontSize: 18.0),
+                              style: const TextStyle(fontSize: 16.0),
                             ),
                           ),
                         );
@@ -166,7 +166,7 @@ class AmharicKeyboard extends StatelessWidget {
                             alignment: Alignment.center,
                             child: Text(
                               key.basicForm,
-                              style: const TextStyle(fontSize: 18.0),
+                              style: const TextStyle(fontSize: 16.0),
                             ),
                           ),
                         ),

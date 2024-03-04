@@ -89,13 +89,14 @@ class DataGetterAndSetter extends GetxController {
               } else {
                 // Merge verses with the same verse number within the same chapter
                 mergedVerses.last.verseText =
-                    (mergedVerses.last.verseText ?? '').trim() +
-                        (verse.verseText ?? '').trim();
+                    "${(mergedVerses.last.verseText ?? '').trim()} ${(verse.verseText ?? '').trim()}";
               }
             } else {
               mergedVerses.add(verse);
             }
           } else {
+            currentChapter = verse.chapter!;
+            currentVerseNumber = verse.verseNumber!;
             mergedVerses.add(verse);
           }
         } else {

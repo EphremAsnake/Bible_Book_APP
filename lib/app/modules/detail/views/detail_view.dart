@@ -292,10 +292,17 @@ class DetailView extends GetView<DetailController> {
                               }
                               textSpans.add(
                                 TextSpan(
-                                    text:
-                                        "${controller.searchResultVerses[i].verseNumber} ${verseText.substring(start, index)}",
-                                    style:
-                                        const TextStyle(color: Colors.black)),
+                                  text:
+                                      "${controller.searchResultVerses[i].verseNumber} ",
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              );
+
+                              textSpans.add(
+                                TextSpan(
+                                  text: verseText.substring(start, index),
+                                  style: const TextStyle(color: Colors.black),
+                                ),
                               );
                               textSpans.add(TextSpan(
                                 text: verseText.substring(
@@ -367,6 +374,7 @@ class DetailView extends GetView<DetailController> {
                 icon: Icon(
                   Icons.menu,
                   color: themeData?.primaryColor,
+                  size: 21.sp,
                 ),
               ),
               title: GestureDetector(
