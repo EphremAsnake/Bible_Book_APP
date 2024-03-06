@@ -28,7 +28,6 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       width: SizerUtil.deviceType == DeviceType.mobile ? 90.w : 60.w,
       child: Column(
-        //physics: const NeverScrollableScrollPhysics(),
         children: [
           GetBuilder<DetailController>(
             init: DetailController(),
@@ -63,7 +62,9 @@ class CustomDrawer extends StatelessWidget {
                       }
                     },
                     child: Container(
-                      height:  SizerUtil.deviceType == DeviceType.mobile ? 25.h : 20.h,
+                      height: SizerUtil.deviceType == DeviceType.mobile
+                          ? 33.h
+                          : 23.h,
                       width: SizerUtil.deviceType == DeviceType.mobile
                           ? 90.w
                           : 70.w,
@@ -83,6 +84,8 @@ class CustomDrawer extends StatelessWidget {
                   );
                 } else {
                   return Container(
+                    height:
+                        SizerUtil.deviceType == DeviceType.mobile ? 33.h : 23.h,
                     padding: const EdgeInsets.all(0),
                     child: Stack(
                       children: [
@@ -111,8 +114,37 @@ class CustomDrawer extends StatelessWidget {
                   );
                 }
               } else {
-                return const SizedBox(
-                  height: 40,
+                return Container(
+                  height:
+                      SizerUtil.deviceType == DeviceType.mobile ? 33.h : 23.h,
+                  padding: const EdgeInsets.all(0),
+                  child: Stack(
+                    children: [
+                      Image.asset(
+                        "assets/images/banner.jpeg",
+                        fit: BoxFit.fitHeight,
+                        height: SizerUtil.deviceType == DeviceType.mobile
+                            ? 33.h
+                            : 23.h,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          color: Colors.black.withOpacity(0.5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            detailController.drawerQuote,
+                            style: TextStyle(
+                                color: themeData!.whiteColor,
+                                fontFamily: "Abyssinica",
+                                fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
             },
@@ -166,6 +198,7 @@ class CustomDrawer extends StatelessWidget {
                                       .defaultTabBarViewInitialIndex,
                                   length: 2, // Number of tabs
                                   child: Column(
+                                    mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -218,7 +251,7 @@ class CustomDrawer extends StatelessWidget {
                                               : 60.w,
                                           child: Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 3, left: 3, bottom: 0),
+                                                top: 0, left: 3, bottom: 0),
                                             child: TabBarView(
                                               children: [
                                                 GetBuilder<HomeController>(
@@ -452,7 +485,7 @@ class CustomDrawer extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const SizedBox(height: 50),
+                                // const SizedBox(height: 50),
                                 GetBuilder<HomeController>(
                                   init: HomeController(),
                                   initState: (_) {},
