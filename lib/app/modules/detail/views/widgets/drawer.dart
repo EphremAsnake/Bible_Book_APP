@@ -186,7 +186,7 @@ class CustomDrawer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: SizedBox(
@@ -253,12 +253,14 @@ class CustomDrawer extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 0, left: 3, bottom: 0),
                                             child: TabBarView(
+                                              
                                               children: [
                                                 GetBuilder<HomeController>(
                                                   init: HomeController(),
                                                   initState: (_) {},
                                                   builder: (_) {
                                                     return ListView.builder(
+                                                      padding: const EdgeInsets.only(top:10),
                                                       itemCount: controller
                                                           .oldTestamentBook
                                                           .length,
@@ -485,7 +487,7 @@ class CustomDrawer extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // const SizedBox(height: 50),
+                                const SizedBox(height: 28),
                                 GetBuilder<HomeController>(
                                   init: HomeController(),
                                   initState: (_) {},
