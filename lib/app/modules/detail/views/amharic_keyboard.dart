@@ -121,6 +121,7 @@ class AmharicKeyboard extends StatelessWidget {
                         child: InkWell(
                           onTap: () async {
                             if (key.basicForm == "EN") {
+                              detailController.openEnglishKeyboard();
                               FocusScope.of(context)
                                   .requestFocus(detailController.focusNode);
                             } else if (key.basicForm == '←') {

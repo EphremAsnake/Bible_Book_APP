@@ -21,7 +21,7 @@ import 'package:sizer/sizer.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
-class DetailView extends GetView<DetailController> {
+class DetailView extends GetView<DetailController> with WidgetsBindingObserver{
   DetailView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
@@ -29,6 +29,26 @@ class DetailView extends GetView<DetailController> {
   final HomeController homeController = Get.find<HomeController>();
   final ScrollController _scrollController = ScrollController();
   final overlayKey = GlobalKey<OverlayState>();
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("app in resumed");
+        break;
+      case AppLifecycleState.inactive:
+        print("app in inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("app in paused");
+        break;
+      case AppLifecycleState.detached:
+        print("app in detached");
+        break;
+      case AppLifecycleState.hidden:
+        // TODO: Handle this case.
+    }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +90,11 @@ class DetailView extends GetView<DetailController> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: TextField(
-                                keyboardType: TextInputType.none,
-                                autofocus: true,
+                                // keyboardType:
+                                //     detailController.showEnglishKeyboard == true
+                                //         ? TextInputType.text
+                                //         : TextInputType.none,
+                                // autofocus: true,
                                 style: TextStyle(
                                     color: themeData?.primaryColor,
                                     fontSize: 13),
@@ -280,6 +303,14 @@ class DetailView extends GetView<DetailController> {
                             String searchText =
                                 controller.searchController.text;
                             List<TextSpan> textSpans = [];
+                            List<TextSpan> verseNumberTextSpans = [];
+                            verseNumberTextSpans.add(
+                              TextSpan(
+                                text:
+                                    "${controller.searchResultVerses[i].verseNumber} ",
+                                style: const TextStyle(color: Colors.black),
+                              ),
+                            );
                             int start = 0;
                             while (start < verseText.length) {
                               int index = verseText.indexOf(searchText, start);
@@ -290,14 +321,6 @@ class DetailView extends GetView<DetailController> {
                                         const TextStyle(color: Colors.black)));
                                 break;
                               }
-                              textSpans.add(
-                                TextSpan(
-                                  text:
-                                      "${controller.searchResultVerses[i].verseNumber} ",
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                              );
-
                               textSpans.add(
                                 TextSpan(
                                   text: verseText.substring(start, index),
@@ -341,7 +364,9 @@ class DetailView extends GetView<DetailController> {
                                               fontSize: 13),
                                         ),
                                         RichText(
-                                          text: TextSpan(children: textSpans),
+                                          text: TextSpan(
+                                              children: verseNumberTextSpans +
+                                                  textSpans),
                                         ),
                                       ],
                                     ),

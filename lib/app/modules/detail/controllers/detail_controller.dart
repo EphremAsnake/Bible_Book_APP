@@ -16,6 +16,7 @@ import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
@@ -59,6 +60,7 @@ class DetailController extends GetxController {
   Verses? selectedVerse;
   int mergeCounter = 0;
   int defaultTabBarViewInitialIndex = 0;
+  bool showEnglishKeyboard = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -564,4 +566,11 @@ class DetailController extends GetxController {
     selectedVerse = verse;
     update();
   }
+
+  openEnglishKeyboard() {
+    showEnglishKeyboard = true;
+    SystemChannels.textInput.invokeMethod("TextInput.show");
+    update();
+  }
+  
 }
