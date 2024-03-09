@@ -224,3 +224,5 @@ final List<AmharicLetter> _keyboardRows = [
   AmharicLetter('↓', []),
   AmharicLetter('🔎', []),
 ];
+
+

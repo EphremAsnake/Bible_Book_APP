@@ -269,7 +269,8 @@ class CustomDrawer extends StatelessWidget {
                                                     return ListView.builder(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              top: 10),
+                                                              top: 10,
+                                                              bottom: 15),
                                                       itemCount: controller
                                                           .oldTestamentBook
                                                           .length,
@@ -375,7 +376,8 @@ class CustomDrawer extends StatelessWidget {
                                                     return ListView.builder(
                                                       padding:
                                                           const EdgeInsets.only(
-                                                              top: 10),
+                                                              top: 10,
+                                                              bottom: 15),
                                                       itemCount: controller
                                                           .newTestamentBook
                                                           .length,

@@ -146,6 +146,50 @@ class SettingsView extends GetView<SettingsController> {
                 ),
               ),
             ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0xffEEEDED),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: Offset(0, 8), // horizontal, vertical offset
+                  ),
+                  BoxShadow(
+                    color: Color(0xffEEEDED),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: Offset(0, -8), // horizontal, vertical offset
+                  ),
+                ],
+              ),
+              child: ListTile(
+                onTap: () {
+                  showThemeConfigBottomSheet(context);
+                },
+                leading: const Icon(
+                  Icons.color_lens_outlined,
+                  color: Colors.grey,
+                ),
+                trailing: const Icon(
+                  Icons.chevron_right,
+                  color: Colors.grey,
+                  size: 30,
+                ),
+                title: Text(
+                  "theme".tr,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizerUtil.deviceType == DeviceType.mobile
+                          ? 12.5.sp
+                          : 9.sp),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -185,6 +229,207 @@ void showFontSizeBottomSheet(BuildContext context) {
                   max: SizerUtil.deviceType == DeviceType.mobile ? 20 : 14,
                   label: detailController.fontSize.toString(),
                 ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
+}
+
+void showThemeConfigBottomSheet(BuildContext context) {
+  final DetailController detailController = Get.find<DetailController>();
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return GetBuilder<DetailController>(
+        init: DetailController(),
+        initState: (_) {},
+        builder: (_) {
+          return Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    "theme".tr,
+                    style: TextStyle(
+                        fontSize: SizerUtil.deviceType == DeviceType.mobile
+                            ? 12.5.sp
+                            : 9.sp),
+                  ),
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: Divider(),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 247, 222, 184),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(child: Text("Gold")),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 238, 225, 206),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(child: Text("Amber")),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 198, 222, 238),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(child: Text("Blue")),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 112, 149, 173),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Blue-2",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 77, 77, 77),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Dark",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 96, 187, 178),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Teal",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 198, 245, 240),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Teal 2",
+                            style: TextStyle(color: Colors.black),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 179, 137, 123),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Brown",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Container(
+                          width: 60,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 192, 192, 192)),
+                              color: const Color.fromARGB(255, 175, 175, 175),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: const Center(
+                              child: Text(
+                            "Grey",
+                            style: TextStyle(color: Colors.white),
+                          )),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           );

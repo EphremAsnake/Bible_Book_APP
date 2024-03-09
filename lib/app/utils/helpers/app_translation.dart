@@ -31,6 +31,7 @@ final Map<String, String> en = {
   'font_size': "Font Size",
   'share': 'Share',
   'rate': 'Rate App',
+  'theme': "Theme"
 };
 
 final Map<String, String> amh = {
@@ -55,5 +56,6 @@ final Map<String, String> amh = {
   'changed_to_eng_kjv': "የመጽሐፍ ቅዱስ ዓይነት ወደ እንግሊዝኛ ኪጄቪ ተለወጠ።",
   'font_size': "የፊደል መጠን",
   'share': 'አጋራ',
-  'rate': 'ሬት ያድርጉ'
+  'rate': 'ሬት ያድርጉ',
+  'theme': "መልክ"
 };
