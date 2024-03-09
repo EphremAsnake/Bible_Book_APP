@@ -23,7 +23,7 @@ import 'package:sizer/sizer.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DetailController extends GetxController {
+class DetailController extends SuperController {
   final DataGetterAndSetter getterAndSetterController =
       Get.find<DataGetterAndSetter>();
   List<List<Verses>> allVerses = [];
@@ -572,5 +572,22 @@ class DetailController extends GetxController {
     SystemChannels.textInput.invokeMethod("TextInput.show");
     update();
   }
-  
+
+  @override
+  void onDetached() {}
+
+  @override
+  void onHidden() {}
+
+  @override
+  void onInactive() {}
+
+  @override
+  void onPaused() {}
+
+  @override
+  void onResumed() {
+    fetchConfigsData();
+    update();
+  }
 }

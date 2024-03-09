@@ -5,22 +5,28 @@ Configs configsFromJson(String str) => Configs.fromJson(json.decode(str));
 String configsToJson(Configs data) => json.encode(data.toJson());
 
 class Configs {
-  List<HouseAd> houseAds;
+  List<HouseAd> androidHouseAds;
+  List<HouseAd> iosHouseAds;
   String aboutApp;
 
   Configs({
-    required this.houseAds,
+    required this.androidHouseAds,
+    required this.iosHouseAds,
     required this.aboutApp,
   });
 
   factory Configs.fromJson(Map<String, dynamic> json) => Configs(
-        houseAds: List<HouseAd>.from(
-            json["house_ads"].map((x) => HouseAd.fromJson(x))),
+        androidHouseAds: List<HouseAd>.from(
+            json["android_house_ads"].map((x) => HouseAd.fromJson(x))),
+        iosHouseAds: List<HouseAd>.from(
+            json["ios_house_ads"].map((x) => HouseAd.fromJson(x))),
         aboutApp: json["about_app"],
       );
 
   Map<String, dynamic> toJson() => {
-        "house_ads": List<dynamic>.from(houseAds.map((x) => x.toJson())),
+        "android_house_ads":
+            List<dynamic>.from(androidHouseAds.map((x) => x.toJson())),
+        "ios_house_ads": List<dynamic>.from(iosHouseAds.map((x) => x.toJson())),
         "about_app": aboutApp,
       };
 }

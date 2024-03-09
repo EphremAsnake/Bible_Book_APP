@@ -1,13 +1,14 @@
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
+import 'package:bible_book_app/app/modules/detail/helpers/detail_helpers.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class HomeAD extends StatelessWidget {
-  HomeAD({
+class AndroidHomeAD extends StatelessWidget {
+  AndroidHomeAD({
     super.key,
   });
   final themeData = Get.find<ThemeController>().themeData.value;
@@ -27,26 +28,40 @@ class HomeAD extends StatelessWidget {
         } else if (detailController.apiStateHandler.apiState ==
             ApiState.success) {
           if (detailController
-                  .apiStateHandler.data!.houseAds[1].houseAd2!.show ==
+                  .apiStateHandler.data!.androidHouseAds[1].houseAd2!.show ==
               true) {
             return Padding(
               padding: const EdgeInsets.only(
                   left: 10.0, right: 10.0, top: 10.0, bottom: 15.0),
               child: GestureDetector(
                 onTap: () {
-                  if (detailController.apiStateHandler.data!.houseAds[1]
+                  if (detailController.apiStateHandler.data!.androidHouseAds[1]
                           .houseAd2!.openInAppBrowser ==
                       true) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => InAppWebViewer(
                             url: detailController.apiStateHandler.data!
-                                .houseAds[1].houseAd2!.url),
+                                .androidHouseAds[1].houseAd2!.url),
                       ),
                     );
                   } else {
-                    detailController.openWebBrowser(detailController
-                        .apiStateHandler.data!.houseAds[1].houseAd2!.url);
+                    if (detailController.apiStateHandler.data!
+                            .androidHouseAds[1].houseAd2!.url
+                            .contains("http") ==
+                        true) {
+                      detailController.openWebBrowser(detailController
+                          .apiStateHandler
+                          .data!
+                          .androidHouseAds[1]
+                          .houseAd2!
+                          .url);
+                    } else {
+                      DetailHelpers().openStores(
+                        androidAppId: detailController.apiStateHandler.data!
+                            .androidHouseAds[1].houseAd2!.url,
+                      );
+                    }
                   }
                 },
                 child: Container(
@@ -77,8 +92,8 @@ class HomeAD extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            detailController.apiStateHandler.data!.houseAds[1]
-                                .houseAd2!.title,
+                            detailController.apiStateHandler.data!
+                                .androidHouseAds[1].houseAd2!.title,
                             style: TextStyle(
                               fontSize:
                                   SizerUtil.deviceType == DeviceType.mobile
@@ -103,8 +118,8 @@ class HomeAD extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2.0, horizontal: 15),
                             child: Text(
-                              detailController.apiStateHandler.data!.houseAds[1]
-                                  .houseAd2!.buttonText,
+                              detailController.apiStateHandler.data!
+                                  .androidHouseAds[1].houseAd2!.buttonText,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

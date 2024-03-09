@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
@@ -6,8 +7,9 @@ import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/drawer.dart';
 import 'package:bible_book_app/app/modules/detail/views/widgets/text_selection_widget.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
+import 'package:bible_book_app/app/modules/home/views/widgets/android_home_ad.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/exit_confirmation_dialogue.dart';
-import 'package:bible_book_app/app/modules/home/views/widgets/home_ad.dart';
+import 'package:bible_book_app/app/modules/home/views/widgets/ios_home_ad.dart';
 import 'package:bible_book_app/app/modules/settings/views/settings_view.dart';
 import 'package:bible_book_app/app/utils/helpers/get_and_set_highlight_color.dart';
 import 'package:bible_book_app/app/utils/keys/keys.dart';
@@ -21,7 +23,7 @@ import 'package:sizer/sizer.dart';
 import '../controllers/detail_controller.dart';
 
 // ignore: must_be_immutable
-class DetailView extends GetView<DetailController> with WidgetsBindingObserver{
+class DetailView extends GetView<DetailController> {
   DetailView({Key? key}) : super(key: key);
   final themeData = Get.find<ThemeController>().themeData.value;
   final DataGetterAndSetter getterAndSetterController =
@@ -29,26 +31,6 @@ class DetailView extends GetView<DetailController> with WidgetsBindingObserver{
   final HomeController homeController = Get.find<HomeController>();
   final ScrollController _scrollController = ScrollController();
   final overlayKey = GlobalKey<OverlayState>();
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        print("app in resumed");
-        break;
-      case AppLifecycleState.inactive:
-        print("app in inactive");
-        break;
-      case AppLifecycleState.paused:
-        print("app in paused");
-        break;
-      case AppLifecycleState.detached:
-        print("app in detached");
-        break;
-      case AppLifecycleState.hidden:
-        // TODO: Handle this case.
-    }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -535,7 +517,7 @@ class DetailView extends GetView<DetailController> with WidgetsBindingObserver{
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      HomeAD(),
+                      Platform.isIOS ? IosHomeAD() : AndroidHomeAD(),
                       Expanded(
                         child: ExpandablePageView.builder(
                           controller: controller.pageController,

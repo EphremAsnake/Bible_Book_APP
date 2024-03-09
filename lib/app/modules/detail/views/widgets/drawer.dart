@@ -1,12 +1,12 @@
+import 'dart:io';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
-import 'package:bible_book_app/app/modules/detail/helpers/detail_helpers.dart';
+import 'package:bible_book_app/app/modules/detail/views/widgets/android_drawer_ad.dart';
+import 'package:bible_book_app/app/modules/detail/views/widgets/ios_drawer_ad.dart';
 import 'package:bible_book_app/app/modules/home/controllers/home_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/api_state_handler.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
-import 'package:bible_book_app/app/utils/helpers/in_app_web_viewer.dart';
 import 'package:bible_book_app/app/utils/shared_widgets/refresh_error_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -40,78 +40,86 @@ class CustomDrawer extends StatelessWidget {
                 );
               } else if (detailController.apiStateHandler.apiState ==
                   ApiState.success) {
-                if (detailController
-                        .apiStateHandler.data!.houseAds[0].houseAd1!.show ==
-                    true) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (detailController.apiStateHandler.data!.houseAds[0]
-                              .houseAd1!.openInAppBrowser ==
-                          true) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => InAppWebViewer(
-                                url: detailController.apiStateHandler.data!
-                                    .houseAds[0].houseAd1!.url),
-                          ),
-                        );
-                      } else {
-                        DetailHelpers().openStores(
-                            androidAppId: detailController.apiStateHandler.data!
-                                .houseAds[0].houseAd1!.url);
-                      }
-                    },
-                    child: Container(
+                if (Platform.isIOS) {
+                  if (detailController.apiStateHandler.data!.iosHouseAds[0]
+                          .houseAd1!.show ==
+                      true) {
+                    return IosDrawerAd();
+                  } else {
+                    return Container(
                       height: SizerUtil.deviceType == DeviceType.mobile
                           ? 33.h
                           : 23.h,
-                      width: SizerUtil.deviceType == DeviceType.mobile
-                          ? 90.w
-                          : 70.w,
                       padding: const EdgeInsets.all(0),
-                      child: CachedNetworkImage(
-                        imageUrl: detailController
-                            .apiStateHandler.data!.houseAds[0].houseAd1!.image,
-                        fit: BoxFit.fill,
-                        placeholder: (context, url) => const SizedBox(
-                          height: 40,
-                        ),
-                        errorWidget: (context, url, error) => const SizedBox(
-                          height: 40,
-                        ),
-                      ),
-                    ),
-                  );
-                } else {
-                  return Container(
-                    height:
-                        SizerUtil.deviceType == DeviceType.mobile ? 33.h : 23.h,
-                    padding: const EdgeInsets.all(0),
-                    child: Stack(
-                      children: [
-                        Image.asset(
-                          "assets/images/banner.jpeg",
-                          fit: BoxFit.fill,
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            color: Colors.black.withOpacity(0.5),
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              detailController.drawerQuote,
-                              style: TextStyle(
-                                  color: themeData!.whiteColor,
-                                  fontFamily: "Abyssinica",
-                                  fontSize: 16),
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            "assets/images/banner.jpeg",
+                            fit: BoxFit.fill,
+                            height: SizerUtil.deviceType == DeviceType.mobile
+                                ? 33.h
+                                : 23.h,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              color: Colors.black.withOpacity(0.5),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                detailController.drawerQuote,
+                                style: TextStyle(
+                                    color: themeData!.whiteColor,
+                                    fontFamily: "Abyssinica",
+                                    fontSize: 16),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                        ],
+                      ),
+                    );
+                  }
+                } else {
+                  if (detailController.apiStateHandler.data!.androidHouseAds[0]
+                          .houseAd1!.show ==
+                      true) {
+                    return AndroidDrawerAd();
+                  } else {
+                    return Container(
+                      height: SizerUtil.deviceType == DeviceType.mobile
+                          ? 33.h
+                          : 23.h,
+                      padding: const EdgeInsets.all(0),
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            "assets/images/banner.jpeg",
+                            fit: BoxFit.fill,
+                            height: SizerUtil.deviceType == DeviceType.mobile
+                                ? 33.h
+                                : 23.h,
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              color: Colors.black.withOpacity(0.5),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                detailController.drawerQuote,
+                                style: TextStyle(
+                                    color: themeData!.whiteColor,
+                                    fontFamily: "Abyssinica",
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 }
               } else {
                 return Container(
@@ -253,14 +261,15 @@ class CustomDrawer extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 0, left: 3, bottom: 0),
                                             child: TabBarView(
-                                              
                                               children: [
                                                 GetBuilder<HomeController>(
                                                   init: HomeController(),
                                                   initState: (_) {},
                                                   builder: (_) {
                                                     return ListView.builder(
-                                                      padding: const EdgeInsets.only(top:10),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
                                                       itemCount: controller
                                                           .oldTestamentBook
                                                           .length,
@@ -364,6 +373,9 @@ class CustomDrawer extends StatelessWidget {
                                                   initState: (_) {},
                                                   builder: (_) {
                                                     return ListView.builder(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
                                                       itemCount: controller
                                                           .newTestamentBook
                                                           .length,
