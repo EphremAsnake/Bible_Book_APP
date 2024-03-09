@@ -26,15 +26,15 @@ class IosDrawerAd extends StatelessWidget {
           );
         } else {
           if (detailController
-                  .apiStateHandler.data!.iosHouseAds[1].houseAd1!.url
+                  .apiStateHandler.data!.iosHouseAds[0].houseAd1!.url
                   .contains("http") ==
               true) {
             detailController.openWebBrowser(detailController
-                .apiStateHandler.data!.iosHouseAds[1].houseAd1!.url);
+                .apiStateHandler.data!.iosHouseAds[0].houseAd1!.url);
           } else {
             DetailHelpers().openStores(
               iOSAppId: detailController
-                  .apiStateHandler.data!.iosHouseAds[1].houseAd1!.url,
+                  .apiStateHandler.data!.iosHouseAds[0].houseAd1!.url,
             );
           }
         }

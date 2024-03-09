@@ -26,15 +26,15 @@ class AndroidDrawerAd extends StatelessWidget {
           );
         } else {
           if (detailController
-                  .apiStateHandler.data!.androidHouseAds[1].houseAd1!.url
+                  .apiStateHandler.data!.androidHouseAds[0].houseAd1!.url
                   .contains("http") ==
               true) {
             detailController.openWebBrowser(detailController
-                .apiStateHandler.data!.androidHouseAds[1].houseAd1!.url);
+                .apiStateHandler.data!.androidHouseAds[0].houseAd1!.url);
           } else {
             DetailHelpers().openStores(
               androidAppId: detailController
-                  .apiStateHandler.data!.androidHouseAds[1].houseAd1!.url,
+                  .apiStateHandler.data!.androidHouseAds[0].houseAd1!.url,
             );
           }
         }
