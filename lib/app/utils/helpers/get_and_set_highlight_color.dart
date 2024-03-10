@@ -37,6 +37,6 @@ Color getHighlightColor(int number) {
   } else if (number == 7) {
     return HighlightColors.highlightDarkGreen;
   } else {
-    return const Color(0xffffffff);
+    return Colors.transparent;
   }
 }

@@ -10,6 +10,9 @@ class ThemeDataModel {
   final Color errorColor;
   final Color lightGrey;
   final Color lightPrimary;
+  final Color numbersColor;
+  final Color verseColor;
+  final Color cardColor;
 
   ThemeDataModel({
     required this.whiteColor,
@@ -22,5 +25,8 @@ class ThemeDataModel {
     required this.errorColor,
     required this.lightGrey,
     required this.lightPrimary,
+    required this.numbersColor,
+    required this.verseColor,
+    required this.cardColor,
   });
 }

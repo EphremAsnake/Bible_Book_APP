@@ -23,7 +23,7 @@ class AndroidHomeAD extends StatelessWidget {
           return Container(
             padding: const EdgeInsets.all(0),
             height: 25,
-            decoration: BoxDecoration(color: themeData!.whiteColor),
+            decoration: BoxDecoration(color: themeData!.backgroundColor),
           );
         } else if (detailController.apiStateHandler.apiState ==
             ApiState.success) {
@@ -67,18 +67,18 @@ class AndroidHomeAD extends StatelessWidget {
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: themeData!.cardColor,
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
+                    boxShadow: [
                       BoxShadow(
-                        color: Color(0xffEEEDED),
+                        color: themeData!.shadowColor,
                         spreadRadius: 2,
                         blurRadius: 10,
                         offset: Offset(0, 8), // horizontal, vertical offset
                       ),
                       BoxShadow(
-                        color: Color(0xffEEEDED),
+                        color: themeData!.shadowColor,
                         spreadRadius: 2,
                         blurRadius: 10,
                         offset: Offset(0, -8), // horizontal, vertical offset
@@ -99,7 +99,7 @@ class AndroidHomeAD extends StatelessWidget {
                                   SizerUtil.deviceType == DeviceType.mobile
                                       ? 13
                                       : 7.sp,
-                              color: Colors.black,
+                              color: themeData!.verseColor,
                             ),
                           ),
                         ),
@@ -108,9 +108,9 @@ class AndroidHomeAD extends StatelessWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: const Color(0xff7B5533),
+                            color: themeData!.primaryColor,
                             border: Border.all(
-                              color: const Color(0xff7B5533).withOpacity(0.5),
+                              color: themeData!.numbersColor.withOpacity(0.5),
                             ),
                             borderRadius: BorderRadius.circular(4),
                           ),
@@ -121,7 +121,7 @@ class AndroidHomeAD extends StatelessWidget {
                               detailController.apiStateHandler.data!
                                   .androidHouseAds[1].houseAd2!.buttonText,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: themeData!.whiteColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize:
                                     SizerUtil.deviceType == DeviceType.mobile
@@ -141,14 +141,14 @@ class AndroidHomeAD extends StatelessWidget {
             return Container(
               padding: const EdgeInsets.all(0),
               height: 5,
-              decoration: BoxDecoration(color: themeData!.whiteColor),
+              decoration: BoxDecoration(color: themeData!.backgroundColor),
             );
           }
         } else {
           return Container(
             padding: const EdgeInsets.all(0),
             height: 5,
-            decoration: BoxDecoration(color: themeData!.whiteColor),
+            decoration: BoxDecoration(color: themeData!.backgroundColor),
           );
         }
       },

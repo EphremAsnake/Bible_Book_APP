@@ -1,7 +1,7 @@
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
-import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
+
 import 'package:bible_book_app/app/modules/detail/views/widgets/highlight_color.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/exit_confirmation_dialogue.dart';
 import 'package:bible_book_app/app/utils/helpers/get_and_set_highlight_color.dart';
@@ -341,6 +341,7 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
 }
 
 void copyToClipboard(String text) {
+  final DetailController detailController = Get.find<DetailController>();
   Clipboard.setData(ClipboardData(text: text));
   Fluttertoast.showToast(
       msg: "Copied!",
@@ -356,6 +357,7 @@ void copyToClipboard(String text) {
 }
 
 Future<void> share(String text, String subject, BuildContext context) async {
+  final DetailController detailController = Get.find<DetailController>();
   final box = context.findRenderObject() as RenderBox?;
   await Share.share(
     text,

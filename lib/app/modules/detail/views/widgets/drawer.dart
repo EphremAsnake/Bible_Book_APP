@@ -26,6 +26,7 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: themeData!.backgroundColor,
       width: SizerUtil.deviceType == DeviceType.mobile ? 90.w : 60.w,
       child: Column(
         children: [
@@ -189,7 +190,7 @@ class CustomDrawer extends StatelessWidget {
                 } else if (controller.cacheStateHandler.apiState ==
                     ApiState.success) {
                   return Container(
-                    color: themeData?.whiteColor,
+                    color: themeData!.backgroundColor,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -308,7 +309,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     ? themeData
                                                                         ?.whiteColor
                                                                     : themeData
-                                                                        ?.blackColor,
+                                                                        ?.verseColor,
                                                                 fontSize: SizerUtil
                                                                             .deviceType ==
                                                                         DeviceType
@@ -336,7 +337,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     ? themeData
                                                                         ?.whiteColor
                                                                     : themeData
-                                                                        ?.blackColor,
+                                                                        ?.verseColor,
                                                                 fontSize: SizerUtil
                                                                             .deviceType ==
                                                                         DeviceType
@@ -415,7 +416,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     ? themeData
                                                                         ?.whiteColor
                                                                     : themeData
-                                                                        ?.blackColor,
+                                                                        ?.verseColor,
                                                                 fontSize: 16,
                                                                 fontWeight: index ==
                                                                         controller
@@ -438,7 +439,7 @@ class CustomDrawer extends StatelessWidget {
                                                                     ? themeData
                                                                         ?.whiteColor
                                                                     : themeData
-                                                                        ?.blackColor,
+                                                                        ?.verseColor,
                                                                 fontSize: 14,
                                                                 fontWeight: index ==
                                                                         controller
@@ -486,7 +487,7 @@ class CustomDrawer extends StatelessWidget {
                                 vertical: 0.sp, horizontal: 0),
                             child: VerticalDivider(
                               width: 1,
-                              color: themeData?.lightPrimary,
+                              color: themeData?.primaryColor.withOpacity(0.5),
                             ),
                           ),
                         ),
@@ -570,7 +571,7 @@ class CustomDrawer extends StatelessWidget {
                                                                 ? themeData
                                                                     ?.whiteColor
                                                                 : themeData
-                                                                    ?.blackColor,
+                                                                    ?.verseColor,
                                                             fontSize: SizerUtil
                                                                         .deviceType ==
                                                                     DeviceType

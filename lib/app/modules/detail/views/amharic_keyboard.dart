@@ -4,6 +4,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/shared_controllers/theme_controller.dart';
+
 class AmharicLetter {
   final String basicForm;
   final List<String> forms;
@@ -12,6 +14,7 @@ class AmharicLetter {
 }
 
 final DetailController detailController = Get.find();
+final themeData = Get.find<ThemeController>().themeData.value;
 
 class AmharicKeyboard extends StatelessWidget {
   @override
@@ -23,7 +26,7 @@ class AmharicKeyboard extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Container(
-            color: Colors.grey[200],
+            color: themeData!.backgroundColor,
             padding: const EdgeInsets.all(0.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -84,13 +87,13 @@ class AmharicKeyboard extends StatelessWidget {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: themeData!.primaryColor,
                               borderRadius: BorderRadius.circular(4.0),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               key ?? "",
-                              style: const TextStyle(fontSize: 16.0),
+                              style:  TextStyle(fontSize: 16.0,color: themeData!.verseColor),
                             ),
                           ),
                         );
@@ -161,13 +164,14 @@ class AmharicKeyboard extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: themeData!.primaryColor,
                               borderRadius: BorderRadius.circular(4.0),
                             ),
                             alignment: Alignment.center,
                             child: Text(
                               key.basicForm,
-                              style: const TextStyle(fontSize: 16.0),
+                              style:  TextStyle(fontSize: 16.0,color: themeData!.verseColor),
+                              
                             ),
                           ),
                         ),

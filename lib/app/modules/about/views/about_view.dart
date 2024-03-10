@@ -18,12 +18,13 @@ class AboutView extends GetView<AboutController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: themeData!.backgroundColor,
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Color(0xff7B5533),
+        systemOverlayStyle:  SystemUiOverlayStyle(
+            statusBarColor: themeData!.primaryColor,
             statusBarIconBrightness: Brightness.light),
         elevation: 0,
-        backgroundColor: const Color(0xff7B5533),
+        backgroundColor: themeData!.primaryColor,
         title: Text(
           'about'.tr,
           style: const TextStyle(color: Colors.white),
@@ -54,29 +55,27 @@ class AboutView extends GetView<AboutController> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(0.0),
-                        child: SizedBox(
-                          height: 86.h,
-                          child: Card(
-                            elevation: 0,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 10.0.sp),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        detailController
-                                            .apiStateHandler.data!.aboutApp,
-                                        textAlign: TextAlign.justify,
-                                        style: TextStyle(
-                                            color: themeData?.blackColor,
-                                            fontSize: 16),
-                                      ),
+                        child: Card(
+                          color: themeData!.backgroundColor,
+                          elevation: 0,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 10.0.sp),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      detailController
+                                          .apiStateHandler.data!.aboutApp,
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          color: themeData?.verseColor,
+                                          fontSize: 16),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),

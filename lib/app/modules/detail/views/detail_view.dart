@@ -37,7 +37,6 @@ class DetailView extends GetView<DetailController> {
     return GetBuilder<DetailController>(
       builder: (_) {
         controller.getSelectedBookName();
-
         return WillPopScope(
           onWillPop: () async {
             showExitConfirmationDialog(context);
@@ -56,14 +55,14 @@ class DetailView extends GetView<DetailController> {
                   Container(
                     padding: const EdgeInsets.only(
                         left: 5, right: 5, top: 45, bottom: 8),
-                    color: Theme.of(context).primaryColor,
+                    color: themeData!.backgroundColor,
                     child: Row(
                       children: [
                         Expanded(
                           child: Container(
                             height: 40,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: themeData!.backgroundColor,
                               borderRadius: BorderRadius.circular(10.0),
                               border:
                                   Border.all(color: Colors.white, width: 1.0),
@@ -174,7 +173,7 @@ class DetailView extends GetView<DetailController> {
                   ),
 
                   Container(
-                    color: Colors.white,
+                    color: themeData!.backgroundColor,
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 8.0, right: 8.0, bottom: 1, top: 5),
@@ -182,8 +181,9 @@ class DetailView extends GetView<DetailController> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           DropdownButton<String>(
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black),
+                            dropdownColor: themeData!.backgroundColor,
+                            style: TextStyle(
+                                fontSize: 12, color: themeData!.verseColor),
                             value: controller.selectedBookTypeOptions,
                             items:
                                 controller.bookTypeOptions.map((String option) {
@@ -198,8 +198,9 @@ class DetailView extends GetView<DetailController> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           DropdownButton<String>(
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black),
+                            dropdownColor: themeData!.backgroundColor,
+                            style: TextStyle(
+                                fontSize: 12, color: themeData!.verseColor),
                             value: controller.selectedSearchTypeOptions,
                             items: controller.searchTypeOptions
                                 .map((String option) {
@@ -214,8 +215,9 @@ class DetailView extends GetView<DetailController> {
                             },
                           ),
                           DropdownButton<String>(
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black),
+                            dropdownColor: themeData!.backgroundColor,
+                            style: TextStyle(
+                                fontSize: 12, color: themeData!.verseColor),
                             value: controller.selectedSearchPlaceOptions,
                             items: controller.searchPlaceOptions
                                 .map((String option) {
@@ -235,145 +237,176 @@ class DetailView extends GetView<DetailController> {
                   ),
                   Visibility(
                       visible: controller.searchResultVerses.isEmpty,
-                      child: const Expanded(child: SizedBox())),
+                      child: Expanded(
+                          child: Container(
+                        color: themeData!.backgroundColor,
+                      ))),
 
                   Visibility(
                     visible: controller.searchResultVerses.isNotEmpty,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'searchResult'.tr,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: themeData?.blackColor,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '${controller.searchResultVerses.length}',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: themeData?.primaryColor,
-                                    fontSize: 13),
-                              ),
-                            ],
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: themeData!.backgroundColor,
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 14, vertical: 5),
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'searchResult'.tr,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: themeData?.verseColor,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            '${controller.searchResultVerses.length}',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: themeData?.primaryColor,
+                                            fontSize: 13),
+                                      ),
+                                    ],
+                                  ),
+                                )),
                           ),
-                        )),
+                        ),
+                      ],
+                    ),
                   ),
 
                   Visibility(
                     visible: controller.searchResultVerses.isNotEmpty,
-                    child: Expanded(
-                      child: RawScrollbar(
-                        thumbColor: themeData?.primaryColor,
-                        controller: _scrollController,
-                        thickness: 12.0,
-                        trackVisibility: true,
-                        thumbVisibility: true,
-                        interactive: true,
-                        child: ListView.builder(
+                    child: Container(
+                      color: themeData!.backgroundColor,
+                      child: Expanded(
+                        child: RawScrollbar(
+                          thumbColor: themeData?.primaryColor,
                           controller: _scrollController,
-                          padding: const EdgeInsets.all(0),
-                          shrinkWrap: true,
-                          itemCount: controller.searchResultVerses.length,
-                          itemBuilder: (context, i) {
-                            String verseText =
-                                controller.searchResultVerses[i].verseText ??
-                                    "";
-                            String searchText =
-                                controller.searchController.text;
-                            List<TextSpan> textSpans = [];
-                            List<TextSpan> verseNumberTextSpans = [];
-                            verseNumberTextSpans.add(
-                              TextSpan(
-                                text:
-                                    "${controller.searchResultVerses[i].verseNumber} ",
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                            );
-                            int start = 0;
-                            while (start < verseText.length) {
-                              int index = verseText.indexOf(searchText, start);
-                              if (index == -1) {
-                                textSpans.add(TextSpan(
-                                    text: verseText.substring(start),
-                                    style:
-                                        const TextStyle(color: Colors.black)));
-                                break;
-                              }
-                              textSpans.add(
+                          thickness: 12.0,
+                          trackVisibility: true,
+                          thumbVisibility: true,
+                          interactive: true,
+                          child: ListView.builder(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.all(0),
+                            shrinkWrap: true,
+                            itemCount: controller.searchResultVerses.length,
+                            itemBuilder: (context, i) {
+                              String verseText =
+                                  controller.searchResultVerses[i].verseText ??
+                                      "";
+                              String searchText =
+                                  controller.searchController.text;
+                              List<TextSpan> textSpans = [];
+                              List<TextSpan> verseNumberTextSpans = [];
+                              verseNumberTextSpans.add(
                                 TextSpan(
-                                  text: verseText.substring(start, index),
-                                  style: const TextStyle(color: Colors.black),
+                                  text:
+                                      "${controller.searchResultVerses[i].verseNumber} ",
+                                  style:
+                                      TextStyle(color: themeData?.verseColor),
                                 ),
                               );
-                              textSpans.add(TextSpan(
-                                text: verseText.substring(
-                                    index, index + searchText.length),
-                                style: const TextStyle(color: Colors.red),
-                              ));
+                              int start = 0;
+                              while (start < verseText.length) {
+                                int index =
+                                    verseText.indexOf(searchText, start);
+                                if (index == -1) {
+                                  textSpans.add(TextSpan(
+                                      text: verseText.substring(start),
+                                      style: TextStyle(
+                                          color: themeData?.verseColor)));
+                                  break;
+                                }
+                                textSpans.add(
+                                  TextSpan(
+                                    text: verseText.substring(start, index),
+                                    style:
+                                        TextStyle(color: themeData?.verseColor),
+                                  ),
+                                );
+                                textSpans.add(TextSpan(
+                                  text: verseText.substring(
+                                      index, index + searchText.length),
+                                  style: const TextStyle(color: Colors.red),
+                                ));
 
-                              start = index + searchText.length;
-                            }
+                                start = index + searchText.length;
+                              }
 
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 4),
-                              child: GestureDetector(
-                                onTap: () {
-                                  detailController
-                                      .navigateToSpecificBookDetailView(
-                                          controller
-                                              .searchResultVerses[i].book!,
-                                          controller
-                                              .searchResultVerses[i].chapter!);
-                                },
-                                child: Card(
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
-                                          style: TextStyle(
-                                              color: themeData!.primaryColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 13),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                              children: verseNumberTextSpans +
-                                                  textSpans),
-                                        ),
-                                      ],
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 4),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    detailController
+                                        .navigateToSpecificBookDetailView(
+                                            controller
+                                                .searchResultVerses[i].book!,
+                                            controller.searchResultVerses[i]
+                                                .chapter!);
+                                  },
+                                  child: Card(
+                                    color: themeData!.cardColor,
+                                    elevation: 0,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
+                                            style: TextStyle(
+                                                color: themeData!.verseColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 13),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                                children: verseNumberTextSpans +
+                                                    textSpans),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
                   ),
                   Visibility(
                       visible: controller.isAmharicKeyboardVisible,
-                      child: AmharicKeyboard()),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: themeData!.backgroundColor,
+                              border: Border.all(
+                                  color: themeData!.backgroundColor)),
+                          child: AmharicKeyboard())),
+                  Visibility(
+                      visible: !controller.isAmharicKeyboardVisible,
+                      child: Expanded(
+                        child: Container(color: themeData!.backgroundColor),
+                      )),
                   // Drawer content below the search field...
                 ],
               ),
             ),
             appBar: AppBar(
-              systemOverlayStyle: const SystemUiOverlayStyle(
-                  statusBarColor: Color(0xff7B5533),
+              systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: themeData!.primaryColor,
                   statusBarIconBrightness: Brightness.light),
               elevation: 0,
-              backgroundColor: Colors.white,
+              backgroundColor: themeData?.backgroundColor,
               leading: IconButton(
                 onPressed: () {
                   controller.scaffoldKey.currentState?.openDrawer();
@@ -393,8 +426,8 @@ class DetailView extends GetView<DetailController> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   decoration: BoxDecoration(
-                    color: themeData
-                        ?.primaryColor, // Set the background color of the title
+                    color: themeData!
+                        .primaryColor, // Set the background color of the title
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -510,6 +543,7 @@ class DetailView extends GetView<DetailController> {
                 controller.update();
               }
             },
+            backgroundColor: themeData!.backgroundColor,
             drawer: CustomDrawer(
                 themeData: themeData,
                 getterAndSetterController: getterAndSetterController),
@@ -566,7 +600,7 @@ class DetailView extends GetView<DetailController> {
                               }
                             });
                             return Container(
-                              color: Colors.white,
+                              color: themeData!.backgroundColor,
                               child: Column(
                                 children: [
                                   const SizedBox(height: 20),
@@ -578,10 +612,10 @@ class DetailView extends GetView<DetailController> {
                                             ? '${controller.getBookTitle(controller.allVerses[i][0].book!)} | Chapter ${controller.allVerses[i][0].chapter}'
                                             : '${controller.getBookTitle(controller.allVerses[i][0].book!)} | ምዕራፍ ${controller.allVerses[i][0].chapter}',
                                         style: TextStyle(
-                                          fontSize: controller.fontSize.sp,
-                                          fontFamily: "Abyssinica",
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                            fontSize: controller.fontSize.sp,
+                                            fontFamily: "Abyssinica",
+                                            fontWeight: FontWeight.bold,
+                                            color: themeData!.verseColor),
                                       ),
                                       const SizedBox(height: 10),
                                       Padding(
@@ -693,7 +727,7 @@ class DetailView extends GetView<DetailController> {
                                                                           fontWeight:
                                                                               FontWeight.normal,
                                                                           color:
-                                                                              themeData?.primaryColor,
+                                                                              themeData!.numbersColor,
                                                                         ),
                                                                       ),
                                                                     const SizedBox(
@@ -717,14 +751,14 @@ class DetailView extends GetView<DetailController> {
                                                                                         style: TextStyle(
                                                                                           fontSize: controller.fontSize.sp,
                                                                                           fontWeight: FontWeight.bold,
-                                                                                          color: const Color.fromARGB(255, 146, 45, 38),
+                                                                                          color: themeData!.numbersColor,
                                                                                         ),
                                                                                       ),
                                                                                       TextSpan(
                                                                                         text: controller.allVerses[i][index].verseText,
                                                                                         style: TextStyle(
                                                                                           fontSize: controller.fontSize.sp,
-                                                                                          color: Colors.black,
+                                                                                          color: getHighlightColor(controller.allVerses[i][index].highlight!) != Colors.transparent ? themeData!.blackColor : themeData!.verseColor,
                                                                                           fontFamily: "Abyssinica",
                                                                                           backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                                         ),
@@ -809,12 +843,8 @@ class DetailView extends GetView<DetailController> {
                                                                               .sp,
                                                                           fontWeight:
                                                                               FontWeight.bold,
-                                                                          color: const Color
-                                                                              .fromARGB(
-                                                                              255,
-                                                                              146,
-                                                                              45,
-                                                                              38),
+                                                                          color:
+                                                                              themeData!.numbersColor,
                                                                         ),
                                                                         children: <InlineSpan>[
                                                                           TextSpan(
@@ -824,7 +854,7 @@ class DetailView extends GetView<DetailController> {
                                                                                 TextStyle(
                                                                               fontFamily: "Abyssinica",
                                                                               fontSize: controller.fontSize.sp,
-                                                                              color: Colors.black,
+                                                                              color: getHighlightColor(controller.allVerses[i][index].highlight!) != Colors.transparent ? themeData!.blackColor : themeData!.verseColor,
                                                                               fontWeight: FontWeight.normal,
                                                                               backgroundColor: controller.selectedRowIndex == index ? themeData?.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                             ),
@@ -948,12 +978,13 @@ class DetailView extends GetView<DetailController> {
 
   Future<dynamic> showBookSelectionMenu(BuildContext context) {
     return showModalBottomSheet(
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
         return Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 247, 247, 247),
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            color: themeData!.backgroundColor,
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
@@ -966,6 +997,7 @@ class DetailView extends GetView<DetailController> {
               child: Column(
                 children: [
                   Card(
+                    color: themeData!.cardColor,
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
@@ -1007,15 +1039,22 @@ class DetailView extends GetView<DetailController> {
                         controller.isLoading = false;
                         controller.update();
                       },
-                      title: const Text('አማርኛ 1954'),
+                      title: Text(
+                        'አማርኛ 1954',
+                        style: TextStyle(color: themeData!.verseColor),
+                      ),
                       leading: Image.asset(
                         "assets/images/bible.png",
                         height: 32.sp,
                       ),
-                      trailing: const Icon(Icons.chevron_right),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: themeData!.verseColor,
+                      ),
                     ),
                   ),
                   Card(
+                    color: themeData!.cardColor,
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
@@ -1056,15 +1095,20 @@ class DetailView extends GetView<DetailController> {
 
                         controller.update();
                       },
-                      title: const Text('አዲሱ መደበኛ ትርጉም'),
+                      title: Text(
+                        'አዲሱ መደበኛ ትርጉም',
+                        style: TextStyle(color: themeData!.verseColor),
+                      ),
                       leading: Image.asset(
                         "assets/images/bible.png",
                         height: 32.sp,
                       ),
-                      trailing: const Icon(Icons.chevron_right),
+                      trailing: Icon(Icons.chevron_right,
+                          color: themeData!.verseColor),
                     ),
                   ),
                   Card(
+                    color: themeData!.cardColor,
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
@@ -1106,15 +1150,22 @@ class DetailView extends GetView<DetailController> {
 
                         controller.update();
                       },
-                      title: const Text('English NIV'),
+                      title: Text(
+                        'English NIV',
+                        style: TextStyle(color: themeData!.verseColor),
+                      ),
                       leading: Image.asset(
                         "assets/images/bible.png",
                         height: 32.sp,
                       ),
-                      trailing: const Icon(Icons.chevron_right),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: themeData!.verseColor,
+                      ),
                     ),
                   ),
                   Card(
+                    color: themeData!.cardColor,
                     elevation: 0,
                     child: ListTile(
                       onTap: () async {
@@ -1158,12 +1209,18 @@ class DetailView extends GetView<DetailController> {
 
                         controller.update();
                       },
-                      title: const Text('English KJV'),
+                      title: Text(
+                        'English KJV',
+                        style: TextStyle(color: themeData!.verseColor),
+                      ),
                       leading: Image.asset(
                         "assets/images/bible.png",
                         height: 32.sp,
                       ),
-                      trailing: const Icon(Icons.chevron_right),
+                      trailing: Icon(
+                        Icons.chevron_right,
+                        color: themeData!.verseColor,
+                      ),
                     ),
                   ),
                 ],

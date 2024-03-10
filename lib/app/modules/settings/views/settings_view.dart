@@ -15,14 +15,16 @@ class SettingsView extends GetView<SettingsController> {
     return Scaffold(
       backgroundColor: themeData?.backgroundColor,
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Color(0xff7B5533),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: themeData!.primaryColor,
             statusBarIconBrightness: Brightness.light),
         elevation: 0,
-        backgroundColor: const Color(0xff7B5533),
+        backgroundColor: themeData!.primaryColor,
         title: Text(
           'settings'.tr,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(
+            color: themeData!.verseColor,
+          ),
         ),
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -42,18 +44,18 @@ class SettingsView extends GetView<SettingsController> {
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeData!.cardColor,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(5),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Color(0xffEEEDED),
+                    color: themeData!.shadowColor,
                     spreadRadius: 2,
                     blurRadius: 10,
                     offset: Offset(0, 8), // horizontal, vertical offset
                   ),
                   BoxShadow(
-                    color: Color(0xffEEEDED),
+                    color: themeData!.shadowColor,
                     spreadRadius: 2,
                     blurRadius: 10,
                     offset: Offset(0, -8), // horizontal, vertical offset
@@ -80,19 +82,19 @@ class SettingsView extends GetView<SettingsController> {
                     );
                   }
                 },
-                leading: const Icon(
+                leading: Icon(
                   Icons.translate,
-                  color: Colors.grey,
+                  color: themeData!.verseColor,
                 ),
-                trailing: const Icon(
+                trailing: Icon(
                   Icons.chevron_right,
-                  color: Colors.grey,
+                  color: themeData!.verseColor,
                   size: 30,
                 ),
                 title: Text(
                   "change_language".tr,
                   style: TextStyle(
-                      color: Colors.black,
+                      color: themeData?.verseColor,
                       fontSize: SizerUtil.deviceType == DeviceType.mobile
                           ? 12.5.sp
                           : 9.sp),
@@ -104,18 +106,18 @@ class SettingsView extends GetView<SettingsController> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: themeData!.cardColor,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color(0xffEEEDED),
+                      color: themeData!.shadowColor,
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, 8), // horizontal, vertical offset
                     ),
                     BoxShadow(
-                      color: Color(0xffEEEDED),
+                      color: themeData!.shadowColor,
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, -8), // horizontal, vertical offset
@@ -126,19 +128,19 @@ class SettingsView extends GetView<SettingsController> {
                   onTap: () {
                     showFontSizeBottomSheet(context);
                   },
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.font_download,
-                    color: Colors.grey,
+                    color: themeData!.verseColor,
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.chevron_right,
-                    color: Colors.grey,
+                    color: themeData!.verseColor,
                     size: 30,
                   ),
                   title: Text(
                     "font_size".tr,
                     style: TextStyle(
-                        color: Colors.black,
+                        color: themeData?.verseColor,
                         fontSize: SizerUtil.deviceType == DeviceType.mobile
                             ? 12.5.sp
                             : 9.sp),
@@ -149,18 +151,18 @@ class SettingsView extends GetView<SettingsController> {
             Container(
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: themeData!.cardColor,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(5),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Color(0xffEEEDED),
+                    color: themeData!.shadowColor,
                     spreadRadius: 2,
                     blurRadius: 10,
                     offset: Offset(0, 8), // horizontal, vertical offset
                   ),
                   BoxShadow(
-                    color: Color(0xffEEEDED),
+                    color: themeData!.shadowColor,
                     spreadRadius: 2,
                     blurRadius: 10,
                     offset: Offset(0, -8), // horizontal, vertical offset
@@ -171,19 +173,19 @@ class SettingsView extends GetView<SettingsController> {
                 onTap: () {
                   showThemeConfigBottomSheet(context);
                 },
-                leading: const Icon(
+                leading: Icon(
                   Icons.color_lens_outlined,
-                  color: Colors.grey,
+                  color: themeData!.verseColor,
                 ),
-                trailing: const Icon(
+                trailing: Icon(
                   Icons.chevron_right,
-                  color: Colors.grey,
+                  color: themeData!.verseColor,
                   size: 30,
                 ),
                 title: Text(
                   "theme".tr,
                   style: TextStyle(
-                      color: Colors.black,
+                      color: themeData?.verseColor,
                       fontSize: SizerUtil.deviceType == DeviceType.mobile
                           ? 12.5.sp
                           : 9.sp),
@@ -199,7 +201,9 @@ class SettingsView extends GetView<SettingsController> {
 
 void showFontSizeBottomSheet(BuildContext context) {
   final DetailController detailController = Get.find<DetailController>();
+  final themeData = Get.find<ThemeController>().themeData.value;
   showModalBottomSheet(
+    backgroundColor: Colors.transparent,
     context: context,
     builder: (BuildContext context) {
       return GetBuilder<DetailController>(
@@ -207,18 +211,32 @@ void showFontSizeBottomSheet(BuildContext context) {
         initState: (_) {},
         builder: (_) {
           return Container(
+            decoration: BoxDecoration(
+              color: themeData!.backgroundColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+            ),
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  "font_size".tr,
-                  style: TextStyle(
-                      fontSize: SizerUtil.deviceType == DeviceType.mobile
-                          ? 12.5.sp
-                          : 9.sp),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "font_size".tr,
+                    style: TextStyle(
+                        fontSize: SizerUtil.deviceType == DeviceType.mobile
+                            ? 12.5.sp
+                            : 9.sp,
+                        color: themeData.verseColor),
+                  ),
                 ),
                 Slider(
+                  inactiveColor: themeData.lightPrimary.withOpacity(0.3),
+                  activeColor: themeData.primaryColor,
                   value: detailController.fontSize,
                   onChanged: (value) async {
                     await detailController.updateFontSize(value);
@@ -239,7 +257,7 @@ void showFontSizeBottomSheet(BuildContext context) {
 }
 
 void showThemeConfigBottomSheet(BuildContext context) {
-  final DetailController detailController = Get.find<DetailController>();
+  final themeController = Get.find<ThemeController>();
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -339,20 +357,26 @@ void showThemeConfigBottomSheet(BuildContext context) {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 77, 77, 77),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Dark",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getDarkThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 77, 77, 77),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                                child: Text(
+                              "Dark",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
                       ),
                       Padding(
