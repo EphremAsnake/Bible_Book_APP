@@ -13,6 +13,7 @@ class ThemeDataModel {
   final Color numbersColor;
   final Color verseColor;
   final Color cardColor;
+  final Color keyboardColor;
 
   ThemeDataModel({
     required this.whiteColor,
@@ -28,5 +29,6 @@ class ThemeDataModel {
     required this.numbersColor,
     required this.verseColor,
     required this.cardColor,
+    required this.keyboardColor,
   });
 }

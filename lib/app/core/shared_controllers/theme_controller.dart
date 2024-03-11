@@ -24,6 +24,7 @@ class ThemeController extends GetxController {
       numbersColor: HexColor("#FF922D26"),
       verseColor: HexColor("#000000"),
       cardColor: HexColor("#ffffff"),
+      keyboardColor: HexColor("#ebebeb"),
     );
     themeData.value = theme;
   }
@@ -44,7 +45,8 @@ class ThemeController extends GetxController {
       lightGrey: HexColor("#626367"),
       numbersColor: HexColor("#76ABAE"),
       verseColor: HexColor("#EEEEEE"),
-      cardColor:HexColor("#9c9a9a"),
+      cardColor:HexColor("#4a515e"),
+       keyboardColor: HexColor("#4a515e"),
     );
     themeData.value = theme;
   }

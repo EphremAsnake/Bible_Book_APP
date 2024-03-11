@@ -55,7 +55,7 @@ class DetailView extends GetView<DetailController> {
                   Container(
                     padding: const EdgeInsets.only(
                         left: 5, right: 5, top: 45, bottom: 8),
-                    color: themeData!.backgroundColor,
+                    color: themeData!.primaryColor,
                     child: Row(
                       children: [
                         Expanded(
@@ -71,11 +71,6 @@ class DetailView extends GetView<DetailController> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10),
                               child: TextField(
-                                // keyboardType:
-                                //     detailController.showEnglishKeyboard == true
-                                //         ? TextInputType.text
-                                //         : TextInputType.none,
-                                // autofocus: true,
                                 style: TextStyle(
                                     color: themeData?.primaryColor,
                                     fontSize: 13),
@@ -363,7 +358,7 @@ class DetailView extends GetView<DetailController> {
                                           Text(
                                             "${controller.getBookName(controller.searchResultVerses[i].book!)} ${controller.searchResultVerses[i].chapter}:${controller.searchResultVerses[i].verseNumber}",
                                             style: TextStyle(
-                                                color: themeData!.verseColor,
+                                                color: themeData!.primaryColor,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 13),
                                           ),
@@ -462,6 +457,7 @@ class DetailView extends GetView<DetailController> {
                       color: themeData?.primaryColor,
                     )),
                 PopupMenuButton<String>(
+                  color: themeData?.backgroundColor,
                   icon: Icon(
                     Icons.more_vert,
                     color: themeData?.primaryColor,
@@ -486,23 +482,24 @@ class DetailView extends GetView<DetailController> {
                         value: 'font_size',
                         child: Text(
                           'font_size'.tr,
+                          style: TextStyle(color: themeData?.verseColor),
                         ),
                       ),
                       PopupMenuItem<String>(
                         value: 'settings',
-                        child: Text('settings'.tr),
+                        child: Text('settings'.tr, style: TextStyle(color: themeData?.verseColor),),
                       ),
                       PopupMenuItem<String>(
                         value: 'about',
-                        child: Text('about'.tr),
+                        child: Text('about'.tr, style: TextStyle(color: themeData?.verseColor),),
                       ),
                       PopupMenuItem<String>(
                         value: 'share',
-                        child: Text('share'.tr),
+                        child: Text('share'.tr, style: TextStyle(color: themeData?.verseColor),),
                       ),
                       PopupMenuItem<String>(
                         value: 'rate',
-                        child: Text('rate'.tr),
+                        child: Text('rate'.tr, style: TextStyle(color: themeData?.verseColor),),
                       ),
                     ];
                   },
@@ -917,7 +914,7 @@ class DetailView extends GetView<DetailController> {
                               },
                               elevation: 2,
                               heroTag: "prev",
-                              backgroundColor: Colors.white,
+                              backgroundColor: themeData!.cardColor,
                               mini: true,
                               child: Icon(
                                 Icons.chevron_left,
@@ -959,7 +956,7 @@ class DetailView extends GetView<DetailController> {
                           );
                         },
                         mini: true,
-                        backgroundColor: Colors.white,
+                        backgroundColor: themeData!.cardColor,
                         elevation: 2,
                         heroTag: "next",
                         child: Icon(

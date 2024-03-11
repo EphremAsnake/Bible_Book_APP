@@ -1,4 +1,5 @@
 import 'package:bible_book_app/app/core/shared_controllers/database_service.dart';
+import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/data/models/bible/versesAMH.dart';
 import 'package:bible_book_app/app/modules/detail/controllers/detail_controller.dart';
 
@@ -14,9 +15,10 @@ import 'package:share_plus/share_plus.dart';
 void textSelectionOptions(BuildContext context, int book, int chapter,
     int verseNumber, String tableName, Verses? verse) {
   final DetailController detailController = Get.find<DetailController>();
+  final themeData = Get.find<ThemeController>().themeData.value;
   showModalBottomSheet(
     barrierColor: Colors.transparent,
-    backgroundColor: Colors.white,
+    backgroundColor: themeData!.backgroundColor,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(2), topRight: Radius.circular(2))),
@@ -298,8 +300,14 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
                               }
                               await share(textToCopy, "Share", context);
                             },
-                            icon: const Icon(Icons.share)),
-                        const Text("Share")
+                            icon: Icon(
+                              Icons.share,
+                              color: themeData.verseColor,
+                            )),
+                        Text(
+                          "Share",
+                          style: TextStyle(color: themeData.verseColor),
+                        )
                       ],
                     ),
                     Column(
@@ -319,8 +327,14 @@ void textSelectionOptions(BuildContext context, int book, int chapter,
 
                               copyToClipboard(textToCopy);
                             },
-                            icon: const Icon(Icons.copy)),
-                        const Text("Copy")
+                            icon: Icon(
+                              Icons.copy,
+                              color: themeData.verseColor,
+                            )),
+                        Text(
+                          "Copy",
+                          style: TextStyle(color: themeData.verseColor),
+                        )
                       ],
                     ),
                   ],
