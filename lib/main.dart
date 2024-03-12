@@ -40,7 +40,7 @@ void main() async {
 
   //setting app theme
   final themeController = Get.put(ThemeController());
-  themeController.getThemeData();
+  themeController.getLightThemeData();
 
   SharedPreferencesStorage sharedPreferencesStorage =
       SharedPreferencesStorage();

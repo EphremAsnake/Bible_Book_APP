@@ -4,120 +4,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../../utils/helpers/hex_color_helper.dart';
 import '../controllers/settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
   SettingsView({Key? key}) : super(key: key);
-  final themeData = Get.find<ThemeController>().themeData.value;
+  final ThemeController themeData = Get.find<ThemeController>();
   final DetailController detailController = Get.find<DetailController>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: themeData?.backgroundColor,
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: themeData!.primaryColor,
-            statusBarIconBrightness: Brightness.light),
-        elevation: 0,
-        backgroundColor: themeData!.primaryColor,
-        title: Text(
-          'settings'.tr,
-          style: TextStyle(
-            color: themeData!.verseColor,
+    return Obx(
+      () => Scaffold(
+        backgroundColor: themeData.themeData.value!.backgroundColor,
+        appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: themeData.themeData.value!.primaryColor,
+              statusBarIconBrightness: Brightness.light),
+          elevation: 0,
+          backgroundColor: themeData.themeData.value!.primaryColor,
+          title: Text(
+            'settings'.tr,
+            style: TextStyle(
+              color: themeData.themeData.value!.whiteColor,
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                color: themeData.themeData.value!.whiteColor),
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: themeData!.whiteColor),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: ListView(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: themeData!.cardColor,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: themeData!.shadowColor,
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 8), // horizontal, vertical offset
-                  ),
-                  BoxShadow(
-                    color: themeData!.shadowColor,
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, -8), // horizontal, vertical offset
-                  ),
-                ],
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ListView(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-              child: ListTile(
-                onTap: () {
-                  if (Get.locale.toString() == "amh_ET") {
-                    detailController.saveLocale('en_US');
-                    Get.updateLocale(const Locale('en', 'US'));
-                    Get.snackbar(
-                      'Info',
-                      'App Language Changed To English',
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  } else {
-                    Get.updateLocale(const Locale('amh', 'ET'));
-                    detailController.saveLocale('amh_ET');
-                    Get.snackbar(
-                      'መረጃ',
-                      'የመተግበሪያ ቋንቋ ወደ አማርኛ ተቀይሯል።',
-                      snackPosition: SnackPosition.BOTTOM,
-                    );
-                  }
-                },
-                leading: Icon(
-                  Icons.translate,
-                  color: themeData!.verseColor,
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: themeData!.verseColor,
-                  size: 30,
-                ),
-                title: Text(
-                  "change_language".tr,
-                  style: TextStyle(
-                      color: themeData?.verseColor,
-                      fontSize: SizerUtil.deviceType == DeviceType.mobile
-                          ? 12.5.sp
-                          : 9.sp),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Container(
+              Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: themeData!.cardColor,
+                  color: themeData.themeData.value!.cardColor,
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(5),
                   boxShadow: [
                     BoxShadow(
-                      color: themeData!.shadowColor,
+                      color: themeData.themeData.value!.shadowColor,
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, 8), // horizontal, vertical offset
                     ),
                     BoxShadow(
-                      color: themeData!.shadowColor,
+                      color: themeData.themeData.value!.shadowColor,
                       spreadRadius: 2,
                       blurRadius: 10,
                       offset: Offset(0, -8), // horizontal, vertical offset
@@ -126,73 +67,136 @@ class SettingsView extends GetView<SettingsController> {
                 ),
                 child: ListTile(
                   onTap: () {
-                    showFontSizeBottomSheet(context);
+                    if (Get.locale.toString() == "amh_ET") {
+                      detailController.saveLocale('en_US');
+                      Get.updateLocale(const Locale('en', 'US'));
+                      Get.snackbar(
+                        'Info',
+                        'App Language Changed To English',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    } else {
+                      Get.updateLocale(const Locale('amh', 'ET'));
+                      detailController.saveLocale('amh_ET');
+                      Get.snackbar(
+                        'መረጃ',
+                        'የመተግበሪያ ቋንቋ ወደ አማርኛ ተቀይሯል።',
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
                   },
                   leading: Icon(
-                    Icons.font_download,
-                    color: themeData!.verseColor,
+                    Icons.translate,
+                    color: themeData.themeData.value!.verseColor,
                   ),
                   trailing: Icon(
                     Icons.chevron_right,
-                    color: themeData!.verseColor,
+                    color: themeData.themeData.value!.verseColor,
                     size: 30,
                   ),
                   title: Text(
-                    "font_size".tr,
+                    "change_language".tr,
                     style: TextStyle(
-                        color: themeData?.verseColor,
+                        color: themeData.themeData.value!.verseColor,
                         fontSize: SizerUtil.deviceType == DeviceType.mobile
                             ? 12.5.sp
                             : 9.sp),
                   ),
                 ),
               ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: themeData!.cardColor,
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: themeData!.shadowColor,
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, 8), // horizontal, vertical offset
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: themeData.themeData.value!.cardColor,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: [
+                      BoxShadow(
+                        color: themeData.themeData.value!.shadowColor,
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: Offset(0, 8), // horizontal, vertical offset
+                      ),
+                      BoxShadow(
+                        color: themeData.themeData.value!.shadowColor,
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: Offset(0, -8), // horizontal, vertical offset
+                      ),
+                    ],
                   ),
-                  BoxShadow(
-                    color: themeData!.shadowColor,
-                    spreadRadius: 2,
-                    blurRadius: 10,
-                    offset: Offset(0, -8), // horizontal, vertical offset
+                  child: ListTile(
+                    onTap: () {
+                      showFontSizeBottomSheet(context);
+                    },
+                    leading: Icon(
+                      Icons.font_download,
+                      color: themeData.themeData.value!.verseColor,
+                    ),
+                    trailing: Icon(
+                      Icons.chevron_right,
+                      color: themeData.themeData.value!.verseColor,
+                      size: 30,
+                    ),
+                    title: Text(
+                      "font_size".tr,
+                      style: TextStyle(
+                          color: themeData.themeData.value!.verseColor,
+                          fontSize: SizerUtil.deviceType == DeviceType.mobile
+                              ? 12.5.sp
+                              : 9.sp),
+                    ),
                   ),
-                ],
-              ),
-              child: ListTile(
-                onTap: () {
-                  showThemeConfigBottomSheet(context);
-                },
-                leading: Icon(
-                  Icons.color_lens_outlined,
-                  color: themeData!.verseColor,
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: themeData!.verseColor,
-                  size: 30,
-                ),
-                title: Text(
-                  "theme".tr,
-                  style: TextStyle(
-                      color: themeData?.verseColor,
-                      fontSize: SizerUtil.deviceType == DeviceType.mobile
-                          ? 12.5.sp
-                          : 9.sp),
                 ),
               ),
-            ),
-          ],
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: themeData.themeData.value!.cardColor,
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: themeData.themeData.value!.shadowColor,
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, 8), // horizontal, vertical offset
+                    ),
+                    BoxShadow(
+                      color: themeData.themeData.value!.shadowColor,
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: Offset(0, -8), // horizontal, vertical offset
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  onTap: () {
+                    showThemeConfigBottomSheet(context);
+                  },
+                  leading: Icon(
+                    Icons.color_lens_outlined,
+                    color: themeData.themeData.value!.verseColor,
+                  ),
+                  trailing: Icon(
+                    Icons.chevron_right,
+                    color: themeData.themeData.value!.verseColor,
+                    size: 30,
+                  ),
+                  title: Text(
+                    "theme".tr,
+                    style: TextStyle(
+                        color: themeData.themeData.value!.verseColor,
+                        fontSize: SizerUtil.deviceType == DeviceType.mobile
+                            ? 12.5.sp
+                            : 9.sp),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -259,6 +263,7 @@ void showFontSizeBottomSheet(BuildContext context) {
 void showThemeConfigBottomSheet(BuildContext context) {
   final themeController = Get.find<ThemeController>();
   showModalBottomSheet(
+    barrierColor: Colors.transparent,
     context: context,
     builder: (BuildContext context) {
       return GetBuilder<DetailController>(
@@ -297,62 +302,26 @@ void showThemeConfigBottomSheet(BuildContext context) {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 247, 222, 184),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(child: Text("Gold")),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 238, 225, 206),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(child: Text("Amber")),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 198, 222, 238),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(child: Text("Blue")),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 112, 149, 173),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Blue-2",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getGreyThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 175, 175, 175),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                                child: Text(
+                              "Grey",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
                       ),
                       Padding(
@@ -381,74 +350,134 @@ void showThemeConfigBottomSheet(BuildContext context) {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 96, 187, 178),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Teal",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getLightThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                                child: Text(
+                              "light",
+                              style: TextStyle(color: Colors.black),
+                            )),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          themeController.getGoldThemeData();
+                          themeController.update();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 247, 222, 184),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(child: Text("Gold")),
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 198, 245, 240),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Teal 2",
-                            style: TextStyle(color: Colors.black),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getAmberThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 238, 225, 206),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(child: Text("Amber")),
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 179, 137, 123),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Brown",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getLightBlueThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 198, 222, 238),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(child: Text("Blue")),
+                          ),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Container(
-                          width: 60,
-                          height: 30,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color:
-                                      const Color.fromARGB(255, 192, 192, 192)),
-                              color: const Color.fromARGB(255, 175, 175, 175),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Center(
-                              child: Text(
-                            "Grey",
-                            style: TextStyle(color: Colors.white),
-                          )),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getDarkBlueThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: HexColor("#142136"),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                                child: Text(
+                              "Blue-2",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: GestureDetector(
+                          onTap: () {
+                            themeController.getTealThemeData();
+                            themeController.update();
+                          },
+                          child: Container(
+                            width: 60,
+                            height: 30,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 192, 192, 192)),
+                                color: const Color.fromARGB(255, 96, 187, 178),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                                child: Text(
+                              "Teal",
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          ),
                         ),
                       ),
                     ],
