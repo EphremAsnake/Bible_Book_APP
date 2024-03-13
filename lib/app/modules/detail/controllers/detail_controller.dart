@@ -613,7 +613,9 @@ class DetailController extends SuperController {
 
   @override
   void onResumed() {
-    fetchConfigsData();
-    update();
+    if (Platform.isIOS) {
+      fetchConfigsData();
+      update();
+    }
   }
 }

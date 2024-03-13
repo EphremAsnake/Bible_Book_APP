@@ -247,12 +247,12 @@ class DetailView extends GetView<DetailController> {
                         ),
                       ),
                     ),
-                    Visibility(
-                        visible: controller.searchResultVerses.isEmpty,
-                        child: Expanded(
-                            child: Container(
-                          color: themeData.themeData.value!.backgroundColor,
-                        ))),
+                    // Visibility(
+                    //     visible: controller.searchResultVerses.isEmpty,
+                    //     child: Expanded(
+                    //         child: Container(
+                    //       color: themeData.themeData.value!.backgroundColor,
+                    //     ))),
 
                     Visibility(
                       visible: controller.searchResultVerses.isNotEmpty,
