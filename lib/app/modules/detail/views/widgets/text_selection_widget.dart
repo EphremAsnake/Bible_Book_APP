@@ -94,6 +94,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                               detailController.selectedBook);
                           selectedVerses[i].highlight = color;
                         }
+                        detailController.selectedRowIndex = [];
+                        detailController.selectedVerses = [];
+                        detailController.showSelectionMenu = false;
                         detailController.update();
                       },
                       child: Container(
@@ -127,6 +130,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -161,7 +167,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -196,7 +204,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -231,7 +241,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -266,7 +278,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -301,7 +315,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -336,7 +352,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -371,7 +389,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -406,7 +426,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(
@@ -441,7 +463,9 @@ Widget textSelectionOptions(BuildContext context, List<Verses> selectedVerses,
                             detailController.selectedBook);
                         selectedVerses[i].highlight = color;
                       }
-
+                      detailController.selectedRowIndex = [];
+                      detailController.selectedVerses = [];
+                      detailController.showSelectionMenu = false;
                       detailController.update();
                     },
                     child: Container(

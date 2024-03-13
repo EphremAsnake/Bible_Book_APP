@@ -22,6 +22,7 @@ class SettingsView extends GetView<SettingsController> {
               statusBarIconBrightness: Brightness.light),
           elevation: 0,
           backgroundColor: themeData.themeData.value!.primaryColor,
+          centerTitle: false,
           title: Text(
             'settings'.tr,
             style: TextStyle(

@@ -247,12 +247,12 @@ class DetailView extends GetView<DetailController> {
                         ),
                       ),
                     ),
-                    // Visibility(
-                    //     visible: controller.searchResultVerses.isEmpty,
-                    //     child: Expanded(
-                    //         child: Container(
-                    //       color: themeData.themeData.value!.backgroundColor,
-                    //     ))),
+                    Visibility(
+                        visible: controller.searchResultVerses.isEmpty,
+                        child: Expanded(
+                            child: Container(
+                          color: themeData.themeData.value!.backgroundColor,
+                        ))),
 
                     Visibility(
                       visible: controller.searchResultVerses.isNotEmpty,
@@ -295,9 +295,9 @@ class DetailView extends GetView<DetailController> {
 
                     Visibility(
                       visible: controller.searchResultVerses.isNotEmpty,
-                      child: Container(
-                        color: themeData.themeData.value!.backgroundColor,
-                        child: Expanded(
+                      child: Expanded(
+                        child: Container(
+                          color: themeData.themeData.value!.backgroundColor,
                           child: RawScrollbar(
                             thumbColor: themeData.themeData.value!.primaryColor,
                             controller: _scrollController,
@@ -369,8 +369,18 @@ class DetailView extends GetView<DetailController> {
                                                   .chapter!);
                                     },
                                     child: Card(
+                                      borderOnForeground: true,
                                       color:
                                           themeData.themeData.value!.cardColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            5), // Adjust the border radius as needed
+                                        side: BorderSide(
+                                          color: themeData.themeData.value!
+                                              .blackColor, // Border color
+                                          width: 0.5, // Border width
+                                        ),
+                                      ),
                                       elevation: 0,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -414,13 +424,13 @@ class DetailView extends GetView<DetailController> {
                                     color: themeData
                                         .themeData.value!.backgroundColor)),
                             child: AmharicKeyboard())),
-                    Visibility(
-                        visible: !controller.isAmharicKeyboardVisible,
-                        child: Expanded(
-                          child: Container(
-                              color:
-                                  themeData.themeData.value!.backgroundColor),
-                        )),
+                    // Visibility(
+                    //     visible: !controller.isAmharicKeyboardVisible,
+                    //     child: Expanded(
+                    //       child: Container(
+                    //           color:
+                    //               themeData.themeData.value!.backgroundColor),
+                    //     )),
                     // Drawer content below the search field...
                   ],
                 ),
@@ -742,7 +752,7 @@ class DetailView extends GetView<DetailController> {
                                                                                 fontFamily: "Abyssinica",
                                                                                 fontSize: SizerUtil.deviceType == DeviceType.mobile ? (30 + controller.fontSize).sp : (15 + controller.fontSize).sp,
                                                                                 fontWeight: FontWeight.normal,
-                                                                                color: themeData.themeData.value!.primaryColor,
+                                                                                color: themeData.themeData.value!.numbersColor,
                                                                               ),
                                                                             ),
                                                                           ),

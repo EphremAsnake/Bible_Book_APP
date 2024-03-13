@@ -25,7 +25,7 @@ class AmharicKeyboard extends StatelessWidget {
       builder: (_) {
         return Obx(
           () => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: Container(
               color: themeData.themeData.value!.keyboardColor,
               padding: const EdgeInsets.all(0.0),
@@ -44,7 +44,7 @@ class AmharicKeyboard extends StatelessWidget {
                             : 6.4.h,
                         child: GridView.builder(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 2, horizontal: 3),
+                              vertical: 2, horizontal: 5),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: detailController
@@ -92,15 +92,17 @@ class AmharicKeyboard extends StatelessWidget {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: themeData.themeData.value!.backgroundColor,
+                                  color: themeData
+                                      .themeData.value!.backgroundColor,
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   key ?? "",
                                   style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: themeData.themeData.value!.verseColor),
+                                      fontSize:  SizerUtil.deviceType == DeviceType.mobile ? 10.sp : 16.0,
+                                      color: themeData
+                                          .themeData.value!.verseColor),
                                 ),
                               ),
                             );
@@ -123,8 +125,8 @@ class AmharicKeyboard extends StatelessWidget {
                           return SizedBox(
                             width: SizerUtil.deviceType == DeviceType.mobile
                                 ? key.basicForm == '―'
-                                    ? 98.sp
-                                    : 31.sp
+                                    ? 96.sp
+                                    : 30.sp
                                 : key.basicForm == '―'
                                     ? 76.sp
                                     : 24.sp,
@@ -174,15 +176,17 @@ class AmharicKeyboard extends StatelessWidget {
                               child: Container(
                                 padding: const EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
-                                  color: themeData.themeData.value!.backgroundColor,
+                                  color: themeData
+                                      .themeData.value!.backgroundColor,
                                   borderRadius: BorderRadius.circular(4.0),
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   key.basicForm,
                                   style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: themeData.themeData.value!.verseColor),
+                                      fontSize: SizerUtil.deviceType == DeviceType.mobile ? 10.sp :16.0,
+                                      color: themeData
+                                          .themeData.value!.verseColor),
                                 ),
                               ),
                             ),
