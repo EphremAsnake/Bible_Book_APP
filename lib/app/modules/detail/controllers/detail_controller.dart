@@ -54,13 +54,19 @@ class DetailController extends SuperController {
   bool isSelectingBook = false;
   double fontSize = SizerUtil.deviceType == DeviceType.mobile ? 12.5 : 8;
   double chapterFontSize = SizerUtil.deviceType == DeviceType.mobile ? 15 : 15;
-  int selectedRowIndex = -1;
+  List<int> selectedRowIndex = [];
   String drawerQuote = "";
   List<Devotion> devotions = [];
   Verses? selectedVerse;
   int mergeCounter = 0;
   int defaultTabBarViewInitialIndex = 0;
   bool showEnglishKeyboard = false;
+  bool showSelectionMenu = false;
+  //selection params
+  BuildContext? context;
+  Verses? verse;
+  int index = 0;
+  List<Verses> selectedVerses = [];
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -571,6 +577,26 @@ class DetailController extends SuperController {
     showEnglishKeyboard = true;
     SystemChannels.textInput.invokeMethod("TextInput.show");
     update();
+  }
+
+  toggleSelectedRowIndex(int index, Verses verse) {
+    bool exists =
+        selectedVerses.any((element) => element.verseText == verse.verseText);
+    if (exists) {
+      selectedRowIndex.remove(index);
+      selectedVerses.remove(verse);
+    } else {
+      selectedRowIndex.add(index);
+      selectedVerses.add(verse);
+    }
+  }
+
+  removeSelectedRowIndex(int index) {
+    bool exists = selectedRowIndex.any((element) => element == index);
+    if (exists) {
+      selectedRowIndex.remove(index);
+      selectedVerses.remove(verse);
+    }
   }
 
   @override

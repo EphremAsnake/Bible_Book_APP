@@ -16,6 +16,14 @@ int setHighlightColor(Color color) {
     return 6;
   } else if (color == HighlightColors.highlightDarkGreen) {
     return 7;
+  } else if (color == HighlightColors.highlightDarkYellow) {
+    return 8;
+  } else if (color == HighlightColors.highlightDarkTeal) {
+    return 9;
+  } else if (color == HighlightColors.highlightBrown) {
+    return 10;
+  } else if (color == HighlightColors.highlightLightRed) {
+    return 11;
   } else {
     return 0;
   }
@@ -36,6 +44,14 @@ Color getHighlightColor(int number) {
     return HighlightColors.highlightPink;
   } else if (number == 7) {
     return HighlightColors.highlightDarkGreen;
+  } else if (number == 8) {
+    return HighlightColors.highlightDarkYellow;
+  } else if (number == 9) {
+    return HighlightColors.highlightDarkTeal;
+  } else if (number == 10) {
+    return HighlightColors.highlightBrown;
+  } else if (number == 11) {
+    return HighlightColors.highlightLightRed;
   } else {
     return Colors.transparent;
   }

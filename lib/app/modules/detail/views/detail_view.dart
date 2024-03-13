@@ -618,7 +618,7 @@ class DetailView extends GetView<DetailController> {
                               });
                               //detach the scroll controller and re initialize
                               controller.detachScrollController();
-                              controller.selectedRowIndex = -1;
+                              controller.selectedRowIndex = [];
                               controller.readerScrollController.dispose();
                               controller.update();
                             },
@@ -689,28 +689,23 @@ class DetailView extends GetView<DetailController> {
                                                     return GestureDetector(
                                                       onTap: () async {
                                                         controller
-                                                                .selectedRowIndex =
+                                                            .toggleSelectedRowIndex(
+                                                                index,
+                                                                controller
+                                                                        .allVerses[
+                                                                    i][index]);
+                                                        controller
+                                                                .showSelectionMenu =
+                                                            true;
+                                                        controller.context =
+                                                            context;
+                                                        controller.index =
                                                             index;
+                                                        controller
+                                                            .verse = controller
+                                                                .allVerses[i]
+                                                            [index];
                                                         controller.update();
-                                                        textSelectionOptions(
-                                                            context,
-                                                            controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .book!,
-                                                            controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .chapter!,
-                                                            controller
-                                                                .allVerses[i]
-                                                                    [index]
-                                                                .verseNumber!,
-                                                            controller
-                                                                .selectedBook,
-                                                            controller
-                                                                    .allVerses[
-                                                                i][index]);
                                                       },
                                                       child: Padding(
                                                         padding:
@@ -806,7 +801,7 @@ class DetailView extends GetView<DetailController> {
                                                                                             fontSize: controller.fontSize.sp,
                                                                                             color: getHighlightColor(controller.allVerses[i][index].highlight!) != Colors.transparent ? themeData.themeData.value!.blackColor : themeData.themeData.value!.verseColor,
                                                                                             fontFamily: "Abyssinica",
-                                                                                            backgroundColor: controller.selectedRowIndex == index ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                            backgroundColor: controller.selectedRowIndex.any((element) => element == index) ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                                           ),
                                                                                         )
                                                                                       ],
@@ -818,7 +813,7 @@ class DetailView extends GetView<DetailController> {
                                                                                         color: themeData.themeData.value!.primaryColor,
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontFamily: "Abyssinica",
-                                                                                        backgroundColor: controller.selectedRowIndex == index ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                        backgroundColor: controller.selectedRowIndex.any((element) => element == index) ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                                       ),
                                                                                     )),
                                                                         ),
@@ -862,7 +857,7 @@ class DetailView extends GetView<DetailController> {
                                                                                 fontSize: controller.fontSize.sp,
                                                                                 color: themeData.themeData.value!.primaryColor,
                                                                                 fontWeight: FontWeight.bold,
-                                                                                backgroundColor: controller.selectedRowIndex == index ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                backgroundColor: controller.selectedRowIndex.any((element) => element == index) ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                               ),
                                                                             ),
                                                                           ),
@@ -895,7 +890,7 @@ class DetailView extends GetView<DetailController> {
                                                                                 fontSize: controller.fontSize.sp,
                                                                                 color: getHighlightColor(controller.allVerses[i][index].highlight!) != Colors.transparent ? themeData.themeData.value!.blackColor : themeData.themeData.value!.verseColor,
                                                                                 fontWeight: FontWeight.normal,
-                                                                                backgroundColor: controller.selectedRowIndex == index ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
+                                                                                backgroundColor: controller.selectedRowIndex.any((element) => element == index) ? themeData.themeData.value!.primaryColor.withOpacity(0.5) : getHighlightColor(controller.allVerses[i][index].highlight!),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -928,88 +923,107 @@ class DetailView extends GetView<DetailController> {
                             },
                           ),
                         ),
+                        Visibility(
+                          visible: controller.showSelectionMenu,
+                          child: Container(
+                            color: Colors.white,
+                            height: 20.h,
+                            child: controller.showSelectionMenu == true
+                                ? textSelectionOptions(
+                                    context,
+                                    controller.selectedVerses,
+                                    controller.verse!,
+                                    controller.index)
+                                : const SizedBox.shrink(),
+                          ),
+                        )
                       ],
                     )
                   : Container(),
               floatingActionButton: controller.hidePageNavigators == false
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                  ? controller.showSelectionMenu == false
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 25),
-                              child: FloatingActionButton(
-                                onPressed: () {
-                                  controller.pageController?.previousPage(
-                                      duration: const Duration(milliseconds: 1),
-                                      curve: Curves.linear);
-                                  //scroll to top
-                                  controller.readerScrollController.animateTo(
-                                    0.0, // Scroll to the top
-                                    duration: const Duration(
-                                        milliseconds:
-                                            500), // Adjust the duration as needed
-                                    curve: Curves
-                                        .easeInOut, // Use a different curve if desired
-                                  );
-                                },
-                                elevation: 2,
-                                heroTag: "prev",
-                                backgroundColor:
-                                    themeData.themeData.value!.cardColor,
-                                mini: true,
-                                child: Icon(
-                                  Icons.chevron_left,
-                                  color:
-                                      themeData.themeData.value!.primaryColor,
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 25),
+                                  child: FloatingActionButton(
+                                    onPressed: () {
+                                      controller.pageController?.previousPage(
+                                          duration:
+                                              const Duration(milliseconds: 1),
+                                          curve: Curves.linear);
+                                      //scroll to top
+                                      controller.readerScrollController
+                                          .animateTo(
+                                        0.0, // Scroll to the top
+                                        duration: const Duration(
+                                            milliseconds:
+                                                500), // Adjust the duration as needed
+                                        curve: Curves
+                                            .easeInOut, // Use a different curve if desired
+                                      );
+                                    },
+                                    elevation: 2,
+                                    heroTag: "prev",
+                                    backgroundColor:
+                                        themeData.themeData.value!.cardColor,
+                                    mini: true,
+                                    child: Icon(
+                                      Icons.chevron_left,
+                                      color: themeData
+                                          .themeData.value!.primaryColor,
+                                    ),
+                                  ),
                                 ),
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(horizontal: 5),
+                                //   child: FloatingActionButton(
+                                //     onPressed: () {
+                                //       showFontSizeBottomSheet(context);
+                                //     },
+                                //     elevation: 2,
+                                //     heroTag: "Settings",
+                                //     backgroundColor: Colors.white,
+                                //     mini: true,
+                                //     child: Icon(
+                                //       Icons.settings,
+                                //       color: themeData?.primaryColor,
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            FloatingActionButton(
+                              onPressed: () {
+                                controller.pageController?.nextPage(
+                                    duration: const Duration(milliseconds: 1),
+                                    curve: Curves.linear);
+                                //scroll to top
+                                controller.readerScrollController.animateTo(
+                                  0.0, // Scroll to the top
+                                  duration: const Duration(
+                                      milliseconds:
+                                          500), // Adjust the duration as needed
+                                  curve: Curves
+                                      .easeInOut, // Use a different curve if desired
+                                );
+                              },
+                              mini: true,
+                              backgroundColor:
+                                  themeData.themeData.value!.cardColor,
+                              elevation: 2,
+                              heroTag: "next",
+                              child: Icon(
+                                Icons.chevron_right,
+                                color: themeData.themeData.value!.primaryColor,
                               ),
                             ),
-                            // Padding(
-                            //   padding: const EdgeInsets.symmetric(horizontal: 5),
-                            //   child: FloatingActionButton(
-                            //     onPressed: () {
-                            //       showFontSizeBottomSheet(context);
-                            //     },
-                            //     elevation: 2,
-                            //     heroTag: "Settings",
-                            //     backgroundColor: Colors.white,
-                            //     mini: true,
-                            //     child: Icon(
-                            //       Icons.settings,
-                            //       color: themeData?.primaryColor,
-                            //     ),
-                            //   ),
-                            // ),
                           ],
-                        ),
-                        FloatingActionButton(
-                          onPressed: () {
-                            controller.pageController?.nextPage(
-                                duration: const Duration(milliseconds: 1),
-                                curve: Curves.linear);
-                            //scroll to top
-                            controller.readerScrollController.animateTo(
-                              0.0, // Scroll to the top
-                              duration: const Duration(
-                                  milliseconds:
-                                      500), // Adjust the duration as needed
-                              curve: Curves
-                                  .easeInOut, // Use a different curve if desired
-                            );
-                          },
-                          mini: true,
-                          backgroundColor: themeData.themeData.value!.cardColor,
-                          elevation: 2,
-                          heroTag: "next",
-                          child: Icon(
-                            Icons.chevron_right,
-                            color: themeData.themeData.value!.primaryColor,
-                          ),
-                        ),
-                      ],
-                    )
+                        )
+                      : null
                   : null,
             ),
           ),
@@ -1082,7 +1096,7 @@ Future<dynamic> showBookSelectionMenu(BuildContext context) {
                               .easeInOut, // Use a different curve if desired
                         );
                         EasyLoading.dismiss();
-                        controller.selectedRowIndex = -1;
+                        controller.selectedRowIndex = [];
                         controller.isLoading = false;
                         controller.update();
                       },
@@ -1137,7 +1151,7 @@ Future<dynamic> showBookSelectionMenu(BuildContext context) {
                             .easeInOut, // Use a different curve if desired
                       );
                       EasyLoading.dismiss();
-                      controller.selectedRowIndex = -1;
+                      controller.selectedRowIndex = [];
                       controller.isLoading = false;
 
                       controller.update();
@@ -1191,7 +1205,7 @@ Future<dynamic> showBookSelectionMenu(BuildContext context) {
                             .easeInOut, // Use a different curve if desired
                       );
                       EasyLoading.dismiss();
-                      controller.selectedRowIndex = -1;
+                      controller.selectedRowIndex = [];
                       controller.isLoading = false;
 
                       controller.update();
@@ -1249,7 +1263,7 @@ Future<dynamic> showBookSelectionMenu(BuildContext context) {
                       );
 
                       EasyLoading.dismiss();
-                      controller.selectedRowIndex = -1;
+                      controller.selectedRowIndex = [];
                       controller.isLoading = false;
 
                       controller.update();
