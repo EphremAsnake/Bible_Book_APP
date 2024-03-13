@@ -262,6 +262,7 @@ void showFontSizeBottomSheet(BuildContext context) {
 
 void showThemeConfigBottomSheet(BuildContext context) {
   final themeController = Get.find<ThemeController>();
+  final ThemeController themeData = Get.find<ThemeController>();
   showModalBottomSheet(
     barrierColor: Colors.transparent,
     context: context,
@@ -271,219 +272,234 @@ void showThemeConfigBottomSheet(BuildContext context) {
         initState: (_) {},
         builder: (_) {
           return Container(
+            decoration: BoxDecoration(
+              color: themeData.themeData.value!.backgroundColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+            ),
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Text(
-                    "theme".tr,
-                    style: TextStyle(
-                        fontSize: SizerUtil.deviceType == DeviceType.mobile
-                            ? 12.5.sp
-                            : 9.sp),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Text(
+                      "theme".tr,
+                      style: TextStyle(
+                          fontSize: SizerUtil.deviceType == DeviceType.mobile
+                              ? 12.5.sp
+                              : 9.sp),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 3,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4),
-                  child: Divider(),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getGreyThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 175, 175, 175),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(
-                                child: Text(
-                              "Grey",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getDarkThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 77, 77, 77),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(
-                                child: Text(
-                              "Dark",
-                              style: TextStyle(color: Colors.white),
-                            )),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getLightThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(
-                                child: Text(
-                              "light",
-                              style: TextStyle(color: Colors.black),
-                            )),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          themeController.getGoldThemeData();
-                          themeController.update();
-                        },
-                        child: Padding(
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4),
+                    child: Divider(),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 247, 222, 184),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Gold")),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getGreyThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color:
+                                      const Color.fromARGB(255, 175, 175, 175),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                "Grey",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getDarkThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color: const Color.fromARGB(255, 77, 77, 77),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                "Dark",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getLightThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                "Default",
+                                style: TextStyle(color: Colors.black),
+                              )),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
                           onTap: () {
-                            themeController.getAmberThemeData();
+                            themeController.getGoldThemeData();
                             themeController.update();
                           },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 238, 225, 206),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Amber")),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color:
+                                      const Color.fromARGB(255, 247, 222, 184),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(child: Text("Gold")),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getLightBlueThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 198, 222, 238),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(child: Text("Blue")),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getAmberThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color:
+                                      const Color.fromARGB(255, 238, 225, 206),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(child: Text("Amber")),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getDarkBlueThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: HexColor("#142136"),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(
-                                child: Text(
-                              "Blue-2",
-                              style: TextStyle(color: Colors.white),
-                            )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getLightBlueThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color:
+                                      const Color.fromARGB(255, 198, 222, 238),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(child: Text("Blue")),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: GestureDetector(
-                          onTap: () {
-                            themeController.getTealThemeData();
-                            themeController.update();
-                          },
-                          child: Container(
-                            width: 60,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color.fromARGB(
-                                        255, 192, 192, 192)),
-                                color: const Color.fromARGB(255, 96, 187, 178),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: const Center(
-                                child: Text(
-                              "Teal",
-                              style: TextStyle(color: Colors.white),
-                            )),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getDarkBlueThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color: HexColor("#142136"),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                "Blue-2",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              themeController.getTealThemeData();
+                              themeController.update();
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 192, 192, 192)),
+                                  color:
+                                      const Color.fromARGB(255, 96, 187, 178),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: const Center(
+                                  child: Text(
+                                "Teal",
+                                style: TextStyle(color: Colors.white),
+                              )),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },

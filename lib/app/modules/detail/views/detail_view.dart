@@ -438,7 +438,9 @@ class DetailView extends GetView<DetailController> {
                   icon: Icon(
                     Icons.menu,
                     color: themeData.themeData.value!.primaryColor,
-                    size: 21.sp,
+                    size: SizerUtil.deviceType == DeviceType.mobile
+                        ? 21.sp
+                        : 14.sp,
                   ),
                 ),
                 title: GestureDetector(
@@ -450,7 +452,7 @@ class DetailView extends GetView<DetailController> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                     decoration: BoxDecoration(
-                      color: themeData!.themeData.value!
+                      color: themeData.themeData.value!
                           .primaryColor, // Set the background color of the title
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -959,7 +961,8 @@ class DetailView extends GetView<DetailController> {
                                 mini: true,
                                 child: Icon(
                                   Icons.chevron_left,
-                                  color: themeData.themeData.value!.whiteColor,
+                                  color:
+                                      themeData.themeData.value!.primaryColor,
                                 ),
                               ),
                             ),
@@ -1002,7 +1005,7 @@ class DetailView extends GetView<DetailController> {
                           heroTag: "next",
                           child: Icon(
                             Icons.chevron_right,
-                            color: themeData.themeData.value!.whiteColor,
+                            color: themeData.themeData.value!.primaryColor,
                           ),
                         ),
                       ],
