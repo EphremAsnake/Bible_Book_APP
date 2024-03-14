@@ -67,6 +67,7 @@ class DetailController extends SuperController {
   Verses? verse;
   int index = 0;
   List<Verses> selectedVerses = [];
+  bool isKeyboardFormIsPressedFromBasicForm = false;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,

@@ -96,7 +96,7 @@ class ThemeController extends GetxController {
       grayTextColor: HexColor(
         "#626367",
       ),
-      shadowColor: HexColor("#f5edd3"),
+      shadowColor: HexColor("#f7f3e9"),
       splashColor: HexColor("#AF703A"),
       errorColor: HexColor("#FF1100"),
       lightGrey: HexColor("#626367"),

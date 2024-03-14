@@ -64,30 +64,45 @@ class AmharicKeyboard extends StatelessWidget {
                                 .selectedAmharicLetter?.forms[index];
                             return InkWell(
                               onTap: () {
-                                bool isFirstForm = false;
-                                int currentlySelectedKeyIndex =
-                                    _keyboardRows.indexOf(detailController
-                                        .selectedAmharicLetter!);
-                                AmharicLetter letter =
-                                    _keyboardRows[currentlySelectedKeyIndex];
-                                List<String> inputValues = detailController
-                                    .searchController.text
-                                    .split('');
-                                if (inputValues.isNotEmpty) {
-                                  if (letter.basicForm ==
-                                      inputValues[inputValues.length - 1]) {
-                                    isFirstForm = true;
-                                  }
+                                if (detailController
+                                        .isKeyboardFormIsPressedFromBasicForm ==
+                                    true) {
+                                  bool isFirstForm = false;
+                                  int currentlySelectedKeyIndex =
+                                      _keyboardRows.indexOf(detailController
+                                          .selectedAmharicLetter!);
+                                  AmharicLetter letter =
+                                      _keyboardRows[currentlySelectedKeyIndex];
+                                  List<String> inputValues = detailController
+                                      .searchController.text
+                                      .split('');
+                                  if (inputValues.isNotEmpty) {
+                                    if (letter.basicForm ==
+                                        inputValues[inputValues.length - 1]) {
+                                      isFirstForm = true;
+                                    }
 
-                                  if (isFirstForm == true) {
-                                    inputValues[inputValues.length - 1] = key!;
-                                    String inputValue = inputValues.join();
-                                    detailController.searchController.text =
-                                        inputValue;
-                                    detailController.update();
-                                  } else {
-                                    detailController.onKeyPressed(key!);
+                                    if (isFirstForm == true) {
+                                      inputValues[inputValues.length - 1] =
+                                          key!;
+                                      String inputValue = inputValues.join();
+                                      detailController.searchController.text =
+                                          inputValue;
+                                      detailController.update();
+                                    } else {
+                                      detailController.onKeyPressed(key!);
+                                    }
                                   }
+                                  detailController
+                                          .isKeyboardFormIsPressedFromBasicForm =
+                                      false;
+                                  detailController.update();
+                                } else {
+                                  detailController.onKeyPressed(key!);
+                                  detailController
+                                          .isKeyboardFormIsPressedFromBasicForm =
+                                      false;
+                                  detailController.update();
                                 }
                               },
                               child: Container(
@@ -173,7 +188,11 @@ class AmharicKeyboard extends StatelessWidget {
                                 } else {
                                   detailController
                                       .setSelectedAmharicLetter(key);
+                                  detailController
+                                          .isKeyboardFormIsPressedFromBasicForm =
+                                      true;
                                   detailController.onKeyPressed(key.basicForm);
+                                  detailController.update();
                                 }
                               },
                               child: Container(

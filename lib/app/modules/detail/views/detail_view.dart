@@ -937,7 +937,9 @@ class DetailView extends GetView<DetailController> {
                           visible: controller.showSelectionMenu,
                           child: Container(
                             color: Colors.white,
-                            height: 21.h,
+                            height: SizerUtil.deviceType == DeviceType.mobile
+                                ? 21.h
+                                : 18.h,
                             child: controller.showSelectionMenu == true
                                 ? textSelectionOptions(
                                     context,
