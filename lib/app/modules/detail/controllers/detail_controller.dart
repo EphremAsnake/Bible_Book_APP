@@ -68,6 +68,7 @@ class DetailController extends SuperController {
   int index = 0;
   List<Verses> selectedVerses = [];
   bool isKeyboardFormIsPressedFromBasicForm = false;
+  int searchFieldCursorIndex = 0;
 
   List<String> searchPlaceOptions = [
     'ot'.tr,
@@ -215,7 +216,9 @@ class DetailController extends SuperController {
     final currentValue = searchController.text;
     List<String> oldValue = currentValue.split('');
     if (oldValue.isNotEmpty) {
-      oldValue.removeAt(oldValue.length - 1);
+      searchFieldCursorIndex == 0
+          ? oldValue.removeAt(oldValue.length - 1)
+          : oldValue.removeAt(searchFieldCursorIndex - 1);
       searchController.text = oldValue.join('');
       update();
     }

@@ -76,6 +76,7 @@ class AmharicKeyboard extends StatelessWidget {
                                   List<String> inputValues = detailController
                                       .searchController.text
                                       .split('');
+
                                   if (inputValues.isNotEmpty) {
                                     if (letter.basicForm ==
                                         inputValues[inputValues.length - 1]) {

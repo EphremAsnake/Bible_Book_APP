@@ -83,12 +83,16 @@ class DetailView extends GetView<DetailController> {
                                   focusNode: controller.focusNode,
                                   controller: controller.searchController,
                                   onTap: () {
+                                    final int cursorIndex = detailController
+                                        .searchController.selection.baseOffset;
+                                    controller.searchFieldCursorIndex = cursorIndex;
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                     if (controller.isAmharicKeyboardVisible ==
                                         false) {
                                       controller.makeAmharicKeyboardVisible();
                                     }
+                                    controller.update();
                                   },
                                   maxLines: 1,
                                   decoration: InputDecoration(
