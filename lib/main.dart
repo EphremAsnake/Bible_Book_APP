@@ -2,6 +2,7 @@ import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/core_dependency.dart';
 import 'package:bible_book_app/app/core/shared_controllers/data_getter_and_setter_controller.dart';
 import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
+import 'package:bible_book_app/app/modules/detail/views/amharic_keyboard.dart';
 import 'package:bible_book_app/app/utils/helpers/app_translation.dart';
 import 'package:bible_book_app/app/utils/helpers/internetConnectivity.dart';
 import 'package:bible_book_app/app/utils/helpers/master_data_helper.dart';
@@ -38,12 +39,19 @@ void main() async {
   //putting getter and setter controller
   Get.put(DataGetterAndSetter());
 
-  //setting app theme
-  final themeController = Get.put(ThemeController());
-  themeController.getLightThemeData();
-
   SharedPreferencesStorage sharedPreferencesStorage =
       SharedPreferencesStorage();
+
+  //setting app theme
+  String selectedTheme =
+      await sharedPreferencesStorage.readStringData(Keys.selectedTheme) ?? "";
+
+  final themeController = Get.put(ThemeController());
+  if (selectedTheme == "") {
+    themeController.getLightThemeData();
+  } else {
+    themeController.getCachedTheme(selectedTheme);
+  }
 
   String selectedLocale =
       await sharedPreferencesStorage.readStringData(Keys.selectedLocale) ?? "";
@@ -58,7 +66,8 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  FlutterStatusbarcolor.setStatusBarColor(const Color(0xff7B5533));
+  FlutterStatusbarcolor.setStatusBarColor(
+      themeController.themeData.value!.primaryColor);
   FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
 
   runApp(

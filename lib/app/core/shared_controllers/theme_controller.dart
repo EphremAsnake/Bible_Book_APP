@@ -1,13 +1,40 @@
+import 'package:bible_book_app/app/core/cache/shared_pereferance_storage.dart';
 import 'package:bible_book_app/app/core/shared_controllers/master_data_controller.dart';
 import 'package:bible_book_app/app/utils/helpers/app_colors.dart';
 import 'package:bible_book_app/app/utils/helpers/hex_color_helper.dart';
+import 'package:bible_book_app/app/utils/keys/keys.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:get/get.dart';
 
 class ThemeController extends GetxController {
   final MasterDataController controller = Get.find();
   Rx<ThemeDataModel?> themeData = Rx<ThemeDataModel?>(null);
+  SharedPreferencesStorage sharedPreferencesStorage =
+      SharedPreferencesStorage();
 
-  void getLightThemeData() {
+  void getCachedTheme(String selectedTheme) async {
+    if (selectedTheme == "getLightThemeData") {
+      getLightThemeData();
+    } else if (selectedTheme == "getDarkThemeData") {
+      getDarkThemeData();
+    } else if (selectedTheme == "getAmberThemeData") {
+      getAmberThemeData();
+    } else if (selectedTheme == "getGoldThemeData") {
+      getGoldThemeData();
+    } else if (selectedTheme == "getLightBlueThemeData") {
+      getLightBlueThemeData();
+    } else if (selectedTheme == "getDarkBlueThemeData") {
+      getDarkBlueThemeData();
+    } else if (selectedTheme == "getGreyThemeData") {
+      getGreyThemeData();
+    } else if (selectedTheme == "getTealThemeData") {
+      getTealThemeData();
+    } else {
+      getLightThemeData();
+    }
+  }
+
+  void getLightThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#ffffff"),
       backgroundColor: HexColor("#FEFEFE"),
@@ -27,9 +54,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#ebebeb"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getLightThemeData");
   }
 
-  void getDarkThemeData() {
+  void getDarkThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#252626"),
@@ -49,9 +80,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#807e7e"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getDarkThemeData");
   }
 
-  void getAmberThemeData() {
+  void getAmberThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#f7f3e9"),
@@ -71,9 +106,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#ded2a6"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getAmberThemeData");
   }
 
-  void getGoldThemeData() {
+  void getGoldThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#e3decc"),
@@ -93,9 +132,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#e3cdaa"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getGoldThemeData");
   }
 
-  void getLightBlueThemeData() {
+  void getLightBlueThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#d1e5f0"),
@@ -115,9 +158,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#add9f0"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getLightBlueThemeData");
   }
 
-  void getDarkBlueThemeData() {
+  void getDarkBlueThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#425d8a"),
@@ -137,9 +184,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#5772a1"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getDarkBlueThemeData");
   }
 
-  void getGreyThemeData() {
+  void getGreyThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#dbd9d9"),
@@ -159,9 +210,13 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#cccccc"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getGreyThemeData");
   }
 
-  void getTealThemeData() {
+  void getTealThemeData() async {
     final theme = ThemeDataModel(
       whiteColor: HexColor("#EEEEEE"),
       backgroundColor: HexColor("#caf6fa"),
@@ -181,5 +236,9 @@ class ThemeController extends GetxController {
       keyboardColor: HexColor("#b4dee0"),
     );
     themeData.value = theme;
+    FlutterStatusbarcolor.setStatusBarColor(themeData.value!.primaryColor);
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    await sharedPreferencesStorage.saveStringData(
+        Keys.selectedTheme, "getTealThemeData");
   }
 }

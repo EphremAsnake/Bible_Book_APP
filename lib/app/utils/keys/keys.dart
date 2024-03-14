@@ -7,4 +7,5 @@ class Keys {
   static String selectedLocale = "Selected Locale";
   static String fontSize = "Font Size";
   static String chapterFontSize = "Chapter Font Size";
+  static String selectedTheme = "Selected Theme";
 }
