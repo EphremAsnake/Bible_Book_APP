@@ -25,7 +25,7 @@ class AmharicKeyboard extends StatelessWidget {
       builder: (_) {
         return Obx(
           () => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
+            padding: const EdgeInsets.symmetric(vertical: 2),
             child: Container(
               color: themeData.themeData.value!.keyboardColor,
               padding: const EdgeInsets.all(0.0),
@@ -40,11 +40,11 @@ class AmharicKeyboard extends StatelessWidget {
                           false,
                       child: SizedBox(
                         height: SizerUtil.deviceType == DeviceType.mobile
-                            ? 55
+                            ? 6.5.h
                             : 6.4.h,
                         child: GridView.builder(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 2, horizontal: 5),
+                              vertical: 0, horizontal: 1),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: detailController
@@ -57,7 +57,7 @@ class AmharicKeyboard extends StatelessWidget {
                                 ? 10
                                 : 7,
                             mainAxisSpacing: 4.0, // Adjust the spacing here
-                            crossAxisSpacing: 4.0, // Adjust the spacing here
+                            crossAxisSpacing: 5.0, // Adjust the spacing here
                           ),
                           itemBuilder: (context, index) {
                             final key = detailController
@@ -100,7 +100,10 @@ class AmharicKeyboard extends StatelessWidget {
                                 child: Text(
                                   key ?? "",
                                   style: TextStyle(
-                                      fontSize:  SizerUtil.deviceType == DeviceType.mobile ? 10.sp : 16.0,
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.mobile
+                                          ? 10.sp
+                                          : 16.0,
                                       color: themeData
                                           .themeData.value!.verseColor),
                                 ),
@@ -112,20 +115,20 @@ class AmharicKeyboard extends StatelessWidget {
                     ),
                     SizedBox(
                       height: SizerUtil.deviceType == DeviceType.mobile
-                          ? 26.h
+                          ? 27.h
                           : 21.h,
                       child: Wrap(
                         spacing: SizerUtil.deviceType == DeviceType.mobile
-                            ? 4.0
+                            ? 5.0
                             : 4.0, // Adjust the spacing here
                         runSpacing: SizerUtil.deviceType == DeviceType.mobile
-                            ? 4.0
+                            ? 5.0
                             : 4.0, // Adjust the run spacing here
                         children: _keyboardRows.map((key) {
                           return SizedBox(
                             width: SizerUtil.deviceType == DeviceType.mobile
                                 ? key.basicForm == '―'
-                                    ? 96.sp
+                                    ? 98.sp
                                     : 30.sp
                                 : key.basicForm == '―'
                                     ? 76.sp
@@ -184,7 +187,10 @@ class AmharicKeyboard extends StatelessWidget {
                                 child: Text(
                                   key.basicForm,
                                   style: TextStyle(
-                                      fontSize: SizerUtil.deviceType == DeviceType.mobile ? 10.sp :16.0,
+                                      fontSize: SizerUtil.deviceType ==
+                                              DeviceType.mobile
+                                          ? 10.sp
+                                          : 16.0,
                                       color: themeData
                                           .themeData.value!.verseColor),
                                 ),
