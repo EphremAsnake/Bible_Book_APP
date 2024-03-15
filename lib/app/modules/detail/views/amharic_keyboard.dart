@@ -132,7 +132,7 @@ class AmharicKeyboard extends StatelessWidget {
                     SizedBox(
                       height: SizerUtil.deviceType == DeviceType.mobile
                           ? 27.h
-                          : 21.h,
+                          : 17.h,
                       child: Wrap(
                         spacing: SizerUtil.deviceType == DeviceType.mobile
                             ? 5.0
@@ -147,8 +147,8 @@ class AmharicKeyboard extends StatelessWidget {
                                     ? 98.sp
                                     : 30.sp
                                 : key.basicForm == '―'
-                                    ? 76.sp
-                                    : 24.sp,
+                                    ? 25.7.w
+                                    : 8.28.w,
                             height: 40,
                             child: InkWell(
                               onTap: () async {
