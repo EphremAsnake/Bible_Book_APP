@@ -22,7 +22,7 @@ class AndroidHomeAD extends StatelessWidget {
         if (detailController.apiStateHandler.apiState == ApiState.loading) {
           return Container(
             padding: const EdgeInsets.all(0),
-            height: 25,
+            height: 5,
             decoration: BoxDecoration(color: themeData!.backgroundColor),
           );
         } else if (detailController.apiStateHandler.apiState ==

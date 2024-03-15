@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bible_book_app/app/core/shared_controllers/theme_controller.dart';
 import 'package:bible_book_app/app/modules/home/views/widgets/exit_confirmation_dialogue.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ class InAppWebViewer extends StatefulWidget {
 
 class _InAppWebViewerState extends State<InAppWebViewer> {
   InAppWebViewController? webViewController;
+  final ThemeController themeData = Get.find<ThemeController>();
   String url = "";
   double progress = 0;
 
@@ -24,14 +26,17 @@ class _InAppWebViewerState extends State<InAppWebViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Color(0xff7B5533),
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: themeData.themeData.value!.primaryColor,
             statusBarIconBrightness: Brightness.light),
         elevation: 0,
-        backgroundColor: const Color(0xff7B5533),
+        backgroundColor: themeData.themeData.value!.primaryColor,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: themeData!.whiteColor),
+          icon: Icon(
+            Icons.arrow_back,
+            color: themeData.themeData.value!.whiteColor,
+          ),
           onPressed: () {
             Get.back();
           },

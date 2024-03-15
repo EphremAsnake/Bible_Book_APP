@@ -417,7 +417,12 @@ class CustomDrawer extends StatelessWidget {
                                                                         ?.whiteColor
                                                                     : themeData
                                                                         ?.verseColor,
-                                                                fontSize: 16,
+                                                                fontSize: SizerUtil
+                                                                            .deviceType ==
+                                                                        DeviceType
+                                                                            .mobile
+                                                                    ? 12.sp
+                                                                    : 8.5.sp,
                                                                 fontWeight: index ==
                                                                         controller
                                                                             .selectedNewTestamentBookIndex
@@ -440,7 +445,12 @@ class CustomDrawer extends StatelessWidget {
                                                                         ?.whiteColor
                                                                     : themeData
                                                                         ?.verseColor,
-                                                                fontSize: 14,
+                                                                fontSize: SizerUtil
+                                                                            .deviceType ==
+                                                                        DeviceType
+                                                                            .mobile
+                                                                    ? 11.sp
+                                                                    : 7.5.sp,
                                                                 fontWeight: index ==
                                                                         controller
                                                                             .selectedNewTestamentBookIndex

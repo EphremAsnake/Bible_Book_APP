@@ -85,7 +85,8 @@ class DetailView extends GetView<DetailController> {
                                   onTap: () {
                                     final int cursorIndex = detailController
                                         .searchController.selection.baseOffset;
-                                    controller.searchFieldCursorIndex = cursorIndex;
+                                    controller.searchFieldCursorIndex =
+                                        cursorIndex;
                                     FocusManager.instance.primaryFocus
                                         ?.unfocus();
                                     if (controller.isAmharicKeyboardVisible ==
@@ -799,7 +800,7 @@ class DetailView extends GetView<DetailController> {
                                                                                       children: [
                                                                                         TextSpan(
                                                                                           text: controller.selectedBook.contains("አዲሱ")
-                                                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                                              ? '${controller.allVerses[i][index].verseNumber} '
                                                                                               : controller.selectedBook.contains("1954")
                                                                                                   ? '${controller.allVerses[i][index].verseNumber} '
                                                                                                   : '${controller.allVerses[i][index].verseNumber}  ',
@@ -881,7 +882,7 @@ class DetailView extends GetView<DetailController> {
                                                                         text:
                                                                             TextSpan(
                                                                           text: controller.selectedBook.contains("አዲሱ")
-                                                                              ? '${controller.allVerses[i][index].verseNumber}፤  '
+                                                                              ? '${controller.allVerses[i][index].verseNumber} '
                                                                               : controller.selectedBook.contains("1954")
                                                                                   ? controller.allVerses[i][index - 1].verseText == " ፤"
                                                                                       ? '${controller.allVerses[i][index - 1].verseNumber} - ${controller.allVerses[i][index].verseNumber} '
